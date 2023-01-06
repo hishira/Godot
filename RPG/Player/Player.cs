@@ -6,9 +6,9 @@ public class Player : KinematicBody2D, InputHandle
     // Declare member variables here. Examples:
     // private int a = 2;
     // private string b = "text";
-    public const int ACCELERATION = 50;
-    public const int FREACTION = 200;
-    public const int MAX_SPEED = 50;
+    public const int ACCELERATION = 400;
+    public const int FREACTION = 80;
+    public const int MAX_SPEED = 400;
     private Vector2 velocity = Vector2.Zero;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -34,7 +34,9 @@ public class Player : KinematicBody2D, InputHandle
         Vector2 inputVector = this.prepareInputVector();
         this.updateVelocity(delta, inputVector);
         //GD.Print("Velocity, ", this.velocity * delta);
-        this.MoveAndCollide(this.velocity);
+        if (this.velocity != Vector2.Zero){
+            this.MoveAndSlide(this.velocity);
+        }
     }
 
     private Vector2 prepareInputVector()
@@ -51,8 +53,7 @@ public class Player : KinematicBody2D, InputHandle
     {
         if (inputVector != Vector2.Zero)
         {
-            this.velocity +=  (inputVector * (delta * ACCELERATION));
-            this.velocity = this.velocity.LimitLength(MAX_SPEED * delta);
+            this.velocity = this.velocity.MoveToward(inputVector * MAX_SPEED, ACCELERATION * delta);
         }
         else
         {
