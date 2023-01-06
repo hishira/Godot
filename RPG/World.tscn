@@ -12,9 +12,6 @@ __meta__ = {
 
 [node name="Player" parent="YSort" instance=ExtResource( 2 )]
 position = Vector2( 144, 64 )
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="Bush" parent="YSort" instance=ExtResource( 1 )]
 position = Vector2( 96, 120 )
