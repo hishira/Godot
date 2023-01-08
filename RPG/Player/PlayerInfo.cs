@@ -73,7 +73,6 @@ public class PlayerInfo
         inputVector = inputVector.Normalized();
         if(Input.IsActionJustPressed("attack")){
             this.playerState = PlayerState.Attack;
-            GD.Print("Attack");
         } else {
             this.playerState = PlayerState.Move;
         }
