@@ -19,33 +19,35 @@ public class Grass : Node2D
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
-        if(Input.IsActionJustPressed("attack")){
+        if (Input.IsActionJustPressed("attack"))
+        {
             //this.addGrassEffect();
-           
+
         }
     }
 
-    private void addGrassEffect(){
+    private void addGrassEffect()
+    {
         PackedScene GrassEffect = GD.Load("res://Effects/GrassEffect.tscn") as PackedScene;
         // Create sceene instance and add to main scene 'World'
         Node2D grassEffectInstance = GrassEffect.Instance<Node2D>();
         Node world = GetTree().CurrentScene;
         grassEffectInstance.GlobalPosition = this.GlobalPosition;
         world.AddChild(grassEffectInstance);
-        this.QueueFree(); 
-    }
-
-    public void _on_AnimatedSprite_animation_finished(){
         this.QueueFree();
     }
 
-    public void _on_Hurtbox_area_entered(Area2D area2D){
-        if(area2D.Owner.Name == "Player"){
-            this.sprite.Visible = false;
-            this.asprite.Visible = true;
-            this.asprite.Play("Animate");
-        }
-        //GD.Print(area2D.Owner.Name);
-        
+    public void _on_AnimatedSprite_animation_finished()
+    {
+        this.QueueFree();
+    }
+
+    public void _on_Hurtbox_area_entered(Area2D area2D)
+    {
+        this.sprite.Visible = false;
+        this.asprite.Visible = true;
+        this.asprite.Play("Animate");
+
+
     }
 }
