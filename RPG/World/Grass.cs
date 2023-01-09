@@ -7,11 +7,13 @@ public class Grass : Node2D
     // private string b = "text";
 
     // Called when the node enters the scene tree for the first time.
+    AnimatedSprite asprite;
+    Sprite sprite;
     public override void _Ready()
     {
-        AnimatedSprite asprite = this.GetNode("AnimatedSprite") as AnimatedSprite;
-        asprite.Visible = false;
-
+        this.asprite = this.GetNode("AnimatedSprite") as AnimatedSprite;
+        this.sprite = this.GetNode("Sprite") as Sprite;
+        this.asprite.Visible = false;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -19,11 +21,9 @@ public class Grass : Node2D
     {
         if(Input.IsActionJustPressed("attack")){
             //this.addGrassEffect();
-            AnimatedSprite asprite = this.GetNode("AnimatedSprite") as AnimatedSprite;
-            Sprite sprite = this.GetNode("Sprite") as Sprite;
-            sprite.Hide();
-            asprite.Visible = true;
-            asprite.Play("Animate");
+            this.sprite.Visible = false;
+            this.asprite.Visible = true;
+            this.asprite.Play("Animate");
         }
     }
 
