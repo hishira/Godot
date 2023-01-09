@@ -21,9 +21,7 @@ public class Grass : Node2D
     {
         if(Input.IsActionJustPressed("attack")){
             //this.addGrassEffect();
-            this.sprite.Visible = false;
-            this.asprite.Visible = true;
-            this.asprite.Play("Animate");
+           
         }
     }
 
@@ -39,5 +37,15 @@ public class Grass : Node2D
 
     public void _on_AnimatedSprite_animation_finished(){
         this.QueueFree();
+    }
+
+    public void _on_Hurtbox_area_entered(Area2D area2D){
+        if(area2D.Owner.Name == "Player"){
+            this.sprite.Visible = false;
+            this.asprite.Visible = true;
+            this.asprite.Play("Animate");
+        }
+        //GD.Print(area2D.Owner.Name);
+        
     }
 }
