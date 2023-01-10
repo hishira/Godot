@@ -58,4 +58,7 @@ public class Player : KinematicBody2D
         this.playerInfo.changeState(PlayerState.Move);
     }
 
+    public void rollAnimationFinished(){
+        this.playerInfo.rollAnimationEnd();
+    }
 }

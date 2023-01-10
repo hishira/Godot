@@ -87,6 +87,10 @@ public class PlayerInfo
     public void changeState(PlayerState state){
         this.playerState = state;
     }
+
+    public void rollAnimationEnd(){
+        this.playerState = PlayerState.Move;
+    }
     private Vector2 moveVelocityVector(Vector2 input, float delta)
     {
         return this.velocity.MoveToward(input, delta);
@@ -103,6 +107,9 @@ public class PlayerInfo
         this.animationState.Travel(value);
 
     }
+
+
+
 
 
 
