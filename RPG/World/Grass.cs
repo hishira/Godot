@@ -47,7 +47,5 @@ public class Grass : Node2D
         this.sprite.Visible = false;
         this.asprite.Visible = true;
         this.asprite.Play("Animate");
-
-
     }
 }
