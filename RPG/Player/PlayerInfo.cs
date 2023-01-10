@@ -4,13 +4,17 @@ readonly public struct PlayerStruct
     public int ACCELERATION { get; }
     public int FREACTION { get; }
     public int MAX_SPEED { get; }
+    public int ROLL_SPEED {get;}
 
-    public PlayerStruct(int acceleration = 500, int freaction = 500, int max_spped = 250)
+    public PlayerStruct(int acceleration, int freaction , int max_spped, int roll_speed)
     {
         this.ACCELERATION = acceleration;
         this.FREACTION = freaction;
         this.MAX_SPEED = max_spped;
+        this.ROLL_SPEED = roll_speed;
     }
+
+    public static PlayerStruct Default => new PlayerStruct(1000, 1000, 100, 150);
 
 }
 public enum PlayerState
@@ -25,6 +29,7 @@ public class PlayerInfo
 
     public PlayerStruct playerStat;
     public Vector2 velocity;
+    public Vector2 rollVector = Vector2.Left;
     public AnimationPlayer animation;
     public AnimationTree animationTree;
     public AnimationNodeStateMachinePlayback animationState;
@@ -37,8 +42,9 @@ public class PlayerInfo
         this.animation = animation;
         this.animationTree = animationTree;
         this.animationState = animationState;
-        this.playerStat = new PlayerStruct(500, 500, 250);
+        this.playerStat = PlayerStruct.Default;
         this.playerState = PlayerState.Move;
+        GD.Print(this.animationState.GetTravelPath());
     }
 
     public void setAnimation(bool value)
@@ -71,10 +77,15 @@ public class PlayerInfo
         inputVector.x = Input.GetActionStrength("ui_right") - Input.GetActionStrength("ui_left");
         inputVector.y = Input.GetActionStrength("ui_down") - Input.GetActionStrength("ui_up");
         inputVector = inputVector.Normalized();
+
+        if(inputVector!= Vector2.Zero){
+            this.rollVector = inputVector;
+        }
         if(Input.IsActionJustPressed("attack")){
             this.playerState = PlayerState.Attack;
-        } else {
-            this.playerState = PlayerState.Move;
+        } 
+        if(Input.IsActionJustPressed("roll")){
+            this.playerState = PlayerState.Roll;
         }
         return inputVector;
     }
@@ -84,11 +95,17 @@ public class PlayerInfo
         this.animationState.Travel("Attack");
     }
 
+    public void roleHandle(float delta) {
+        this.velocity = this.rollVector * this.playerStat.ROLL_SPEED;
+        this.animationState.Travel("Roll");
+    }
+
     public void changeState(PlayerState state){
         this.playerState = state;
     }
 
     public void rollAnimationEnd(){
+        this.velocity = this.velocity / 2;
         this.playerState = PlayerState.Move;
     }
     private Vector2 moveVelocityVector(Vector2 input, float delta)
@@ -103,6 +120,7 @@ public class PlayerInfo
             this.animationTree.Set("parameters/Idle/blend_position", inputVector);
             this.animationTree.Set("parameters/Run/blend_position", inputVector);
             this.animationTree.Set("parameters/Attack/blend_position", inputVector);
+            this.animationTree.Set("parameters/Roll/blend_position", inputVector);
         }
         this.animationState.Travel(value);
 

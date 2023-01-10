@@ -18,7 +18,7 @@ public class Player : KinematicBody2D
 
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
         switch (this.playerInfo.playerState)
         {
@@ -32,12 +32,23 @@ public class Player : KinematicBody2D
                     this.attackHandle(delta);
                     break;
                 }
+            case PlayerState.Roll:
+                {
+                    this.rollHandle(delta);
+                    break;
+                }
         }
     }
 
     private void moveHandle(float delta)
     {
         this.inputHandle(delta);
+    }
+
+    private void rollHandle(float delta)
+    {
+        this.playerInfo.roleHandle(delta);
+        this.MoveAndSlide(this.playerInfo.velocity);
     }
     public void inputHandle(float delta)
     {
@@ -54,11 +65,13 @@ public class Player : KinematicBody2D
         this.MoveAndSlide(this.playerInfo.velocity);
     }
 
-    public void attackAnimationEnd(){
+    public void attackAnimationEnd()
+    {
         this.playerInfo.changeState(PlayerState.Move);
     }
 
-    public void rollAnimationFinished(){
+    public void rollAnimationFinished()
+    {
         this.playerInfo.rollAnimationEnd();
     }
 }
