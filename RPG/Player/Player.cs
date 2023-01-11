@@ -4,7 +4,7 @@ public class Player : KinematicBody2D
 {
 
     public PlayerInfo playerInfo;
-
+    public SwordHitbox swordHitbox;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -12,7 +12,9 @@ public class Player : KinematicBody2D
         AnimationTree animationTree = this.GetNode("AnimationTree") as AnimationTree;
         // Get access to animation state
         AnimationNodeStateMachinePlayback animationState = animationTree.Get("parameters/playback") as AnimationNodeStateMachinePlayback;
+        this.swordHitbox = this.GetNode("HitBoxPivot/SwordHitbox") as SwordHitbox;
         this.playerInfo = new PlayerInfo(Vector2.Zero, animation, animationTree, animationState);
+        this.swordHitbox.knockBack = this.playerInfo.rollVector;
         this.playerInfo.setAnimation(true);
     }
 
@@ -52,7 +54,9 @@ public class Player : KinematicBody2D
     }
     public void inputHandle(float delta)
     {
-        this.playerInfo.updateVelocity(delta, this.playerInfo.prepareInputVector());
+        Vector2 inputVector = this.playerInfo.prepareInputVector();
+        this.playerInfo.updateVelocity(delta, inputVector);
+        if (inputVector != Vector2.Zero) this.swordHitbox.knockBack = inputVector;
         if (this.playerInfo.isNotZero())
         {
             this.MoveAndSlide(this.playerInfo.velocity);
