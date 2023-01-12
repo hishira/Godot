@@ -1,10 +1,10 @@
 using Godot;
 using System;
 
-public class SwordHitbox : Hitbox
+public class Hitbox : Area2D
 {
-    
-    public Vector2 knockBack = Vector2.Zero;
+    [Export]
+    public int damage = 1;
     public override void _Ready()
     {
         
