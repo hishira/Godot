@@ -1,11 +1,10 @@
 using Godot;
-using System;
 
 public class Stats : Node
 {
 
     [Export(PropertyHint.Range, "0,20,")]
-    int maxHealth = 1;
+    int maxHealth = 4;
 
 	private int _health;
     public int health
@@ -27,7 +26,5 @@ public class Stats : Node
     {
         this.health = this.maxHealth;
     }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
 
 }
