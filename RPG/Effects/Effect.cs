@@ -1,28 +1,17 @@
 using Godot;
-using System;
 
-public class Effect : Node2D
+public class Effect : AnimatedSprite
 {
-    private AnimatedSprite animatedSprite;
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
-
-    // Called when the node enters the scene tree for the first time.
+    //private AnimatedSprite animatedSprite;
     public override void _Ready()
     {
-        this.animatedSprite = this.GetNode("AnimatedSprite") as AnimatedSprite;
-        this.animatedSprite.Play("Animate");
-    }
-    
-    public void _on_AnimatedSprite_animation_finished(){
-        GD.Print("END");
-        this.QueueFree();
+        this.Connect("animation_finished", this, "_on_animation_finished");
+        this.Frame = 0;
+        this.Play("Animate");
     }
 
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
+    public void _on_animation_finished()
+    {
+        this.QueueFree();
+    }
 }

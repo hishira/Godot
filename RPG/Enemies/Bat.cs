@@ -5,8 +5,11 @@ public class Bat : KinematicBody2D
 {
     Vector2 knokBack = Vector2.Zero;
     Stats batStats;
+
+    PackedScene EnemyDeathEffect;
     public override void _Ready()
     {
+        this.EnemyDeathEffect = ResourceLoader.Load<PackedScene>("res://Effects/EnemyDeathEffect.tscn");
         this.batStats = this.GetNode("Stats") as Stats;
     }
 
@@ -24,5 +27,8 @@ public class Bat : KinematicBody2D
 
     public void _on_Stats_noHealth(){
         this.QueueFree();
+        AnimatedSprite enemyDeatchEffect = this.EnemyDeathEffect.Instance<AnimatedSprite>();
+        enemyDeatchEffect.GlobalPosition = this.GlobalPosition;
+        this.GetParent().AddChild(enemyDeatchEffect);
     }
 }

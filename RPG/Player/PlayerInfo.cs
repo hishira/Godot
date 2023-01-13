@@ -44,7 +44,6 @@ public class PlayerInfo
         this.animationState = animationState;
         this.playerStat = PlayerStruct.Default;
         this.playerState = PlayerState.Move;
-        GD.Print(this.animationState.GetTravelPath());
     }
 
     public void setAnimation(bool value)
