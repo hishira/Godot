@@ -5,6 +5,10 @@ public class Player : KinematicBody2D
 
     public PlayerInfo playerInfo;
     public SwordHitbox swordHitbox;
+
+    public Stats stats;
+
+    public Hurtbox hurtbox;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -16,6 +20,10 @@ public class Player : KinematicBody2D
         this.playerInfo = new PlayerInfo(Vector2.Zero, animation, animationTree, animationState);
         this.swordHitbox.knockBack = this.playerInfo.rollVector;
         this.playerInfo.setAnimation(true);
+
+        this.stats = this.GetNode("/root/PlayerStats") as Stats;
+        this.stats.Connect("noHealth", this, "removePlayer");
+        this.hurtbox = this.GetNode<Hurtbox>("Hurtbox");
     }
 
 
@@ -77,5 +85,14 @@ public class Player : KinematicBody2D
     public void rollAnimationFinished()
     {
         this.playerInfo.rollAnimationEnd();
+    }
+
+    public void _on_Hurtbox_area_entered(Area2D area){
+        this.stats.health-=1;
+        this.hurtbox.startInvincibility(1);
+    }
+
+    public void removePlayer(){
+        this.QueueFree();
     }
 }

@@ -27,12 +27,15 @@ public class Bat : KinematicBody2D
     PlayerDetectionZone playerDetectionZone;
 
     AnimatedSprite batSprite;
+
+    Hurtbox batHurtBox;
     public override void _Ready()
     {
         this.EnemyDeathEffect = ResourceLoader.Load<PackedScene>("res://Effects/EnemyDeathEffect.tscn");
         this.batStats = this.GetNode("Stats") as Stats;
         this.playerDetectionZone = this.GetNode<PlayerDetectionZone>("PlayerDetectionZone");
         this.batSprite = this.GetNode<AnimatedSprite>("AnimatedSprite");
+        this.batHurtBox = this.GetNode<Hurtbox>("Hurtbox");
     }
 
     public override void _PhysicsProcess(float delta)
@@ -84,6 +87,8 @@ public class Bat : KinematicBody2D
     {
         this.knokBack = area.knockBack * 120;
         this.batStats.health -= area.damage;
+        this.batHurtBox.startInvincibility(1f);
+        // this.batHurtBox.createHitEffect(); 
     }
 
     public void _on_Stats_noHealth()

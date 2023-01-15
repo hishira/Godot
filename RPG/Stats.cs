@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 public class Stats : Node
@@ -26,5 +27,4 @@ public class Stats : Node
     {
         this.health = this.maxHealth;
     }
-
 }
