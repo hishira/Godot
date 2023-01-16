@@ -89,7 +89,8 @@ public class Player : KinematicBody2D
 
     public void _on_Hurtbox_area_entered(Area2D area){
         this.stats.health-=1;
-        this.hurtbox.startInvincibility(1);
+        GD.Print("HURBOX ENTER");
+        this.hurtbox.startInvincibility(.5f);
     }
 
     public void removePlayer(){

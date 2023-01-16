@@ -13,9 +13,8 @@ public class Hurtbox : Area2D
         get { return this.invincible; }
         set
         {
-            GD.Print(value);
             this.invincible = value;
-            if (this.invincible)
+            if (value)
             {
                 this.EmitSignal("invincibilityStarted");
             }
@@ -35,9 +34,9 @@ public class Hurtbox : Area2D
 
     public void startInvincibility(float duration)
     {
+        this.Invincible = true;
         this.timer.Start(duration);
         this.createHitEffect();
-        this.Invincible = true;
     }
     public override void _Ready()
     {
@@ -60,12 +59,14 @@ public class Hurtbox : Area2D
 
     public void _on_Hurtbox_invincibilityStarted()
     {
-        this.SetDeferred("monitorable", false);
+        GD.Print("START");
+        this.SetDeferred("monitoring", false);
     }
 
     public void _on_Hurtbox_invincibilityEnded()
     {
-        this.SetDeferred("monitorable", true);
+       this.Monitoring = true;
+       GD.Print("END");
     }
 }
 

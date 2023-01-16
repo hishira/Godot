@@ -87,8 +87,8 @@ public class Bat : KinematicBody2D
     {
         this.knokBack = area.knockBack * 120;
         this.batStats.health -= area.damage;
-        this.batHurtBox.startInvincibility(1f);
-        // this.batHurtBox.createHitEffect(); 
+        this.batHurtBox.startInvincibility(.5f);
+        this.batHurtBox.createHitEffect(); 
     }
 
     public void _on_Stats_noHealth()
