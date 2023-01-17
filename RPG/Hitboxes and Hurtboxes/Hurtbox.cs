@@ -32,12 +32,14 @@ public class Hurtbox : Area2D
     public delegate void invincibilityEnded();
 
 
-    public void startInvincibility(float duration)
+    public void startInvincibility(float duration = 0f)
     {
         this.Invincible = true;
         this.timer.Start(duration);
         this.createHitEffect();
+        
     }
+
     public override void _Ready()
     {
         this.HitEffect = ResourceLoader.Load<PackedScene>("res://Effects/HitEffect.tscn");

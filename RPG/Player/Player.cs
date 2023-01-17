@@ -57,6 +57,7 @@ public class Player : KinematicBody2D
 
     private void rollHandle(float delta)
     {
+        this.hurtbox.Invincible = true;;
         this.playerInfo.roleHandle(delta);
         this.MoveAndSlide(this.playerInfo.velocity);
     }
@@ -85,6 +86,7 @@ public class Player : KinematicBody2D
     public void rollAnimationFinished()
     {
         this.playerInfo.rollAnimationEnd();
+        this.hurtbox.Invincible = false;
     }
 
     public void _on_Hurtbox_area_entered(Area2D area){
