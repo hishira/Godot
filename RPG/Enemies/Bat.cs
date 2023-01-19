@@ -29,6 +29,8 @@ public class Bat : KinematicBody2D
     AnimatedSprite batSprite;
 
     Hurtbox batHurtBox;
+
+    SoftCollision softColision;
     public override void _Ready()
     {
         this.EnemyDeathEffect = ResourceLoader.Load<PackedScene>("res://Effects/EnemyDeathEffect.tscn");
@@ -36,6 +38,7 @@ public class Bat : KinematicBody2D
         this.playerDetectionZone = this.GetNode<PlayerDetectionZone>("PlayerDetectionZone");
         this.batSprite = this.GetNode<AnimatedSprite>("AnimatedSprite");
         this.batHurtBox = this.GetNode<Hurtbox>("Hurtbox");
+        this.softColision = this.GetNode<SoftCollision>("SoftCollision");
     }
 
     public override void _PhysicsProcess(float delta)
@@ -71,7 +74,8 @@ public class Bat : KinematicBody2D
                     break;
                 }
         }
-
+        if(this.softColision.isColliding())
+            this.velocity +=  this.softColision.getPushVector() * delta * 400;
         this.velocity = this.MoveAndSlide(this.velocity);
     }
 
