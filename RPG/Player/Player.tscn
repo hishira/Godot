@@ -480,6 +480,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=3]
 resource_name = "RunRight"
 length = 0.6
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -659,7 +660,7 @@ texture = ExtResource( 6 )
 position = Vector2( -0.5, -10 )
 texture = ExtResource( 1 )
 hframes = 60
-frame = 36
+frame = 18
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = -1.5708

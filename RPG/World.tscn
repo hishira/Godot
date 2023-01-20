@@ -537,11 +537,8 @@ tile_data = PoolIntArray( -1, 0, 0, -65536, 0, 1, -65535, 0, 1, -65534, 0, 1, -6
 [node name="Player" parent="YSort" instance=ExtResource( 2 )]
 position = Vector2( 144, 64 )
 
-[node name="Camera2D" type="Camera2D" parent="YSort/Player"]
-current = true
-process_mode = 0
-smoothing_enabled = true
-smoothing_speed = 10.0
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="YSort/Player"]
+remote_path = NodePath("../../../Camera2D")
 
 [node name="Bushes" type="YSort" parent="YSort"]
 
@@ -636,6 +633,13 @@ position = Vector2( 176, 128 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="HealthUI" parent="CanvasLayer" instance=ExtResource( 8 )]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 144, 64 )
+current = true
+process_mode = 0
+smoothing_enabled = true
+smoothing_speed = 10.0
 
 [editable path="YSort/Grasses/Grass4"]
 [editable path="YSort/Grasses/Grass4/Hurtbox"]
