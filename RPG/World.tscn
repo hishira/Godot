@@ -517,7 +517,7 @@ __meta__ = {
 position = Vector2( 160, 90 )
 texture = ExtResource( 3 )
 region_enabled = true
-region_rect = Rect2( 0, 0, 320, 180 )
+region_rect = Rect2( 0, 0, 912, 400 )
 
 [node name="SandPathmap" type="TileMap" parent="."]
 tile_set = SubResource( 1 )
@@ -536,6 +536,12 @@ tile_data = PoolIntArray( -1, 0, 0, -65536, 0, 1, -65535, 0, 1, -65534, 0, 1, -6
 
 [node name="Player" parent="YSort" instance=ExtResource( 2 )]
 position = Vector2( 144, 64 )
+
+[node name="Camera2D" type="Camera2D" parent="YSort/Player"]
+current = true
+process_mode = 0
+smoothing_enabled = true
+smoothing_speed = 10.0
 
 [node name="Bushes" type="YSort" parent="YSort"]
 
@@ -627,7 +633,9 @@ position = Vector2( 240, 160 )
 [node name="Bat2" parent="YSort" instance=ExtResource( 7 )]
 position = Vector2( 176, 128 )
 
-[node name="HealthUI" parent="." instance=ExtResource( 8 )]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HealthUI" parent="CanvasLayer" instance=ExtResource( 8 )]
 
 [editable path="YSort/Grasses/Grass4"]
 [editable path="YSort/Grasses/Grass4/Hurtbox"]
