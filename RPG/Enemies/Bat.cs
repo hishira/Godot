@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-enum BatState
+public enum BatState
 {
     IDLE,
     WANDER,
@@ -31,14 +31,20 @@ public class Bat : KinematicBody2D
     Hurtbox batHurtBox;
 
     SoftCollision softColision;
+
+    WanderController wanderController;
+
+    Godot.Collections.Array<BatState> possibleBatStates = new Godot.Collections.Array<BatState> { BatState.IDLE, BatState.WANDER };
     public override void _Ready()
     {
+        GD.Randomize();
         this.EnemyDeathEffect = ResourceLoader.Load<PackedScene>("res://Effects/EnemyDeathEffect.tscn");
         this.batStats = this.GetNode("Stats") as Stats;
         this.playerDetectionZone = this.GetNode<PlayerDetectionZone>("PlayerDetectionZone");
         this.batSprite = this.GetNode<AnimatedSprite>("AnimatedSprite");
         this.batHurtBox = this.GetNode<Hurtbox>("Hurtbox");
         this.softColision = this.GetNode<SoftCollision>("SoftCollision");
+        this.wanderController = this.GetNode<WanderController>("WanderController");
     }
 
     public override void _PhysicsProcess(float delta)
@@ -52,10 +58,30 @@ public class Bat : KinematicBody2D
                 {
                     this.velocity = velocity.MoveToward(Vector2.Zero, this.FRICTION * delta);
                     this.seekPlayer();
+                    if (this.wanderController.getTimeLeft() == 0)
+                    {
+                        this.batState = this.pickRandomState(this.possibleBatStates);
+                        this.wanderController.startWanderTimer((float)(GD.RandRange(1, 3)));
+                    }
                     break;
                 }
             case BatState.WANDER:
                 {
+                    this.seekPlayer();
+                    if (this.wanderController.getTimeLeft() == 0)
+                    {
+                        this.batState = this.pickRandomState(this.possibleBatStates);
+                        this.wanderController.startWanderTimer((float)(GD.RandRange(1, 3)));
+                    }
+                    Vector2 direction = this.GlobalPosition.DirectionTo(this.wanderController.targetPosition);
+                    this.velocity = this.velocity.MoveToward(this.MAXSPEED * direction, delta * this.ACCELERATION);
+                    float disctanceBetwenVectors = this.GlobalPosition.DistanceTo(this.wanderController.targetPosition);
+                    this.batSprite.FlipH = this.velocity.x < 0;
+                    if (disctanceBetwenVectors < 4)
+                    {
+                        this.batState = this.pickRandomState(this.possibleBatStates);
+                        this.wanderController.startWanderTimer((float)(GD.RandRange(1, 3)));
+                    }
                     break;
                 }
             case BatState.CHASE:
@@ -63,7 +89,7 @@ public class Bat : KinematicBody2D
                     var player = this.playerDetectionZone.player;
                     if (player != null)
                     {
-                        Vector2 direction = (player.GlobalPosition - GlobalPosition).Normalized();
+                        Vector2 direction = this.GlobalPosition.DirectionTo(player.GlobalPosition);
                         this.velocity = this.velocity.MoveToward(this.MAXSPEED * direction, delta * this.ACCELERATION);
                     }
                     else
@@ -74,8 +100,8 @@ public class Bat : KinematicBody2D
                     break;
                 }
         }
-        if(this.softColision.isColliding())
-            this.velocity +=  this.softColision.getPushVector() * delta * 400;
+        if (this.softColision.isColliding())
+            this.velocity += this.softColision.getPushVector() * delta * 400;
         this.velocity = this.MoveAndSlide(this.velocity);
     }
 
@@ -87,12 +113,18 @@ public class Bat : KinematicBody2D
         }
     }
 
+    public BatState pickRandomState(Godot.Collections.Array<BatState> states)
+    {
+        states.Shuffle();
+        return states[0];
+    }
+
     public void _on_Hurtbox_area_entered(SwordHitbox area)
     {
         this.knokBack = area.knockBack * 120;
         this.batStats.health -= area.damage;
         this.batHurtBox.startInvincibility(.5f);
-        this.batHurtBox.createHitEffect(); 
+        this.batHurtBox.createHitEffect();
     }
 
     public void _on_Stats_noHealth()
