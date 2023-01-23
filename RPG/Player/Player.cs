@@ -9,6 +9,9 @@ public class Player : KinematicBody2D
     public Stats stats;
 
     public Hurtbox hurtbox;
+
+    public PackedScene phs;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -24,6 +27,7 @@ public class Player : KinematicBody2D
         this.stats = this.GetNode("/root/PlayerStats") as Stats;
         this.stats.Connect("noHealth", this, "removePlayer");
         this.hurtbox = this.GetNode<Hurtbox>("Hurtbox");
+        this.phs = ResourceLoader.Load<PackedScene>("res://Player/PlayerHurtSound.tscn");
     }
 
 
@@ -57,7 +61,7 @@ public class Player : KinematicBody2D
 
     private void rollHandle(float delta)
     {
-        this.hurtbox.Invincible = true;;
+        this.hurtbox.Invincible = true; ;
         this.playerInfo.roleHandle(delta);
         this.MoveAndSlide(this.playerInfo.velocity);
     }
@@ -89,13 +93,17 @@ public class Player : KinematicBody2D
         this.hurtbox.Invincible = false;
     }
 
-    public void _on_Hurtbox_area_entered(Area2D area){
-        this.stats.health-=1;
+    public void _on_Hurtbox_area_entered(Area2D area)
+    {
+        this.stats.health -= 1;
         GD.Print("HURBOX ENTER");
         this.hurtbox.startInvincibility(.5f);
+        PlayerHurtSound phsInstncat = this.phs.Instance<PlayerHurtSound>();
+        this.GetTree().CurrentScene.AddChild(phsInstncat);
     }
 
-    public void removePlayer(){
+    public void removePlayer()
+    {
         this.QueueFree();
     }
 }
