@@ -20,7 +20,8 @@ public class Player : KinematicBody2D
         // Get access to animation state
         AnimationNodeStateMachinePlayback animationState = animationTree.Get("parameters/playback") as AnimationNodeStateMachinePlayback;
         this.swordHitbox = this.GetNode("HitBoxPivot/SwordHitbox") as SwordHitbox;
-        this.playerInfo = new PlayerInfo(Vector2.Zero, animation, animationTree, animationState);
+        AnimationPlayer blinkAnimation = this.GetNode<AnimationPlayer>("BlinkAnimation");
+        this.playerInfo = new PlayerInfo(Vector2.Zero, animation, animationTree, animationState, blinkAnimation);
         this.swordHitbox.knockBack = this.playerInfo.rollVector;
         this.playerInfo.setAnimation(true);
 
@@ -61,7 +62,7 @@ public class Player : KinematicBody2D
 
     private void rollHandle(float delta)
     {
-        this.hurtbox.Invincible = true; ;
+        this.hurtbox.InvisibleFalseHit = true;
         this.playerInfo.roleHandle(delta);
         this.MoveAndSlide(this.playerInfo.velocity);
     }
@@ -90,7 +91,7 @@ public class Player : KinematicBody2D
     public void rollAnimationFinished()
     {
         this.playerInfo.rollAnimationEnd();
-        this.hurtbox.Invincible = false;
+        this.hurtbox.InvisibleFalseHit = false;
     }
 
     public void _on_Hurtbox_area_entered(Area2D area)
@@ -105,5 +106,21 @@ public class Player : KinematicBody2D
     public void removePlayer()
     {
         this.QueueFree();
+    }
+
+    public void _on_Hurtbox_invincibilityStarted(bool hit)
+    {
+        if (hit)
+        {
+            this.playerInfo.blinkAnimationPlayer.Play("Start");
+        }
+    }
+
+    public void _on_Hurtbox_invincibilityEnded(bool hit)
+    {
+        if (hit)
+        {
+            this.playerInfo.blinkAnimationPlayer.Play("Stop");
+        }
     }
 }

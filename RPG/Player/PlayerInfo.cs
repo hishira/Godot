@@ -36,7 +36,8 @@ public class PlayerInfo
     
     public PlayerState playerState;
 
-    public PlayerInfo(Vector2 velocity, AnimationPlayer animation, AnimationTree animationTree, AnimationNodeStateMachinePlayback animationState)
+    public AnimationPlayer blinkAnimationPlayer;
+    public PlayerInfo(Vector2 velocity, AnimationPlayer animation, AnimationTree animationTree, AnimationNodeStateMachinePlayback animationState, AnimationPlayer blinkAnimation)
     {
         this.velocity = velocity;
         this.animation = animation;
@@ -44,6 +45,7 @@ public class PlayerInfo
         this.animationState = animationState;
         this.playerStat = PlayerStruct.Default;
         this.playerState = PlayerState.Move;
+        this.blinkAnimationPlayer = blinkAnimation;
     }
 
     public void setAnimation(bool value)

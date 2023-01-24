@@ -34,6 +34,8 @@ public class Bat : KinematicBody2D
 
     WanderController wanderController;
 
+    AnimationPlayer batAnimationPlayer;
+
     Godot.Collections.Array<BatState> possibleBatStates = new Godot.Collections.Array<BatState> { BatState.IDLE, BatState.WANDER };
     public override void _Ready()
     {
@@ -45,6 +47,7 @@ public class Bat : KinematicBody2D
         this.batHurtBox = this.GetNode<Hurtbox>("Hurtbox");
         this.softColision = this.GetNode<SoftCollision>("SoftCollision");
         this.wanderController = this.GetNode<WanderController>("WanderController");
+        this.batAnimationPlayer = this.GetNode<AnimationPlayer>("AnimationPlayer");
     }
 
     public override void _PhysicsProcess(float delta)
@@ -123,8 +126,8 @@ public class Bat : KinematicBody2D
     {
         this.knokBack = area.knockBack * 120;
         this.batStats.health -= area.damage;
-        this.batHurtBox.startInvincibility(.5f);
         this.batHurtBox.createHitEffect();
+        this.batHurtBox.startInvincibility(.4f);
     }
 
     public void _on_Stats_noHealth()
@@ -133,5 +136,15 @@ public class Bat : KinematicBody2D
         AnimatedSprite enemyDeatchEffect = this.EnemyDeathEffect.Instance<AnimatedSprite>();
         enemyDeatchEffect.GlobalPosition = this.GlobalPosition;
         this.GetParent().AddChild(enemyDeatchEffect);
+    }
+
+    public void _on_Hurtbox_invincibilityStarted(bool hit)
+    {
+        this.batAnimationPlayer.Play("Start");
+    }
+
+    public void _on_Hurtbox_invincibilityEnded(bool hit)
+    {
+        this.batAnimationPlayer.Play("Stop");
     }
 }
