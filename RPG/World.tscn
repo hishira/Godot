@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=2]
+[gd_scene load_steps=68 format=2]
 
 [ext_resource path="res://World/Bush.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Enemies/Bat.tscn" type="PackedScene" id=7]
 [ext_resource path="res://UI/HealthUI.tscn" type="PackedScene" id=8]
 [ext_resource path="res://World/Tree.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Camera2D.tscn" type="PackedScene" id=10]
 
 [sub_resource type="TileSet" id=1]
 0/name = "DirtTileset.png 0"
@@ -640,12 +641,15 @@ position = Vector2( 24, 80 )
 
 [node name="HealthUI" parent="CanvasLayer" instance=ExtResource( 8 )]
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" parent="." instance=ExtResource( 10 )]
 position = Vector2( 144, 64 )
-current = true
-process_mode = 0
-smoothing_enabled = true
-smoothing_speed = 10.0
+
+[node name="TopLeft" parent="Camera2D/Limits" index="0"]
+position = Vector2( -32, -32 )
+
+[node name="BottomRight" parent="Camera2D/Limits" index="1"]
+position = Vector2( 320, 216 )
 
 [editable path="YSort/Grasses/Grass4"]
 [editable path="YSort/Grasses/Grass4/Hurtbox"]
+[editable path="Camera2D"]
