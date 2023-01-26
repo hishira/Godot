@@ -20,6 +20,8 @@ public class Bat : KinematicBody2D
 
     PackedScene EnemyDeathEffect;
 
+    PackedScene NewHeartElement;
+
     BatState batState = BatState.IDLE;
 
     Vector2 velocity = Vector2.Zero;
@@ -41,6 +43,7 @@ public class Bat : KinematicBody2D
     {
         GD.Randomize();
         this.EnemyDeathEffect = ResourceLoader.Load<PackedScene>("res://Effects/EnemyDeathEffect.tscn");
+        this.NewHeartElement = ResourceLoader.Load<PackedScene>("res://World/HeartElement.tscn");
         this.batStats = this.GetNode("Stats") as Stats;
         this.playerDetectionZone = this.GetNode<PlayerDetectionZone>("PlayerDetectionZone");
         this.batSprite = this.GetNode<AnimatedSprite>("AnimatedSprite");
@@ -134,8 +137,11 @@ public class Bat : KinematicBody2D
     {
         this.QueueFree();
         AnimatedSprite enemyDeatchEffect = this.EnemyDeathEffect.Instance<AnimatedSprite>();
+        Sprite newHeart = this.NewHeartElement.Instance<Sprite>();
         enemyDeatchEffect.GlobalPosition = this.GlobalPosition;
+        newHeart.GlobalPosition = this.GlobalPosition;
         this.GetParent().AddChild(enemyDeatchEffect);
+        this.GetParent().AddChild(newHeart);
     }
 
     public void _on_Hurtbox_invincibilityStarted(bool hit)
