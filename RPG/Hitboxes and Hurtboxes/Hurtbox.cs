@@ -85,7 +85,7 @@ public class Hurtbox : Area2D
     {
         if (hit)
         {
-            this.Monitoring = true;
+            this.SetDeferred("monitoring", true);
         }
     }
 }

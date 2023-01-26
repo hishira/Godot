@@ -135,11 +135,11 @@ public class Bat : KinematicBody2D
 
     public void _on_Stats_noHealth()
     {
-        this.QueueFree();
         AnimatedSprite enemyDeatchEffect = this.EnemyDeathEffect.Instance<AnimatedSprite>();
-        Sprite newHeart = this.NewHeartElement.Instance<Sprite>();
+        HeartElement newHeart = this.NewHeartElement.Instance<HeartElement>();
         enemyDeatchEffect.GlobalPosition = this.GlobalPosition;
         newHeart.GlobalPosition = this.GlobalPosition;
+        this.QueueFree();
         this.GetParent().AddChild(enemyDeatchEffect);
         this.GetParent().AddChild(newHeart);
     }
