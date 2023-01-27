@@ -14,7 +14,9 @@ public class HeartElement : Node2D
         GD.Print(area);
     }
 
-    public void _on_ItemBox_body_entered(Node node){
-        GD.Print(node.GetClass().BaseName());
+    public void _on_ItemBox_body_entered(Player playerNode){
+        playerNode.stats.health+=1;
+        this.QueueFree();
+        
     }
 }

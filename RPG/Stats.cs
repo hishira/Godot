@@ -17,7 +17,7 @@ public class Stats : Node
 		get { return _health; }
 		set
 		{
-			_health = value;
+			_health = Godot.Mathf.Clamp(value, 0 ,this.maxHealth);;
 			this.EmitSignal("healthChange", health);
 			if (value <= 0)
 			{
