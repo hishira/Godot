@@ -1,5 +1,9 @@
 using Godot;
 
+public enum InvisibleAction {
+    Hit,
+    Roll,
+}
 public class Player : KinematicBody2D
 {
 
@@ -108,17 +112,17 @@ public class Player : KinematicBody2D
         this.QueueFree();
     }
 
-    public void _on_Hurtbox_invincibilityStarted(bool hit)
+    public void _on_Hurtbox_invincibilityStarted(InvisibleAction hit)
     {
-        if (hit)
+        if (hit is InvisibleAction.Hit)
         {
             this.playerInfo.blinkAnimationPlayer.Play("Start");
         }
     }
 
-    public void _on_Hurtbox_invincibilityEnded(bool hit)
+    public void _on_Hurtbox_invincibilityEnded(InvisibleAction hit)
     {
-        if (hit)
+        if (hit is InvisibleAction.Hit)
         {
             this.playerInfo.blinkAnimationPlayer.Play("Stop");
         }

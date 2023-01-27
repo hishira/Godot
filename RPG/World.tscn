@@ -640,7 +640,7 @@ position = Vector2( 256, 80 )
 
 [node name="AnimatedSprite" parent="YSort/Bat3" index="0"]
 material = SubResource( 58 )
-frame = 3
+frame = 2
 
 [node name="Bat" parent="YSort" instance=ExtResource( 7 )]
 position = Vector2( 176, 128 )

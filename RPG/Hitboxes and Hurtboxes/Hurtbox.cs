@@ -16,11 +16,11 @@ public class Hurtbox : Area2D
             this.invincible = value;
             if (value)
             {
-                this.EmitSignal("invincibilityStarted", true);
+                this.EmitSignal("invincibilityStarted", InvisibleAction.Hit);
             }
             else
             {
-                this.EmitSignal("invincibilityEnded", true);
+                this.EmitSignal("invincibilityEnded", InvisibleAction.Hit);
             }
         }
     }
@@ -30,20 +30,20 @@ public class Hurtbox : Area2D
             this.invincible = value;
             if (value)
             {
-                this.EmitSignal("invincibilityStarted", false);
+                this.EmitSignal("invincibilityStarted", InvisibleAction.Roll);
             }
             else
             {
-                this.EmitSignal("invincibilityEnded", false);
+                this.EmitSignal("invincibilityEnded", InvisibleAction.Roll);
             }
         }
     }
 
     [Signal]
-    public delegate void invincibilityStarted(bool hit);
+    public delegate void invincibilityStarted(InvisibleAction action);
 
     [Signal]
-    public delegate void invincibilityEnded(bool hit);
+    public delegate void invincibilityEnded(InvisibleAction action);
 
 
     public void startInvincibility(float duration = 0f)
@@ -73,20 +73,18 @@ public class Hurtbox : Area2D
         this.Invincible = false;
     }
 
-    public void _on_Hurtbox_invincibilityStarted(bool hit)
+    public void _on_Hurtbox_invincibilityStarted(InvisibleAction hit)
     {
-        if (hit)
-        {
-            this.SetDeferred("monitoring", false);
-        }
+       
+        this.SetDeferred("monitoring", false);
+        
     }
 
-    public void _on_Hurtbox_invincibilityEnded(bool hit)
+    public void _on_Hurtbox_invincibilityEnded(InvisibleAction hit)
     {
-        if (hit)
-        {
-            this.SetDeferred("monitoring", true);
-        }
+        
+        this.SetDeferred("monitoring", true);
+        
     }
 }
 
