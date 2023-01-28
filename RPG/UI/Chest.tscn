@@ -65,6 +65,7 @@ margin_bottom = 15.0
 scroll_active = false
 
 [connection signal="body_entered" from="ItemBox" to="." method="_on_ItemBox_body_entered"]
+[connection signal="body_exited" from="ItemBox" to="." method="_on_ItemBox_body_exited"]
 
 [editable path="ItemBox"]
 [editable path="TextBox"]

@@ -7,9 +7,11 @@ public class TextBox : Control
     private string Text;
 
     private Popup _popUp;
-    public Popup Popup{
-        get{return _popUp;}
-        set{
+    public Popup Popup
+    {
+        get { return _popUp; }
+        set
+        {
             this._popUp = value;
         }
     }
@@ -20,7 +22,13 @@ public class TextBox : Control
         this.Popup.SetPosition(this.RectGlobalPosition);
     }
 
-    public void ShowPopup(){
+    public void ShowPopup()
+    {
         this.Popup.Show();
+    }
+
+    public void HidePopup()
+    {
+        this.Popup.Hide();
     }
 }
