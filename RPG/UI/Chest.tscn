@@ -1,0 +1,70 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://UI/chest.png" type="Texture" id=1]
+[ext_resource path="res://Hitboxes and Hurtboxes/ItemBox.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/TextBox.tscn" type="PackedScene" id=3]
+[ext_resource path="res://UI/Chest.cs" type="Script" id=4]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ) ],
+"loop": true,
+"name": "Open",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 24.0
+
+[node name="Chest" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 3 )
+animation = "Open"
+playing = true
+
+[node name="ItemBox" parent="." instance=ExtResource( 2 )]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" parent="ItemBox" index="0"]
+shape = SubResource( 4 )
+
+[node name="TextBox" parent="." instance=ExtResource( 3 )]
+anchor_right = 0.0
+margin_left = 10.0
+margin_top = -20.0
+margin_right = 10.0
+margin_bottom = -20.0
+Text = "Open"
+
+[node name="Popup" parent="TextBox" index="0"]
+margin_top = -14.0
+margin_right = 34.0
+margin_bottom = 0.0
+
+[node name="Panel" parent="TextBox/Popup" index="0"]
+modulate = Color( 0, 0, 0, 1 )
+self_modulate = Color( 0.00784314, 0.00784314, 0.00784314, 1 )
+margin_right = 35.0
+margin_bottom = 14.0
+
+[node name="RichTextLabel" parent="TextBox/Popup" index="1"]
+margin_right = 35.0
+margin_bottom = 15.0
+scroll_active = false
+
+[connection signal="body_entered" from="ItemBox" to="." method="_on_ItemBox_body_entered"]
+
+[editable path="ItemBox"]
+[editable path="TextBox"]
