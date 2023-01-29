@@ -16,6 +16,11 @@ public class Player : KinematicBody2D
 
     public PackedScene phs;
 
+    public bool itemAreaEnter = false;
+
+    [Signal]
+     public delegate void EventEmitOneItemInteract();
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -56,6 +61,11 @@ public class Player : KinematicBody2D
                     this.rollHandle(delta);
                     break;
                 }
+        }
+        if(this.itemAreaEnter){
+            if(Input.IsActionJustPressed("Grab")) {
+                this.EmitSignal("EventEmitOneItemInteract");
+            }
         }
     }
 

@@ -649,6 +649,8 @@ position = Vector2( -32, -32 )
 [node name="BottomRight" parent="Camera2D/Limits" index="1"]
 position = Vector2( 608, 216 )
 
+[connection signal="EventEmitOneItemInteract" from="YSort/Player" to="YSort/Chest" method="_on_Player_EventEmitOneItemInteract"]
+
 [editable path="YSort/Grasses/Grass4"]
 [editable path="YSort/Grasses/Grass4/Hurtbox"]
 [editable path="YSort/Chest"]
