@@ -1,12 +1,14 @@
 using Godot;
 
-public enum InvisibleAction {
+public enum InvisibleAction
+{
     Hit,
     Roll,
 }
 public class Player : KinematicBody2D
 {
 
+    private ulong nearItemId;
     public PlayerInfo playerInfo;
     public SwordHitbox swordHitbox;
 
@@ -16,10 +18,19 @@ public class Player : KinematicBody2D
 
     public PackedScene phs;
 
+    public ulong NearItemID
+    {
+        get { return this.nearItemId; }
+        set
+        {
+            this.nearItemId = value;
+
+        }
+    }
     public bool itemAreaEnter = false;
 
     [Signal]
-     public delegate void EventEmitOneItemInteract();
+    public delegate void EventEmitOneItemInteract(ulong randomItemId);
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -62,9 +73,12 @@ public class Player : KinematicBody2D
                     break;
                 }
         }
-        if(this.itemAreaEnter){
-            if(Input.IsActionJustPressed("Grab")) {
-                this.EmitSignal("EventEmitOneItemInteract");
+        if (this.itemAreaEnter)
+        {
+            if (Input.IsActionJustPressed("Grab"))
+            {
+                this.EmitSignal("EventEmitOneItemInteract", this.NearItemID);
+                this.itemAreaEnter = false;
             }
         }
     }

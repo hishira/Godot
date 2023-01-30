@@ -634,7 +634,13 @@ position = Vector2( -40, 88 )
 position = Vector2( 168, -8 )
 
 [node name="Chest" parent="YSort" instance=ExtResource( 13 )]
+position = Vector2( 256, 104 )
+
+[node name="Chest2" parent="YSort" instance=ExtResource( 13 )]
 position = Vector2( 192, 88 )
+
+[node name="Chest3" parent="YSort" instance=ExtResource( 13 )]
+position = Vector2( 112, 88 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -650,10 +656,15 @@ position = Vector2( -32, -32 )
 position = Vector2( 608, 216 )
 
 [connection signal="EventEmitOneItemInteract" from="YSort/Player" to="YSort/Chest" method="_on_Player_EventEmitOneItemInteract"]
+[connection signal="EventEmitOneItemInteract" from="YSort/Player" to="YSort/Chest2" method="_on_Player_EventEmitOneItemInteract"]
+[connection signal="EventEmitOneItemInteract" from="YSort/Player" to="YSort/Chest3" method="_on_Player_EventEmitOneItemInteract"]
 
 [editable path="YSort/Grasses/Grass4"]
 [editable path="YSort/Grasses/Grass4/Hurtbox"]
 [editable path="YSort/Chest"]
 [editable path="YSort/Chest/ItemBox"]
 [editable path="YSort/Chest/TextBox"]
+[editable path="YSort/Chest2"]
+[editable path="YSort/Chest2/ItemBox"]
+[editable path="YSort/Chest2/TextBox"]
 [editable path="Camera2D"]
