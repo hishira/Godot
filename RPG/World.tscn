@@ -636,8 +636,14 @@ position = Vector2( 168, -8 )
 [node name="Chest" parent="YSort" instance=ExtResource( 13 )]
 position = Vector2( 256, 104 )
 
+[node name="AnimatedSprite" parent="YSort/Chest" index="0"]
+frame = 0
+
 [node name="Chest2" parent="YSort" instance=ExtResource( 13 )]
 position = Vector2( 192, 88 )
+
+[node name="AnimatedSprite" parent="YSort/Chest2" index="0"]
+frame = 0
 
 [node name="Chest3" parent="YSort" instance=ExtResource( 13 )]
 position = Vector2( 112, 88 )

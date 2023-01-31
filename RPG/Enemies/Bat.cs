@@ -7,6 +7,7 @@ public enum BatState
     WANDER,
     CHASE,
 }
+
 public class Bat : KinematicBody2D
 {
     [Export]

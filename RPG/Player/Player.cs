@@ -8,7 +8,6 @@ public enum InvisibleAction
 public class Player : KinematicBody2D
 {
 
-    private ulong nearItemId;
     public PlayerInfo playerInfo;
     public SwordHitbox swordHitbox;
 
@@ -18,16 +17,8 @@ public class Player : KinematicBody2D
 
     public PackedScene phs;
 
-    public ulong NearItemID
-    {
-        get { return this.nearItemId; }
-        set
-        {
-            this.nearItemId = value;
+    public Destroyer chestNear;
 
-        }
-    }
-    public bool itemAreaEnter = false;
 
     [Signal]
     public delegate void EventEmitOneItemInteract(ulong randomItemId);
@@ -73,14 +64,13 @@ public class Player : KinematicBody2D
                     break;
                 }
         }
-        if (this.itemAreaEnter)
+
+        if (Input.IsActionJustPressed("Grab") && this.chestNear != null)
         {
-            if (Input.IsActionJustPressed("Grab"))
-            {
-                this.EmitSignal("EventEmitOneItemInteract", this.NearItemID);
-                this.itemAreaEnter = false;
-            }
+            this.chestNear.destroy();
+            this.chestNear = null;
         }
+
     }
 
     private void moveHandle(float delta)
