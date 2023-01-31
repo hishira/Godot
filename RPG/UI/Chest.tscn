@@ -18,7 +18,7 @@ animations = [ {
 "frames": [ SubResource( 1 ), SubResource( 2 ) ],
 "loop": true,
 "name": "Open",
-"speed": 5.0
+"speed": 3.0
 } ]
 
 [sub_resource type="CircleShape2D" id=4]
@@ -31,8 +31,6 @@ script = ExtResource( 4 )
 scale = Vector2( 0.5, 0.5 )
 frames = SubResource( 3 )
 animation = "Open"
-frame = 1
-playing = true
 
 [node name="ItemBox" parent="." instance=ExtResource( 2 )]
 collision_layer = 0
@@ -65,6 +63,7 @@ margin_right = 35.0
 margin_bottom = 15.0
 scroll_active = false
 
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="body_entered" from="ItemBox" to="." method="_on_ItemBox_body_entered"]
 [connection signal="body_exited" from="ItemBox" to="." method="_on_ItemBox_body_exited"]
 
