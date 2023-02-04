@@ -1,8 +1,125 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Enemies/wolf-right-left/wolf-left-normal.png" type="Texture" id=1]
 [ext_resource path="res://Enemies/wolf-right-left/wolf-right-normal.png" type="Texture" id=2]
 [ext_resource path="res://Enemies/wolf-down-up/tile002.png" type="Texture" id=3]
+[ext_resource path="res://Enemies/Wolf.cs" type="Script" id=4]
+
+[sub_resource type="Animation" id=16]
+resource_name = "IdleDown"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("DownUp:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 1 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("DownUp:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=18]
+resource_name = "IdleLeft"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("LeftRun:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("LeftRun:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=17]
+resource_name = "IdleRight"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("RightRun:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("RightRun:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=19]
+resource_name = "IdleUp"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("DownUp:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 6 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("DownUp:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 
 [sub_resource type="Animation" id=1]
 length = 0.001
@@ -82,7 +199,6 @@ tracks/5/keys = {
 [sub_resource type="Animation" id=4]
 resource_name = "RunDownNormal"
 length = 0.4
-loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("DownUp:frame")
 tracks/0/interp = 1
@@ -110,7 +226,6 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id=2]
 resource_name = "RunLeftNormal"
-loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("LeftRun:frame")
 tracks/0/interp = 1
@@ -138,7 +253,6 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id=3]
 resource_name = "RunRightNormal"
-loop = true
 step = 0.0666667
 tracks/0/type = "value"
 tracks/0/path = NodePath("RightRun:frame")
@@ -168,7 +282,6 @@ tracks/1/keys = {
 [sub_resource type="Animation" id=5]
 resource_name = "RunUpNormal"
 length = 0.4
-loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("DownUp:frame")
 tracks/0/interp = 1
@@ -194,6 +307,31 @@ tracks/1/keys = {
 "values": [ true, false ]
 }
 
+[sub_resource type="AnimationNodeAnimation" id=20]
+animation = "IdleLeft"
+
+[sub_resource type="AnimationNodeAnimation" id=21]
+animation = "IdleDown"
+
+[sub_resource type="AnimationNodeAnimation" id=22]
+animation = "IdleRight"
+
+[sub_resource type="AnimationNodeAnimation" id=23]
+animation = "IdleUp"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=13]
+blend_point_0/node = SubResource( 20 )
+blend_point_0/pos = Vector2( -1, 0 )
+blend_point_1/node = SubResource( 21 )
+blend_point_1/pos = Vector2( 0, 1.1 )
+blend_point_2/node = SubResource( 22 )
+blend_point_2/pos = Vector2( 1, 0 )
+blend_point_3/node = SubResource( 23 )
+blend_point_3/pos = Vector2( 0, -1.1 )
+min_space = Vector2( -1, -1.1 )
+max_space = Vector2( 1, 1.1 )
+blend_mode = 1
+
 [sub_resource type="AnimationNodeAnimation" id=8]
 animation = "RunLeftNormal"
 
@@ -217,26 +355,33 @@ blend_point_3/node = SubResource( 11 )
 blend_point_3/pos = Vector2( 0, -1.1 )
 min_space = Vector2( -1, -1.1 )
 max_space = Vector2( 1, 1.1 )
-
-[sub_resource type="AnimationNodeBlendSpace2D" id=13]
+blend_mode = 1
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=14]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=15]
 
 [sub_resource type="AnimationNodeStateMachine" id=6]
-states/BlendSpace2D/node = SubResource( 12 )
-states/BlendSpace2D/position = Vector2( 480, 77 )
 states/Iddle/node = SubResource( 13 )
 states/Iddle/position = Vector2( 174, 77 )
-transitions = [ "Iddle", "BlendSpace2D", SubResource( 14 ), "BlendSpace2D", "Iddle", SubResource( 15 ) ]
-start_node = "BlendSpace2D"
+states/Run/node = SubResource( 12 )
+states/Run/position = Vector2( 541, 77 )
+transitions = [ "Iddle", "Run", SubResource( 14 ), "Run", "Iddle", SubResource( 15 ) ]
+start_node = "Iddle"
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=7]
 
+[sub_resource type="CircleShape2D" id=24]
+radius = 15.0
+
 [node name="Wolf" type="KinematicBody2D"]
+script = ExtResource( 4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/IdleDown = SubResource( 16 )
+anims/IdleLeft = SubResource( 18 )
+anims/IdleRight = SubResource( 17 )
+anims/IdleUp = SubResource( 19 )
 anims/RESET = SubResource( 1 )
 anims/RunDownNormal = SubResource( 4 )
 anims/RunLeftNormal = SubResource( 2 )
@@ -261,7 +406,10 @@ frame = 1
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 6 )
 anim_player = NodePath("../AnimationPlayer")
-active = true
 parameters/playback = SubResource( 7 )
-parameters/BlendSpace2D/blend_position = Vector2( -0.00320858, -0.00578034 )
 parameters/Iddle/blend_position = Vector2( 0, 0 )
+parameters/Run/blend_position = Vector2( 0, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 10 )
+shape = SubResource( 24 )
