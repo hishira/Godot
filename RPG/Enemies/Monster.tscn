@@ -1,0 +1,249 @@
+[gd_scene load_steps=27 format=2]
+
+[ext_resource path="res://Enemies/montser.PNG" type="Texture" id=1]
+[ext_resource path="res://Enemies/Monster.cs" type="Script" id=2]
+
+[sub_resource type="Animation" id=25]
+resource_name = "Down"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/path = NodePath("Monster:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3 ]
+}
+
+[sub_resource type="Animation" id=35]
+resource_name = "IdleDown"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Monster:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=36]
+resource_name = "IdleLeft"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Monster:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 12 ]
+}
+
+[sub_resource type="Animation" id=37]
+resource_name = "IdleRight"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Monster:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 8 ]
+}
+
+[sub_resource type="Animation" id=38]
+resource_name = "IdleUp"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Monster:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 4 ]
+}
+
+[sub_resource type="Animation" id=26]
+resource_name = "Left"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/path = NodePath("Monster:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 12, 13, 14, 15 ]
+}
+
+[sub_resource type="Animation" id=27]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Monster:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 12 ]
+}
+
+[sub_resource type="Animation" id=28]
+resource_name = "Right"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/path = NodePath("Monster:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 8, 9, 10, 11 ]
+}
+
+[sub_resource type="Animation" id=29]
+resource_name = "Up"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/path = NodePath("Monster:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 5, 6, 7 ]
+}
+
+[sub_resource type="AnimationNodeAnimation" id=39]
+animation = "IdleLeft"
+
+[sub_resource type="AnimationNodeAnimation" id=40]
+animation = "IdleUp"
+
+[sub_resource type="AnimationNodeAnimation" id=41]
+animation = "IdleRight"
+
+[sub_resource type="AnimationNodeAnimation" id=42]
+animation = "IdleDown"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=43]
+blend_point_0/node = SubResource( 39 )
+blend_point_0/pos = Vector2( -1, 0 )
+blend_point_1/node = SubResource( 40 )
+blend_point_1/pos = Vector2( 0, 1.1 )
+blend_point_2/node = SubResource( 41 )
+blend_point_2/pos = Vector2( 1, 0 )
+blend_point_3/node = SubResource( 42 )
+blend_point_3/pos = Vector2( 0, -1.1 )
+min_space = Vector2( -1, -1.1 )
+max_space = Vector2( 1, 1.1 )
+blend_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id=30]
+animation = "Left"
+
+[sub_resource type="AnimationNodeAnimation" id=31]
+animation = "Right"
+
+[sub_resource type="AnimationNodeAnimation" id=32]
+animation = "Down"
+
+[sub_resource type="AnimationNodeAnimation" id=33]
+animation = "Up"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=34]
+blend_point_0/node = SubResource( 30 )
+blend_point_0/pos = Vector2( -1, 0 )
+blend_point_1/node = SubResource( 31 )
+blend_point_1/pos = Vector2( 1, 0 )
+blend_point_2/node = SubResource( 32 )
+blend_point_2/pos = Vector2( 0, 1.1 )
+blend_point_3/node = SubResource( 33 )
+blend_point_3/pos = Vector2( 0, -1.1 )
+min_space = Vector2( -1, -1.1 )
+max_space = Vector2( 1, 1.1 )
+blend_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=44]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=45]
+
+[sub_resource type="AnimationNodeStateMachine" id=6]
+states/Idle/node = SubResource( 43 )
+states/Idle/position = Vector2( 174, 50 )
+states/Run/node = SubResource( 34 )
+states/Run/position = Vector2( 336, 50 )
+transitions = [ "Idle", "Run", SubResource( 44 ), "Run", "Idle", SubResource( 45 ) ]
+start_node = "Idle"
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=7]
+
+[sub_resource type="CircleShape2D" id=24]
+radius = 15.0
+
+[node name="Monster" type="KinematicBody2D"]
+script = ExtResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+reset_on_save = false
+anims/Down = SubResource( 25 )
+anims/IdleDown = SubResource( 35 )
+anims/IdleLeft = SubResource( 36 )
+anims/IdleRight = SubResource( 37 )
+anims/IdleUp = SubResource( 38 )
+anims/Left = SubResource( 26 )
+anims/RESET = SubResource( 27 )
+anims/Right = SubResource( 28 )
+anims/Up = SubResource( 29 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 6 )
+anim_player = NodePath("../AnimationPlayer")
+parameters/playback = SubResource( 7 )
+parameters/Idle/blend_position = Vector2( 0, 0 )
+parameters/Run/blend_position = Vector2( 0, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 10 )
+shape = SubResource( 24 )
+
+[node name="Monster" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+hframes = 4
+vframes = 4

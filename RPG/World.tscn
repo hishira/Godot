@@ -11,7 +11,7 @@
 [ext_resource path="res://World/Tree.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Camera2D.tscn" type="PackedScene" id=10]
 [ext_resource path="res://World/HeartElement.tscn" type="PackedScene" id=11]
-[ext_resource path="res://Enemies/Wolf.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Enemies/Monster.tscn" type="PackedScene" id=12]
 [ext_resource path="res://UI/Chest.tscn" type="PackedScene" id=13]
 
 [sub_resource type="TileSet" id=1]
@@ -655,9 +655,6 @@ position = Vector2( 168, -8 )
 [node name="Chest3" parent="YSort" instance=ExtResource( 13 )]
 position = Vector2( 400, 24 )
 
-[node name="Wolf" parent="YSort" instance=ExtResource( 12 )]
-position = Vector2( 224, 88 )
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="HealthUI" parent="CanvasLayer" instance=ExtResource( 8 )]
@@ -670,6 +667,9 @@ position = Vector2( -32, -32 )
 
 [node name="BottomRight" parent="Camera2D/Limits" index="1"]
 position = Vector2( 608, 216 )
+
+[node name="Monster" parent="." instance=ExtResource( 12 )]
+position = Vector2( 240, 80 )
 
 [connection signal="EventEmitOneItemInteract" from="YSort/Player" to="YSort/Chest3" method="_on_Player_EventEmitOneItemInteract"]
 
