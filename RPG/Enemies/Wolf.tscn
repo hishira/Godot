@@ -1,171 +1,7 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://Enemies/wolf-right-left/wolf-left-normal.png" type="Texture" id=1]
-[ext_resource path="res://Enemies/wolf-down-up/tile002.png" type="Texture" id=3]
+[ext_resource path="res://Enemies/montser.PNG" type="Texture" id=1]
 [ext_resource path="res://Enemies/Wolf.cs" type="Script" id=4]
-
-[sub_resource type="Animation" id=16]
-resource_name = "IdleDown"
-length = 0.1
-loop = true
-step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("DownUp:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0.01 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 1 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("DownUp:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.01, 0.1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false ]
-}
-
-[sub_resource type="Animation" id=18]
-resource_name = "IdleLeft"
-length = 0.1
-loop = true
-step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("LeftRun:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0.01 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 0 ]
-}
-
-[sub_resource type="Animation" id=19]
-resource_name = "IdleUp"
-length = 0.1
-loop = true
-step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("DownUp:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0.01 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 6 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("DownUp:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.01, 0.1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, false ]
-}
-
-[sub_resource type="Animation" id=1]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("LeftRun:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 1 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("DownUp:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ 1 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("DownUp:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ true ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("LeftRun:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ true ]
-}
-
-[sub_resource type="Animation" id=4]
-resource_name = "RunDownNormal"
-length = 0.4
-step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("DownUp:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.06, 0.15, 0.25 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 1, 2, 3 ]
-}
-
-[sub_resource type="Animation" id=2]
-resource_name = "RunLeftNormal"
-length = 0.8
-step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("LeftRun:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.15, 0.3, 0.45, 0.6 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 1, 2, 3, 4 ]
-}
 
 [sub_resource type="AnimationNodeAnimation" id=20]
 animation = "IdleLeft"
@@ -239,31 +75,20 @@ script = ExtResource( 4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 reset_on_save = false
-anims/IdleDown = SubResource( 16 )
-anims/IdleLeft = SubResource( 18 )
-anims/IdleUp = SubResource( 19 )
-anims/RESET = SubResource( 1 )
-anims/RunDownNormal = SubResource( 4 )
-anims/RunLeftNormal = SubResource( 2 )
-
-[node name="LeftRun" type="Sprite" parent="."]
-texture = ExtResource( 1 )
-hframes = 5
-
-[node name="DownUp" type="Sprite" parent="."]
-texture = ExtResource( 3 )
-hframes = 10
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 6 )
 anim_player = NodePath("../AnimationPlayer")
 parameters/playback = SubResource( 7 )
 parameters/Iddle/blend_position = Vector2( 0, 0 )
-parameters/Run/blend_position = Vector2( 0, 0 )
+parameters/Run/blend_position = Vector2( -0.00480771, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 10 )
 shape = SubResource( 24 )
 
-[connection signal="animation_changed" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_changed"]
-[connection signal="animation_started" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_started"]
+[node name="Monster" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+hframes = 4
+vframes = 4
+frame = 15

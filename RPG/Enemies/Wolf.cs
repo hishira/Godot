@@ -25,7 +25,6 @@ public class Wolf : KinematicBody2D
         this.animationMachine = this.wolfAnimationTree.Get("parameters/playback") as AnimationNodeStateMachinePlayback;
         this.wolfLeftWalkSprite = this.GetNode<Sprite>("LeftRun");
         this.wolfDownUpWalkSprite = this.GetNode<Sprite>("DownUp");
-        this.animationMachine.Connect("stateChanged", this, "handleStateChange");
         this.wolfAnimationTree.Active = true;
     }
 
@@ -72,16 +71,5 @@ public class Wolf : KinematicBody2D
         }
         this.velocity = this.velocity.MoveToward(this.MAXSPEED * direction, delta * this.ACCELERATION);
         this.velocity = this.MoveAndSlide(this.velocity);
-    }
-
-    public void _on_AnimationPlayer_animation_changed(string oldname, string newname){
-        GD.Print(oldname, newname);
-    }
-    public void _on_AnimationPlayer_animation_started(string name){
-        GD.Print(name);
-    }
-
-    public void handleStateChange(string name){
-        GD.Print(name);
     }
 }
