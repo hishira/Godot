@@ -237,7 +237,7 @@ tree_root = SubResource( 6 )
 anim_player = NodePath("../AnimationPlayer")
 parameters/playback = SubResource( 7 )
 parameters/Idle/blend_position = Vector2( 0, 0 )
-parameters/Run/blend_position = Vector2( 0, 0 )
+parameters/Run/blend_position = Vector2( -0.00389105, 0.031792 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 10 )
@@ -247,3 +247,8 @@ shape = SubResource( 24 )
 texture = ExtResource( 1 )
 hframes = 4
 vframes = 4
+frame = 8
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
