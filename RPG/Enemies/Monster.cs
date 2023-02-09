@@ -39,7 +39,7 @@ public class Monster : KinematicBody2D
     {
         Vector2 direction = this.GlobalPosition.DirectionTo(this.randomDirection);
 
-        GD.Print(this.randomDirection, this.GlobalPosition);
+        GD.Print(direction, this.GlobalPosition);
         switch (this.currentState)
         {
             case MonsterState.Run:
@@ -50,7 +50,7 @@ public class Monster : KinematicBody2D
                         this.randomDirection = this.generateRandomDirection();
                         direction = this.GlobalPosition.DirectionTo(this.randomDirection);
                     }
-                    this.animationSet(direction, "Run");
+                    
                     
                     break;
                 }
@@ -59,14 +59,15 @@ public class Monster : KinematicBody2D
                     break;
                 }
         }
-        this.velocity = this.velocity.MoveToward(this.MAXSPEED * this.randomDirection, delta * this.ACCELERATION);
+        this.animationSet(direction, "Run");
+        this.velocity = this.velocity.MoveToward(this.MAXSPEED * direction, delta * this.ACCELERATION);
         this.velocity = this.MoveAndSlide(this.velocity);
     }
 
     public Vector2 generateRandomDirection()
     {
-        int x = this.rnd.RandiRange(-1, 1);
-        int y = this.rnd.RandiRange(-1, 1);
+        int x = this.rnd.RandiRange(-10, 10);
+        int y = this.rnd.RandiRange(-10, 10);
 
         return new Vector2(x, y);
     }
@@ -78,7 +79,7 @@ public class Monster : KinematicBody2D
     }
     public void _on_Timer_timeout()
     {
-        this.currentState = this.getRandomState();
+        //this.currentState = this.getRandomState();
         this.monterTimer.Start(3);
     }
 

@@ -6,6 +6,7 @@
 [sub_resource type="Animation" id=25]
 resource_name = "Down"
 length = 0.7
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Monster:frame")
 tracks/0/interp = 1
@@ -90,6 +91,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=26]
 resource_name = "Left"
 length = 0.7
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Monster:frame")
 tracks/0/interp = 1
@@ -121,6 +123,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=28]
 resource_name = "Right"
 length = 0.7
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Monster:frame")
 tracks/0/interp = 1
@@ -137,6 +140,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=29]
 resource_name = "Up"
 length = 0.7
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Monster:frame")
 tracks/0/interp = 1
@@ -247,7 +251,6 @@ shape = SubResource( 24 )
 texture = ExtResource( 1 )
 hframes = 4
 vframes = 4
-frame = 8
 
 [node name="Timer" type="Timer" parent="."]
 
