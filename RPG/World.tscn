@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=2]
+[gd_scene load_steps=72 format=2]
 
 [ext_resource path="res://World/Bush.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
@@ -512,6 +512,11 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 } ]
 0/z_index = 0
 
+[sub_resource type="Curve2D" id=58]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 232, 120, 0, 0, 0, 0, 160, 144, 0, 0, 0, 0, 128, 128, 0, 0, 0, 0, 96, 128, 0, 0, 0, 0, 72, 112, 0, 0, 0, 0, 56, 88, 0, 0, 0, 0, 40, 64, 0, 0, 0, 0, 72, 40, 0, 0, 0, 0, 128, 88, 0, 0, 0, 0, 232, 120 )
+}
+
 [node name="World" type="Node2D"]
 __meta__ = {
 "_edit_lock_": true
@@ -547,7 +552,7 @@ remote_path = NodePath("../../../Camera2D")
 [node name="Bushes" type="YSort" parent="YSort"]
 
 [node name="Bush" parent="YSort/Bushes" instance=ExtResource( 1 )]
-position = Vector2( 104, 112 )
+position = Vector2( 200, 168 )
 
 [node name="Bush2" parent="YSort/Bushes" instance=ExtResource( 1 )]
 position = Vector2( 240, 144 )
@@ -668,8 +673,14 @@ position = Vector2( -32, -32 )
 [node name="BottomRight" parent="Camera2D/Limits" index="1"]
 position = Vector2( 608, 216 )
 
-[node name="Monster" parent="." instance=ExtResource( 12 )]
-position = Vector2( 240, 80 )
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource( 58 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2( 232, 120 )
+rotate = false
+
+[node name="Monster" parent="Path2D/PathFollow2D" instance=ExtResource( 12 )]
 
 [connection signal="EventEmitOneItemInteract" from="YSort/Player" to="YSort/Chest3" method="_on_Player_EventEmitOneItemInteract"]
 

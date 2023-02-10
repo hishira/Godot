@@ -24,6 +24,7 @@ public class Monster : KinematicBody2D
     Timer monterTimer;
 
     Vector2 randomDirection = Vector2.Zero;
+    PathFollow2D pathFollow;
     public override void _Ready()
     {
         this.rnd = new RandomNumberGenerator();
@@ -34,34 +35,41 @@ public class Monster : KinematicBody2D
         this.monterTimer = this.GetNode<Timer>("Timer");
         this.monterTimer.Start(3);
         this.randomDirection = this.generateRandomDirection();
+        this.pathFollow = this.GetParent<PathFollow2D>();
     }
     public override void _PhysicsProcess(float delta)
     {
         Vector2 direction = this.GlobalPosition.DirectionTo(this.randomDirection);
+        Vector2 prepos = this.pathFollow.Position;
+        this.pathFollow.Offset = this.pathFollow.Offset + this.MAXSPEED * delta;
+        Vector2 post = this.pathFollow.Position;
+        // NOTE: Important, pre post.DirectionTo(prepos) => invert animation coz
+        // calculate direction from next point to prepoint, which will
+        // invert animation
+        Vector2 moveDirection = prepos.DirectionTo(post);
+        GD.Print(moveDirection);
+        //switch (this.currentState)
+        //{
+        //    case MonsterState.Run:
+        //        {
 
-        GD.Print(direction, this.GlobalPosition);
-        switch (this.currentState)
-        {
-            case MonsterState.Run:
-                {
-
-                    if (direction == Vector2.Zero)
-                    {
-                        this.randomDirection = this.generateRandomDirection();
-                        direction = this.GlobalPosition.DirectionTo(this.randomDirection);
-                    }
+        //            if (direction == Vector2.Zero)
+        //            {
+        //                this.randomDirection = this.generateRandomDirection();
+        //                direction = this.GlobalPosition.DirectionTo(this.randomDirection);
+        //            }
                     
                     
-                    break;
-                }
-            case MonsterState.Idle:
-                {
-                    break;
-                }
-        }
-        this.animationSet(direction, "Run");
-        this.velocity = this.velocity.MoveToward(this.MAXSPEED * direction, delta * this.ACCELERATION);
-        this.velocity = this.MoveAndSlide(this.velocity);
+        //            break;
+        //        }
+        //    case MonsterState.Idle:
+        //        {
+        //            break;
+        //        }
+        //}
+        this.animationSet(moveDirection, "Run");
+        this.velocity = this.velocity.MoveToward(this.MAXSPEED * moveDirection, delta * this.ACCELERATION);
+        //this.velocity = this.MoveAndSlide(this.velocity);
     }
 
     public Vector2 generateRandomDirection()
