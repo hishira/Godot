@@ -22,15 +22,23 @@ public class Menu : Node2D
     {
         if (Input.IsActionJustPressed("ui_down"))
         {
+            //TODO: Refactor
+            this.stateModule = this.stateModule > 3 ? 1 : ++this.stateModule;
+            this.stateModule = this.stateModule > 3 ? 1 : this.stateModule;
             this.checkButtonState(this.stateModule % 4);
         }
-        this.stateModule = this.stateModule > 3 ? 1 : ++this.stateModule;
+        if (Input.IsActionJustPressed("ui_up"))
+        {
+            this.stateModule = this.stateModule <=0 ? 3 : --this.stateModule;
+            this.stateModule = this.stateModule <= 0 ? 3 : this.stateModule;
+            this.checkButtonState(this.stateModule % 4);
+        }
+        GD.Print(this.stateModule);
 
     }
 
     private void checkButtonState(int prest)
     {
-        GD.Print(prest);
         if (prest == 1)
         {
             this.start.Pressed = true;
