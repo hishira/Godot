@@ -7,7 +7,7 @@ public class Menu : Node2D
     TextureButton load;
     TextureButton exit;
 
-    int stateModule = 1;
+    uint stateModule = 1;
     public override void _Ready()
     {
         this.start = this.GetNode<TextureButton>("CanvasLayer/Container/Start");
@@ -29,34 +29,41 @@ public class Menu : Node2D
         }
         if (Input.IsActionJustPressed("ui_up"))
         {
-            this.stateModule = this.stateModule <=0 ? 3 : --this.stateModule;
+            this.stateModule = this.stateModule <= 0 ? 3 : --this.stateModule;
             this.stateModule = this.stateModule <= 0 ? 3 : this.stateModule;
             this.checkButtonState(this.stateModule % 4);
+        }
+        if (Input.IsActionJustPressed("ui_accept") && this.exit.Pressed)
+        {
+
+            this.GetTree().Quit();
+
         }
         GD.Print(this.stateModule);
 
     }
 
-    private void checkButtonState(int prest)
+    private void checkButtonState(uint prest)
     {
         if (prest == 1)
         {
-            this.start.Pressed = true;
-            this.load.Pressed = false;
-            this.exit.Pressed = false;
+            this.setButtonPressed(true, false, false);
         }
         if (prest == 2)
         {
-            this.start.Pressed = false;
-            this.load.Pressed = true;
-            this.exit.Pressed = false;
+            this.setButtonPressed(false, true, false);
         }
         if (prest == 3)
         {
-            this.start.Pressed = false;
-            this.load.Pressed = false;
-            this.exit.Pressed = true;
+            this.setButtonPressed(false, false, true);
         }
 
+    }
+
+    private void setButtonPressed(bool startPressed, bool loadPressed, bool exitPressed)
+    {
+        this.start.Pressed = startPressed;
+        this.load.Pressed = loadPressed;
+        this.exit.Pressed = exitPressed;
     }
 }
