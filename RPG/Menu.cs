@@ -5,14 +5,14 @@ public class Menu : Node2D
 {
     TextureButton start;
     TextureButton load;
-    TextureButton exit;
+    Exit exit;
 
     uint stateModule = 1;
     public override void _Ready()
     {
         this.start = this.GetNode<TextureButton>("CanvasLayer/Container/Start");
         this.load = this.GetNode<TextureButton>("CanvasLayer/Container/Load");
-        this.exit = this.GetNode<TextureButton>("CanvasLayer/Container/Exit");
+        this.exit = this.GetNode<Exit>("CanvasLayer/Container/Exit");
         this.start.Pressed = true;
 
     }
@@ -36,8 +36,13 @@ public class Menu : Node2D
         if (Input.IsActionJustPressed("ui_accept") && this.exit.Pressed)
         {
 
-            this.GetTree().Quit();
+           this.exit.clickHandle();
 
+        }
+        if (Input.IsActionJustPressed("ui_accept") && this.start.Pressed)
+        {
+            PackedScene world = ResourceLoader.Load<PackedScene>("res://World.tscn");
+            GetTree().ChangeSceneTo(world);
         }
         GD.Print(this.stateModule);
 

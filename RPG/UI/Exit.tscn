@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://UI/ImageExit1.png" type="Texture" id=1]
+[ext_resource path="res://UI/ImageExit2.png" type="Texture" id=2]
+[ext_resource path="res://UI/Exit.cs" type="Script" id=3]
+
+[node name="Exit" type="TextureButton"]
+margin_left = 112.0
+margin_top = 128.0
+margin_right = 216.0
+margin_bottom = 174.0
+toggle_mode = true
+button_mask = 0
+texture_normal = ExtResource( 1 )
+texture_pressed = ExtResource( 2 )
+script = ExtResource( 3 )
