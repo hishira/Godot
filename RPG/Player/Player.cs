@@ -69,13 +69,7 @@ public class Player : KinematicBody2D
             this.chestNear.destroy();
             this.chestNear = null;
         }
-        if (Input.IsActionJustPressed("ui_cancel"))
-        {
-            GetTree().Paused = true;
-            Popup litleMenu = GetNode<Popup>("/root/World/LittleMenu");
-            litleMenu.SetPosition(new Vector2(this.GlobalPosition.x - 50,this.GlobalPosition.y - 75));
-            litleMenu.Show();
-        }
+       
 
     }
 
