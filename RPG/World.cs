@@ -25,6 +25,7 @@ public class World : Node2D
             Popup litleMenu = GetNode<Popup>("/root/World/LittleMenu");
             Vector2 playerGlobalPosition = GetNode<Player>("/root/World/YSort/Player").GlobalPosition;
             System.Threading.Timer timer = null;
+            //TODO: Maybe can be better
             timer = new System.Threading.Timer((obj) =>
             {
                 this.EmitSignal("openModal", playerGlobalPosition);
