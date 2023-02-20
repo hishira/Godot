@@ -8,7 +8,7 @@ public class World : Node2D
     // private string b = "text";
 
     // Called when the node enters the scene tree for the first time.
-
+    static int dueTime = 10; 
     [Signal]
     public delegate void openModal(Vector2 position);
     public override void _Ready()
@@ -30,7 +30,7 @@ public class World : Node2D
             {
                 this.EmitSignal("openModal", playerGlobalPosition);
                 timer.Dispose();
-            }, null, 100, System.Threading.Timeout.Infinite);
+            }, null, dueTime, System.Threading.Timeout.Infinite);
         }
     }
 }
