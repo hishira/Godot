@@ -1,21 +1,25 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class LittleMenu : Popup
 {
     // Declare member variables here. Examples:
     // private int a = 2;
     // private string b = "text";
-    Exit exitButton;
-    Save saveButton;
+    AbstractTextureButton exitButton;
+    AbstractTextureButton saveButton;
 
+    MenuButtonChange buttonChange;
     uint stateModule = 1;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        this.exitButton = this.GetNode<Exit>("Container/Panel/Exit");
-        this.saveButton = this.GetNode<Save>("Container/Panel/Save");
+        this.exitButton = this.GetNode<AbstractTextureButton>("Container/Panel/Exit");
+        this.saveButton = this.GetNode<AbstractTextureButton>("Container/Panel/Save");
         this.saveButton.Pressed = true;
+        List<AbstractTextureButton> buttonList = new List<AbstractTextureButton> { this.saveButton, this.exitButton };
+        this.buttonChange = new MenuButtonChange(2, buttonList);
     }
 
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -23,19 +27,10 @@ public class LittleMenu : Popup
     {
         // TODO: Refactor 
         if (!this.Visible) return;
-
-        if (Input.IsActionJustPressed("ui_down"))
+        this.buttonChange.processHandle();
+        if (Input.IsActionJustPressed("ui_accept") && this.exitButton.Pressed)
         {
-            //TODO: Refactor
-            this.stateModule = this.stateModule > 2 ? 1 : ++this.stateModule;
-            this.stateModule = this.stateModule > 2 ? 1 : this.stateModule;
-            this.checkButtonState(this.stateModule % 4);
-        }
-        if (Input.IsActionJustPressed("ui_up"))
-        {
-            this.stateModule = this.stateModule <= 0 ? 2 : --this.stateModule;
-            this.stateModule = this.stateModule <= 0 ? 2 : this.stateModule;
-            this.checkButtonState(this.stateModule % 3);
+            this.exitButton.clickHandle();
         }
         if (Input.IsActionJustPressed("ui_cancel"))
         {
