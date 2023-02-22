@@ -1,74 +1,28 @@
 using Godot;
-using System;
+using System.Collections.Generic;
+
 
 public class Menu : Node2D
 {
-    TextureButton start;
-    TextureButton load;
-    Exit exit;
+    AbstractTextureButton start;
+    AbstractTextureButton load;
+    AbstractTextureButton exit;
+    MenuButtonChange buttonChange;
 
-    uint stateModule = 1;
     public override void _Ready()
     {
-        this.start = this.GetNode<TextureButton>("CanvasLayer/Container/Start");
-        this.load = this.GetNode<TextureButton>("CanvasLayer/Container/Load");
-        this.exit = this.GetNode<Exit>("CanvasLayer/Container/Exit");
+        this.start = this.GetNode<AbstractTextureButton>("CanvasLayer/Container/Start");
+        this.load = this.GetNode<AbstractTextureButton>("CanvasLayer/Container/Load");
+        this.exit = this.GetNode<AbstractTextureButton>("CanvasLayer/Container/Exit");
         this.start.Pressed = true;
+        List<AbstractTextureButton> buttonList = new List<AbstractTextureButton> { this.start, this.load, this.exit };
+        this.buttonChange = new MenuButtonChange(3, buttonList);
 
     }
 
-    //  // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
-        if (Input.IsActionJustPressed("ui_down"))
-        {
-            //TODO: Refactor
-            this.stateModule = this.stateModule > 3 ? 1 : ++this.stateModule;
-            this.stateModule = this.stateModule > 3 ? 1 : this.stateModule;
-            this.checkButtonState(this.stateModule % 4);
-        }
-        if (Input.IsActionJustPressed("ui_up"))
-        {
-            this.stateModule = this.stateModule <= 0 ? 3 : --this.stateModule;
-            this.stateModule = this.stateModule <= 0 ? 3 : this.stateModule;
-            this.checkButtonState(this.stateModule % 4);
-        }
-        if (Input.IsActionJustPressed("ui_accept") && this.exit.Pressed)
-        {
-
-           this.exit.clickHandle();
-
-        }
-        if (Input.IsActionJustPressed("ui_accept") && this.start.Pressed)
-        {
-            PackedScene world = ResourceLoader.Load<PackedScene>("res://World.tscn");
-            GetTree().ChangeSceneTo(world);
-        }
-        GD.Print(this.stateModule);
-
+        this.buttonChange.processHandle();
     }
 
-    private void checkButtonState(uint prest)
-    {
-        if (prest == 1)
-        {
-            this.setButtonPressed(true, false, false);
-        }
-        if (prest == 2)
-        {
-            this.setButtonPressed(false, true, false);
-        }
-        if (prest == 3)
-        {
-            this.setButtonPressed(false, false, true);
-        }
-
-    }
-
-    private void setButtonPressed(bool startPressed, bool loadPressed, bool exitPressed)
-    {
-        this.start.Pressed = startPressed;
-        this.load.Pressed = loadPressed;
-        this.exit.Pressed = exitPressed;
-    }
 }

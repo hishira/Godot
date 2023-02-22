@@ -18,14 +18,15 @@ public class MenuButtonChange
             //TODO: Refactor
             ++this.stateModulo;
             this.stateModulo = this.stateModulo > this.moduleButtonState ? 1 : this.stateModulo;
-            this.checkButtonState(this.stateModulo % (this.moduleButtonState+1));
+            this.checkButtonState(this.stateModulo % (this.moduleButtonState + 1));
         }
         if (Input.IsActionJustPressed("ui_up"))
         {
             --this.stateModulo;
             this.stateModulo = this.stateModulo <= 0 ? this.moduleButtonState : this.stateModulo;
-            this.checkButtonState(this.stateModulo % (this.moduleButtonState+1));
+            this.checkButtonState(this.stateModulo % (this.moduleButtonState + 1));
         }
+        this.checkButtonActionPossible();
     }
     private void checkButtonState(int prest)
     {
@@ -34,5 +35,16 @@ public class MenuButtonChange
             button.Pressed = false;
         });
         this.buttons[prest - 1].Pressed = true;
+    }
+
+    private void checkButtonActionPossible()
+    {
+        this.buttons.ForEach(delegate (AbstractTextureButton button)
+        {
+            if (button.isClickPossible())
+            {
+                button.clickHandle();
+            }
+        });
     }
 }

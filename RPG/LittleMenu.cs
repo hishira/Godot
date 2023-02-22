@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 
 public class LittleMenu : Popup
@@ -11,8 +10,6 @@ public class LittleMenu : Popup
     AbstractTextureButton saveButton;
 
     MenuButtonChange buttonChange;
-    uint stateModule = 1;
-    // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         this.exitButton = this.GetNode<AbstractTextureButton>("Container/Panel/Exit");
@@ -22,19 +19,13 @@ public class LittleMenu : Popup
         this.buttonChange = new MenuButtonChange(2, buttonList);
     }
 
-    //  // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
         // TODO: Refactor 
         if (!this.Visible) return;
         this.buttonChange.processHandle();
-        if (Input.IsActionJustPressed("ui_accept") && this.exitButton.Pressed)
-        {
-            this.exitButton.clickHandle();
-        }
         if (Input.IsActionJustPressed("ui_cancel"))
         {
-            GD.Print("Yes");
             GetTree().Paused = false;
             this.Hide();
         }
@@ -47,22 +38,4 @@ public class LittleMenu : Popup
         this.Show();
     }
 
-    private void checkButtonState(uint prest)
-    {
-        if (prest == 1)
-        {
-            this.setButtonPressed(true, false);
-        }
-        if (prest == 2)
-        {
-            this.setButtonPressed(false, true);
-        }
-
-    }
-
-    private void setButtonPressed(bool saveButton, bool exitPressed)
-    {
-        this.saveButton.Pressed = saveButton;
-        this.exitButton.Pressed = exitPressed;
-    }
 }

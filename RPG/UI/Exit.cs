@@ -1,5 +1,4 @@
-using Godot;
-using System;
+
 
 public class Exit : AbstractTextureButton
 {
@@ -12,5 +11,6 @@ public class Exit : AbstractTextureButton
     {
         this.GetTree().Quit();
     }
+
     
 }

@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public class Save : AbstractTextureButton
 {
@@ -10,6 +9,7 @@ public class Save : AbstractTextureButton
 
     public override void clickHandle()
     {
-        GD.Print("SAVe");
+        GD.Print("Save");
     }
+
 }
