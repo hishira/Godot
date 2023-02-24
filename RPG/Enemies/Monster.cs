@@ -26,7 +26,7 @@ public class Monster : KinematicBody2D
     Vector2 randomDirection = Vector2.Zero;
     PathFollow2D pathFollow;
 
-    PlayerDetectionZone playerDetectionZone
+    PlayerDetectionZone playerDetectionZone;
     public override void _Ready()
     {
         this.rnd = new RandomNumberGenerator();
@@ -38,9 +38,11 @@ public class Monster : KinematicBody2D
         this.monterTimer.Start(3);
         this.randomDirection = this.generateRandomDirection();
         this.pathFollow = this.GetParent<PathFollow2D>();
+        this.playerDetectionZone = this.GetNode<PlayerDetectionZone>("PlayerDetectionZone");
     }
     public override void _PhysicsProcess(float delta)
     {
+        GD.Print(this.playerDetectionZone.player);
         Vector2 direction = this.GlobalPosition.DirectionTo(this.randomDirection);
         Vector2 prepos = this.pathFollow.Position;
         this.pathFollow.Offset = this.pathFollow.Offset + this.MAXSPEED * delta;
