@@ -25,6 +25,8 @@ public class Monster : KinematicBody2D
 
     Vector2 randomDirection = Vector2.Zero;
     PathFollow2D pathFollow;
+
+    PlayerDetectionZone playerDetectionZone
     public override void _Ready()
     {
         this.rnd = new RandomNumberGenerator();
@@ -48,28 +50,9 @@ public class Monster : KinematicBody2D
         // invert animation
         Vector2 moveDirection = prepos.DirectionTo(post);
         GD.Print(moveDirection);
-        //switch (this.currentState)
-        //{
-        //    case MonsterState.Run:
-        //        {
 
-        //            if (direction == Vector2.Zero)
-        //            {
-        //                this.randomDirection = this.generateRandomDirection();
-        //                direction = this.GlobalPosition.DirectionTo(this.randomDirection);
-        //            }
-                    
-                    
-        //            break;
-        //        }
-        //    case MonsterState.Idle:
-        //        {
-        //            break;
-        //        }
-        //}
         this.animationSet(moveDirection, "Run");
         this.velocity = this.velocity.MoveToward(this.MAXSPEED * moveDirection, delta * this.ACCELERATION);
-        //this.velocity = this.MoveAndSlide(this.velocity);
     }
 
     public Vector2 generateRandomDirection()
@@ -87,14 +70,13 @@ public class Monster : KinematicBody2D
     }
     public void _on_Timer_timeout()
     {
-        //this.currentState = this.getRandomState();
         this.monterTimer.Start(3);
     }
 
     private MonsterState getRandomState()
     {
         this.states.Shuffle();
-        //return this.states[0];
+
         return MonsterState.Run;
     }
 
