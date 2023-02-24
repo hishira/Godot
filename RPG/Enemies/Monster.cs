@@ -42,7 +42,9 @@ public class Monster : KinematicBody2D
     }
     public override void _PhysicsProcess(float delta)
     {
-        GD.Print(this.playerDetectionZone.player);
+        if(this.playerDetectionZone.player != null) {
+            return;
+        }
         Vector2 direction = this.GlobalPosition.DirectionTo(this.randomDirection);
         Vector2 prepos = this.pathFollow.Position;
         this.pathFollow.Offset = this.pathFollow.Offset + this.MAXSPEED * delta;
