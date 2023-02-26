@@ -77,7 +77,7 @@ public class Monster : KinematicBody2D
         }
         if (this.monsterChasePhase == MonsterChasePlayerPhase.ReturnToPath)
         {
-            // Fix problem with not set to MonsterChasePlayerPhase.Normal state
+            //TODO:  Fix problem with not set to MonsterChasePlayerPhase.Normal state
             Vector2 globapPathPosition = this.GlobalPosition.DirectionTo(this.monsterStartPosition);
             if(globapPathPosition == this.GlobalPosition){
                  this.monsterChasePhase = MonsterChasePlayerPhase.Normal;
