@@ -843,7 +843,7 @@ material = SubResource( 52 )
 position = Vector2( -0.5, -10 )
 texture = ExtResource( 1 )
 hframes = 60
-frame = 18
+frame = 36
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = -1.5708
@@ -880,7 +880,7 @@ parameters/Run/blend_position = Vector2( 0, 0 )
 
 [node name="HitBoxPivot" type="Position2D" parent="."]
 position = Vector2( 0, -4 )
-rotation = 3.14159
+rotation = 1.5708
 
 [node name="SwordHitbox" parent="HitBoxPivot" instance=ExtResource( 3 )]
 position = Vector2( 15, 0 )
@@ -890,6 +890,7 @@ damage = 2
 
 [node name="CollisionShape2D" parent="HitBoxPivot/SwordHitbox" index="0"]
 shape = SubResource( 37 )
+disabled = true
 
 [node name="Hurtbox" parent="." instance=ExtResource( 5 )]
 position = Vector2( 0, -2 )
