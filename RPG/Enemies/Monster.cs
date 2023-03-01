@@ -51,12 +51,13 @@ public class Monster : KinematicBody2D
         this.playerDetectionZone = this.GetNode<PlayerDetectionZone>("PlayerDetectionZone");
         this.monsterChasePhase = MonsterChasePlayerPhase.Normal;
         this.monsterStartPosition = this.pathFollow.Position;
+       
     }
     public override void _PhysicsProcess(float delta)
     {
         MonsterChasePlayerPhase lastState = this.monsterChasePhase;
-        //GD.Print(this.monsterChasePhase);
-        GD.Print(this.GlobalPosition, this.monsterStartPosition);
+        // GD.Print(this.monsterChasePhase);
+        // GD.Print(this.GlobalPosition, this.monsterStartPosition);
         if (this.playerDetectionZone.player != null)
         {
             this.monsterChasePhase = MonsterChasePlayerPhase.Chase;
@@ -73,25 +74,26 @@ public class Monster : KinematicBody2D
         if (this.GlobalPosition.Equals(this.monsterStartPosition))
         {
             this.monsterChasePhase = MonsterChasePlayerPhase.Normal;
-            GD.Print("SET to start position");
         }
         if (this.monsterChasePhase == MonsterChasePlayerPhase.ReturnToPath)
         {
             //TODO:  Fix problem with not set to MonsterChasePlayerPhase.Normal state
             Vector2 globapPathPosition = this.GlobalPosition.DirectionTo(this.monsterStartPosition);
-            if(globapPathPosition == this.GlobalPosition){
-                 this.monsterChasePhase = MonsterChasePlayerPhase.Normal;
-                 return;
+            GD.Print(this.GlobalPosition.DistanceTo(this.monsterStartPosition));
+            if (this.GlobalPosition.DistanceTo(this.monsterStartPosition) < 9.0)
+            {
+                this.monsterChasePhase = MonsterChasePlayerPhase.Normal;
+                return;
             }
             this.animationSet(globapPathPosition, "Run");
-            
-            this.velocity = this.velocity.MoveToward(this.MAXSPEED * globapPathPosition, delta * this.ACCELERATION);
+
+            Vector2 moveTowardVector = this.velocity.MoveToward(this.MAXSPEED * globapPathPosition, delta * this.ACCELERATION);
+            this.velocity = moveTowardVector;
             this.MoveAndSlide(this.velocity);
             return;
         }
         if (this.monsterChasePhase == MonsterChasePlayerPhase.Normal)
         {
-            GD.Print("Normal phase");
             Vector2 prepos = this.pathFollow.Position;
             this.pathFollow.Offset = this.pathFollow.Offset + this.MAXSPEED * delta;
             Vector2 post = this.pathFollow.Position;
