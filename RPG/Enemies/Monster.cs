@@ -36,7 +36,7 @@ public class Monster : KinematicBody2D
     PlayerDetectionZone playerDetectionZone;
     MonsterChasePlayerPhase monsterChasePhase;
 
-    Vector2 monsterStartPosition;
+    Vector2 lastPathPosition;
     public override void _Ready()
     {
         this.rnd = new RandomNumberGenerator();
@@ -50,16 +50,16 @@ public class Monster : KinematicBody2D
         this.pathFollow = this.GetParent<PathFollow2D>();
         this.playerDetectionZone = this.GetNode<PlayerDetectionZone>("PlayerDetectionZone");
         this.monsterChasePhase = MonsterChasePlayerPhase.Normal;
-        this.monsterStartPosition = this.pathFollow.Position;
-       
+   
     }
     public override void _PhysicsProcess(float delta)
     {
         MonsterChasePlayerPhase lastState = this.monsterChasePhase;
-        // GD.Print(this.monsterChasePhase);
-        // GD.Print(this.GlobalPosition, this.monsterStartPosition);
         if (this.playerDetectionZone.player != null)
         {
+            if(this.monsterChasePhase != MonsterChasePlayerPhase.Chase) {
+                this.lastPathPosition = this.pathFollow.Position;
+            }
             this.monsterChasePhase = MonsterChasePlayerPhase.Chase;
             Vector2 dirsctionToPlayer = this.GlobalPosition.DirectionTo(this.playerDetectionZone.player.GlobalPosition);
             this.animationSet(dirsctionToPlayer, "Run");
@@ -71,16 +71,11 @@ public class Monster : KinematicBody2D
         {
             this.monsterChasePhase = MonsterChasePlayerPhase.ReturnToPath;
         }
-        if (this.GlobalPosition.Equals(this.monsterStartPosition))
-        {
-            this.monsterChasePhase = MonsterChasePlayerPhase.Normal;
-        }
         if (this.monsterChasePhase == MonsterChasePlayerPhase.ReturnToPath)
         {
             //TODO:  Fix problem with not set to MonsterChasePlayerPhase.Normal state
-            Vector2 globapPathPosition = this.GlobalPosition.DirectionTo(this.monsterStartPosition);
-            GD.Print(this.GlobalPosition.DistanceTo(this.monsterStartPosition));
-            if (this.GlobalPosition.DistanceTo(this.monsterStartPosition) < 9.0)
+            Vector2 globapPathPosition = this.GlobalPosition.DirectionTo(this.lastPathPosition);
+            if (this.GlobalPosition.DistanceTo(this.lastPathPosition) < 9.0)
             {
                 this.monsterChasePhase = MonsterChasePlayerPhase.Normal;
                 return;
