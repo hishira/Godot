@@ -50,7 +50,7 @@ public class Monster : KinematicBody2D
         if (this.playerDetectionZone.player != null)
         {
             if(this.monsterChasePhase != MonsterChasePlayerPhase.Chase) {
-                this.lastPathPosition = this.pathFollow.Position;
+                this.lastPathPosition = this.pathFollow.Position + new Vector2(592,32);
             }
             this.monsterChasePhase = MonsterChasePlayerPhase.Chase;
             Vector2 dirsctionToPlayer = this.GlobalPosition.DirectionTo(this.playerDetectionZone.player.GlobalPosition);
