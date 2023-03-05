@@ -35,4 +35,8 @@ public class Stats : Node
 	{
 		this.health = this.maxHealth;
 	}
+
+	public bool hasMaxHealth(){
+		return this.health == this.MaxHealth;
+	}
 }
