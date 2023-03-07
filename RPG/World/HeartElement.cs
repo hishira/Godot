@@ -19,7 +19,6 @@ public class HeartElement : InventorElement
     public override void _Ready()
     {
         this.elementType = InventorElementType.Health;
-        //this.animation.Play("Idle");
     }
 
     public void _on_ItemBox_area_entered(Area2D area)

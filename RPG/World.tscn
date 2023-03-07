@@ -1,4 +1,4 @@
-[gd_scene load_steps=74 format=2]
+[gd_scene load_steps=75 format=2]
 
 [ext_resource path="res://World/Bush.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://UI/Chest.tscn" type="PackedScene" id=13]
 [ext_resource path="res://LittleMenu.tscn" type="PackedScene" id=14]
 [ext_resource path="res://World.cs" type="Script" id=15]
+[ext_resource path="res://Effects/Spikes.tscn" type="PackedScene" id=16]
 
 [sub_resource type="TileSet" id=1]
 0/name = "DirtTileset.png 0"
@@ -549,6 +550,12 @@ tile_data = PoolIntArray( -1, 0, 0, -65536, 0, 1, -65535, 0, 1, -65534, 0, 1, -6
 
 [node name="YSort" type="YSort" parent="."]
 
+[node name="Spikes" parent="YSort" instance=ExtResource( 16 )]
+position = Vector2( 216, 64 )
+
+[node name="Sprite" parent="YSort/Spikes" index="0"]
+scale = Vector2( 2, 1.5 )
+
 [node name="Player" parent="YSort" instance=ExtResource( 2 )]
 position = Vector2( 144, 64 )
 
@@ -692,6 +699,8 @@ rotate = false
 [connection signal="openModal" from="." to="LittleMenu" method="_on_World_openModal"]
 [connection signal="EventEmitOneItemInteract" from="YSort/Player" to="YSort/Chest3" method="_on_Player_EventEmitOneItemInteract"]
 
+[editable path="YSort/Spikes"]
+[editable path="YSort/Spikes/ElementHurt"]
 [editable path="YSort/Grasses/Grass4"]
 [editable path="YSort/Grasses/Grass4/Hurtbox"]
 [editable path="Camera2D"]
