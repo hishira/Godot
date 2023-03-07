@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Effects/Spikes.png" type="Texture" id=1]
 [ext_resource path="res://Hitboxes and Hurtboxes/ElementHurt.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Effects/Spikes.cs" type="Script" id=3]
 
 [sub_resource type="Animation" id=1]
 length = 0.001
@@ -65,6 +66,7 @@ radius = 8.0
 height = 0.0
 
 [node name="Spikes" type="Node2D"]
+script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
@@ -72,7 +74,7 @@ centered = false
 hframes = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-reset_on_save = false
+playback_process_mode = 0
 anims/RESET = SubResource( 1 )
 anims/Start = SubResource( 2 )
 
