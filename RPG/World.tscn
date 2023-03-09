@@ -551,10 +551,13 @@ tile_data = PoolIntArray( -1, 0, 0, -65536, 0, 1, -65535, 0, 1, -65534, 0, 1, -6
 [node name="YSort" type="YSort" parent="."]
 
 [node name="Spikes" parent="YSort" instance=ExtResource( 16 )]
-position = Vector2( 216, 64 )
+position = Vector2( 184, 56 )
 
 [node name="Sprite" parent="YSort/Spikes" index="0"]
 scale = Vector2( 2, 1.5 )
+
+[node name="CollisionShape2D" parent="YSort/Spikes/ElementHurt" index="0"]
+position = Vector2( 16, 24 )
 
 [node name="Player" parent="YSort" instance=ExtResource( 2 )]
 position = Vector2( 144, 64 )
