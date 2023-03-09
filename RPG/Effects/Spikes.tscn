@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Effects/Spikes.png" type="Texture" id=1]
 [ext_resource path="res://Hitboxes and Hurtboxes/ElementHurt.tscn" type="PackedScene" id=2]
@@ -33,8 +33,9 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id=2]
 resource_name = "Start"
-length = 0.5
-step = 0.01
+length = 5.0
+loop = true
+step = 1.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -42,7 +43,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.25 ),
+"times": PoolRealArray( 0, 2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ 0, 1 ]
@@ -54,53 +55,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.26 ),
+"times": PoolRealArray( 0, 2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
-}
-tracks/2/type = "method"
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0.48 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "animationEnd"
-} ]
-}
-
-[sub_resource type="Animation" id=4]
-resource_name = "Stop"
-length = 0.2
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("ElementHurt/CollisionShape2D:disabled")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
 }
 
 [sub_resource type="CapsuleShape2D" id=3]
@@ -119,7 +77,6 @@ hframes = 2
 playback_process_mode = 0
 anims/RESET = SubResource( 1 )
 anims/Start = SubResource( 2 )
-anims/Stop = SubResource( 4 )
 
 [node name="ElementHurt" parent="." instance=ExtResource( 2 )]
 collision_layer = 0
@@ -129,12 +86,5 @@ collision_mask = 4
 position = Vector2( 8, 16 )
 shape = SubResource( 3 )
 disabled = true
-
-[node name="Timer" type="Timer" parent="."]
-
-[node name="StartAnimation" type="Timer" parent="."]
-
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
-[connection signal="timeout" from="StartAnimation" to="." method="_on_StartAnimation_timeout"]
 
 [editable path="ElementHurt"]
