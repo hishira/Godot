@@ -61,8 +61,7 @@ public class Monster : KinematicBody2D
             this.animationSet(dirsctionToPlayer, "Run");
             this.velocity = this.velocity.MoveToward(this.MAXSPEED * dirsctionToPlayer, delta * this.ACCELERATION);
             this.MoveAndSlide(this.velocity);
-            TextureRect image = this.healthControl.GetNode<TextureRect>("TextureRect");
-            image.RectSize = new Vector2(image.RectSize.x - 50, image.RectSize.y);
+
             return;
         }
         else if (lastState == MonsterChasePlayerPhase.Chase)
@@ -105,5 +104,11 @@ public class Monster : KinematicBody2D
         this.wolfAnimationTree.Set("parameters/Run/blend_position", blendPosition);
         this.wolfAnimationTree.Set("parameters/Idle/blend_position", blendPosition);
         this.animationMachine.Travel(pathToTravel);
+    }
+
+    public void _on_Hurtbox_area_entered(SwordHitbox area)
+    {
+        TextureRect image = this.healthControl.GetNode<TextureRect>("TextureRect");
+        image.RectSize = new Vector2(image.RectSize.x - 50, image.RectSize.y);
     }
 }
