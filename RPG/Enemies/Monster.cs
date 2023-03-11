@@ -35,6 +35,8 @@ public class Monster : KinematicBody2D
     Vector2 lastPathPosition;
 
     Control healthControl;
+
+    Hurtbox monsterHurtBox;
     public override void _Ready()
     {
         this.wolfAnimationPlayer = this.GetNode<AnimationPlayer>("AnimationPlayer");
@@ -45,7 +47,7 @@ public class Monster : KinematicBody2D
         this.playerDetectionZone = this.GetNode<PlayerDetectionZone>("PlayerDetectionZone");
         this.monsterChasePhase = MonsterChasePlayerPhase.Normal;
         this.healthControl = this.GetNode<Control>("Control");
-
+        this.monsterHurtBox = this.GetNode<Hurtbox>("Hurtbox");
     }
     public override void _PhysicsProcess(float delta)
     {
@@ -110,5 +112,6 @@ public class Monster : KinematicBody2D
     {
         TextureRect image = this.healthControl.GetNode<TextureRect>("TextureRect");
         image.RectSize = new Vector2(image.RectSize.x - 50, image.RectSize.y);
+        this.monsterHurtBox.createHitEffect();
     }
 }
