@@ -24,7 +24,7 @@ public class Monster : KinematicBody2D
     Vector2 velocity = Vector2.Zero;
     RandomNumberGenerator rnd;
     AnimationNodeStateMachinePlayback animationMachine;
-    
+
     Timer monterTimer;
 
     PathFollow2D pathFollow;
@@ -33,6 +33,8 @@ public class Monster : KinematicBody2D
     MonsterChasePlayerPhase monsterChasePhase;
 
     Vector2 lastPathPosition;
+
+    Control healthControl;
     public override void _Ready()
     {
         this.wolfAnimationPlayer = this.GetNode<AnimationPlayer>("AnimationPlayer");
@@ -42,21 +44,25 @@ public class Monster : KinematicBody2D
         this.pathFollow = this.GetParent<PathFollow2D>();
         this.playerDetectionZone = this.GetNode<PlayerDetectionZone>("PlayerDetectionZone");
         this.monsterChasePhase = MonsterChasePlayerPhase.Normal;
-   
+        this.healthControl = this.GetNode<Control>("Control");
+
     }
     public override void _PhysicsProcess(float delta)
     {
         MonsterChasePlayerPhase lastState = this.monsterChasePhase;
         if (this.playerDetectionZone.player != null)
         {
-            if(this.monsterChasePhase != MonsterChasePlayerPhase.Chase) {
-                this.lastPathPosition = this.pathFollow.Position + new Vector2(592,32);
+            if (this.monsterChasePhase != MonsterChasePlayerPhase.Chase)
+            {
+                this.lastPathPosition = this.pathFollow.Position + new Vector2(592, 32);
             }
             this.monsterChasePhase = MonsterChasePlayerPhase.Chase;
             Vector2 dirsctionToPlayer = this.GlobalPosition.DirectionTo(this.playerDetectionZone.player.GlobalPosition);
             this.animationSet(dirsctionToPlayer, "Run");
             this.velocity = this.velocity.MoveToward(this.MAXSPEED * dirsctionToPlayer, delta * this.ACCELERATION);
             this.MoveAndSlide(this.velocity);
+            TextureRect image = this.healthControl.GetNode<TextureRect>("TextureRect");
+            image.RectSize = new Vector2(image.RectSize.x - 50, image.RectSize.y);
             return;
         }
         else if (lastState == MonsterChasePlayerPhase.Chase)
