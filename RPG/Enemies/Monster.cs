@@ -113,5 +113,8 @@ public class Monster : KinematicBody2D
         TextureRect image = this.healthControl.GetNode<TextureRect>("TextureRect");
         image.RectSize = new Vector2(image.RectSize.x - 50, image.RectSize.y);
         this.monsterHurtBox.createHitEffect();
+        if(image.RectSize.x <= 0) {
+            this.QueueFree();
+        }
     }
 }
