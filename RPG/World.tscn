@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=2]
+[gd_scene load_steps=77 format=2]
 
 [ext_resource path="res://World/Bush.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
@@ -515,6 +515,63 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 } ]
 0/z_index = 0
 
+[sub_resource type="Animation" id=59]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ElementHurt/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=60]
+resource_name = "Start"
+length = 5.0
+loop = true
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ElementHurt/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
 [sub_resource type="Curve2D" id=58]
 _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, 32, 96, 0, 0, 0, 0, 152, 24, 0, 0, 0, 0, 320, 64, 0, 0, 0, 0, 384, 120, 0, 0, 0, 0, 336, 200, 0, 0, 0, 0, 88, 176, 0, 0, 0, 0, 32, 96 )
@@ -557,6 +614,20 @@ position = Vector2( 184, 56 )
 scale = Vector2( 2, 1.5 )
 
 [node name="CollisionShape2D" parent="YSort/Spikes/ElementHurt" index="0"]
+position = Vector2( 16, 24 )
+
+[node name="Spikes2" parent="YSort" instance=ExtResource( 16 )]
+position = Vector2( 552, 64 )
+rotation = 1.5708
+
+[node name="Sprite" parent="YSort/Spikes2" index="0"]
+scale = Vector2( 2, 1.5 )
+
+[node name="AnimationPlayer" parent="YSort/Spikes2" index="1"]
+anims/RESET = SubResource( 59 )
+anims/Start = SubResource( 60 )
+
+[node name="CollisionShape2D" parent="YSort/Spikes2/ElementHurt" index="0"]
 position = Vector2( 16, 24 )
 
 [node name="Player" parent="YSort" instance=ExtResource( 2 )]
@@ -704,6 +775,8 @@ rotate = false
 
 [editable path="YSort/Spikes"]
 [editable path="YSort/Spikes/ElementHurt"]
+[editable path="YSort/Spikes2"]
+[editable path="YSort/Spikes2/ElementHurt"]
 [editable path="YSort/Grasses/Grass4"]
 [editable path="YSort/Grasses/Grass4/Hurtbox"]
 [editable path="Camera2D"]
