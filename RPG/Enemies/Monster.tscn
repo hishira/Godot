@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Enemies/montser.PNG" type="Texture" id=1]
 [ext_resource path="res://Enemies/Monster.cs" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://UI/blood_red_bar.png" type="Texture" id=4]
 [ext_resource path="res://Hitboxes and Hurtboxes/Hurtbox.tscn" type="PackedScene" id=5]
 [ext_resource path="res://WhiteColor.shader" type="Shader" id=6]
+[ext_resource path="res://Hitboxes and Hurtboxes/Hitbox.tscn" type="PackedScene" id=7]
 
 [sub_resource type="Animation" id=25]
 resource_name = "Down"
@@ -236,6 +237,9 @@ radius = 58.0
 [sub_resource type="CircleShape2D" id=47]
 radius = 13.0
 
+[sub_resource type="CircleShape2D" id=49]
+radius = 15.1327
+
 [node name="Monster" type="KinematicBody2D"]
 script = ExtResource( 2 )
 
@@ -298,8 +302,16 @@ collision_layer = 8
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
 shape = SubResource( 47 )
 
+[node name="Hitbox" parent="." instance=ExtResource( 7 )]
+collision_mask = 4
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+modulate = Color( 0, 0, 0, 1 )
+shape = SubResource( 49 )
+
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 
 [editable path="PlayerDetectionZone"]
 [editable path="Hurtbox"]
+[editable path="Hitbox"]

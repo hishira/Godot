@@ -560,7 +560,7 @@ scale = Vector2( 2, 1.5 )
 position = Vector2( 16, 24 )
 
 [node name="Player" parent="YSort" instance=ExtResource( 2 )]
-position = Vector2( 144, 64 )
+position = Vector2( 600, 88 )
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="YSort/Player"]
 remote_path = NodePath("../../../Camera2D")
@@ -681,7 +681,7 @@ position = Vector2( 400, 24 )
 [node name="HealthUI" parent="CanvasLayer" instance=ExtResource( 8 )]
 
 [node name="Camera2D" parent="." instance=ExtResource( 10 )]
-position = Vector2( 144, 64 )
+position = Vector2( 600, 88 )
 
 [node name="TopLeft" parent="Camera2D/Limits" index="0"]
 position = Vector2( -32, -32 )
