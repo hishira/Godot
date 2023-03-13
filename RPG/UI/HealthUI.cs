@@ -39,7 +39,7 @@ public class HealthUI : Control
 
     public override void _Ready()
     {
-        Stats value = this.GetNode<Stats>("/root/PlayerStats");
+        StatsSingleton value = this.GetNode<StatsSingleton>("/root/PlayerStats");
         this.Maxhealth = value.MaxHealth;
         this.Health = value.health;
         this.HartUIFull = this.GetNode<TextureRect>("HeartUIFull");

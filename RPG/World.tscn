@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=2]
+[gd_scene load_steps=78 format=2]
 
 [ext_resource path="res://World/Bush.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://LittleMenu.tscn" type="PackedScene" id=14]
 [ext_resource path="res://World.cs" type="Script" id=15]
 [ext_resource path="res://Effects/Spikes.tscn" type="PackedScene" id=16]
+[ext_resource path="res://UI/PlayerlLevelInfo.tscn" type="PackedScene" id=17]
 
 [sub_resource type="TileSet" id=1]
 0/name = "DirtTileset.png 0"
@@ -750,6 +751,13 @@ position = Vector2( 400, 24 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="HealthUI" parent="CanvasLayer" instance=ExtResource( 8 )]
+
+[node name="RichTextLabel" parent="CanvasLayer" instance=ExtResource( 17 )]
+margin_bottom = 16.0
+bbcode_enabled = true
+bbcode_text = "Level: "
+text = "Level: "
+custom_effects = [ null ]
 
 [node name="Camera2D" parent="." instance=ExtResource( 10 )]
 position = Vector2( 600, 88 )

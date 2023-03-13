@@ -1,12 +1,13 @@
 using System;
 using Godot;
 
-public class Stats : Node
+public class StatsSingleton : Node
 {
 
 	[Export(PropertyHint.Range, "0,20,")]
 	int maxHealth = 4;
 
+	public Stats playerStats;
 	public int MaxHealth
 	{
 		get { return this.maxHealth; }

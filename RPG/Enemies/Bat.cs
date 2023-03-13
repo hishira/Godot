@@ -17,7 +17,7 @@ public class Bat : KinematicBody2D
     [Export]
     int FRICTION = 200;
     Vector2 knokBack = Vector2.Zero;
-    Stats batStats;
+    StatsSingleton batStats;
 
     PackedScene EnemyDeathEffect;
 
@@ -45,7 +45,7 @@ public class Bat : KinematicBody2D
         GD.Randomize();
         this.EnemyDeathEffect = ResourceLoader.Load<PackedScene>("res://Effects/EnemyDeathEffect.tscn");
         this.NewHeartElement = ResourceLoader.Load<PackedScene>("res://World/HeartElement.tscn");
-        this.batStats = this.GetNode("Stats") as Stats;
+        this.batStats = this.GetNode("Stats") as StatsSingleton;
         this.playerDetectionZone = this.GetNode<PlayerDetectionZone>("PlayerDetectionZone");
         this.batSprite = this.GetNode<AnimatedSprite>("AnimatedSprite");
         this.batHurtBox = this.GetNode<Hurtbox>("Hurtbox");
