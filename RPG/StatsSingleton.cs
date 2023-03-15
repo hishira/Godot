@@ -7,6 +7,8 @@ public class StatsSingleton : Node
 	[Export(PropertyHint.Range, "0,20,")]
 	int maxHealth = 4;
 
+	[Export]
+	public uint experiancetoPlayer = 100;
 	public Stats playerStats;
 	public int MaxHealth
 	{
@@ -19,7 +21,6 @@ public class StatsSingleton : Node
 		set
 		{
 			_health = Godot.Mathf.Clamp(value, 0 ,this.maxHealth);
-			GD.Print(value);
 			this.EmitSignal("healthChange", health);
 			if (value <= 0)
 			{
@@ -36,6 +37,7 @@ public class StatsSingleton : Node
 	public override void _Ready()
 	{
 		this.health = this.maxHealth;
+		this.playerStats = Stats.Default;
 	}
 
 	public bool hasMaxHealth(){

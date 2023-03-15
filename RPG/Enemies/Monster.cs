@@ -122,6 +122,7 @@ public class Monster : KinematicBody2D
 
     public void _on_Stats_noHealth()
     {
+        this.monsterStats.playerStats.EXPERIANCE = this.monsterStats.experiancetoPlayer;
         this.QueueFree();
     }
 }
