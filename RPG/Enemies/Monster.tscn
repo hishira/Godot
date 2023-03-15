@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Enemies/montser.PNG" type="Texture" id=1]
 [ext_resource path="res://Enemies/Monster.cs" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Hitboxes and Hurtboxes/Hurtbox.tscn" type="PackedScene" id=5]
 [ext_resource path="res://WhiteColor.shader" type="Shader" id=6]
 [ext_resource path="res://Hitboxes and Hurtboxes/Hitbox.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Stats.tscn" type="PackedScene" id=8]
 
 [sub_resource type="Animation" id=25]
 resource_name = "Down"
@@ -309,8 +310,12 @@ collision_mask = 4
 modulate = Color( 0, 0, 0, 1 )
 shape = SubResource( 49 )
 
+[node name="Stats" parent="." instance=ExtResource( 8 )]
+maxHealth = 5
+
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
+[connection signal="noHealth" from="Stats" to="." method="_on_Stats_noHealth"]
 
 [editable path="PlayerDetectionZone"]
 [editable path="Hurtbox"]

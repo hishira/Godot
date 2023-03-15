@@ -18,7 +18,8 @@ public class StatsSingleton : Node
 		get { return _health; }
 		set
 		{
-			_health = Godot.Mathf.Clamp(value, 0 ,this.maxHealth);;
+			_health = Godot.Mathf.Clamp(value, 0 ,this.maxHealth);
+			GD.Print(value);
 			this.EmitSignal("healthChange", health);
 			if (value <= 0)
 			{

@@ -37,6 +37,8 @@ public class Monster : KinematicBody2D
     Control healthControl;
 
     Hurtbox monsterHurtBox;
+    StatsSingleton monsterStats;
+    float healthMinus;
     public override void _Ready()
     {
         this.wolfAnimationPlayer = this.GetNode<AnimationPlayer>("AnimationPlayer");
@@ -48,6 +50,8 @@ public class Monster : KinematicBody2D
         this.monsterChasePhase = MonsterChasePlayerPhase.Normal;
         this.healthControl = this.GetNode<Control>("Control");
         this.monsterHurtBox = this.GetNode<Hurtbox>("Hurtbox");
+        this.monsterStats = this.GetNode<StatsSingleton>("Stats");
+        this.healthMinus = this.healthControl.GetNode<TextureRect>("TextureRect").RectSize.x / this.monsterStats.MaxHealth;
     }
     public override void _PhysicsProcess(float delta)
     {
@@ -111,10 +115,13 @@ public class Monster : KinematicBody2D
     public void _on_Hurtbox_area_entered(SwordHitbox area)
     {
         TextureRect image = this.healthControl.GetNode<TextureRect>("TextureRect");
-        image.RectSize = new Vector2(image.RectSize.x - 50, image.RectSize.y);
+        image.RectSize = new Vector2(image.RectSize.x - this.healthMinus, image.RectSize.y);
+        this.monsterStats.health -= area.damage;
         this.monsterHurtBox.createHitEffect();
-        if(image.RectSize.x <= 0) {
-            this.QueueFree();
-        }
+    }
+
+    public void _on_Stats_noHealth()
+    {
+        this.QueueFree();
     }
 }
