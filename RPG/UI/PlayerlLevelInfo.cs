@@ -3,13 +3,12 @@ using System;
 
 public class PlayerlLevelInfo : RichTextLabel
 {
-    public StatsSingleton stats;
+    public Stats stats;
     public override void _Ready()
     {
-        this.stats = this.GetNode("/root/PlayerStats") as StatsSingleton;
+        this.stats = this.GetNode("/root/Stats") as Stats;
         this.Text = this.createLevelString(this.stats.playerStats.LEVEL);
-        this.stats.playerStats.Connect("levelChange", this, "levelChangedHandle");
-        GD.Print(this.IsConnected("levelChange", this, "levelChangedHandle"));
+        this.stats.Connect("levelChange", this, "levelChangedHandle");
     }
 
     public String createLevelString(uint level)
@@ -17,7 +16,8 @@ public class PlayerlLevelInfo : RichTextLabel
         return $"Level: {level}";
     }
 
-    public void levelChangedHandle(uint level){
+    public void levelChangedHandle(uint level)
+    {
         GD.Print("Level info ", level);
         this.Text = this.createLevelString(level);
     }
