@@ -39,7 +39,7 @@ public class Player : KinematicBody2D
 
 		this.stats = this.GetNode("/root/PlayerStats") as StatsSingleton;
 		this.stats.Connect("noHealth", this, "removePlayer");
-		this.stats.playerStats = Stats.Default;
+		this.stats.playerStats = this.GetNode("/root/Stats") as Stats;
 		this.hurtbox = this.GetNode<Hurtbox>("Hurtbox");
 		this.phs = ResourceLoader.Load<PackedScene>("res://Player/PlayerHurtSound.tscn");
 	}
@@ -118,7 +118,6 @@ public class Player : KinematicBody2D
 	public void _on_Hurtbox_area_entered(Area2D area)
 	{
 		this.stats.health -= 1;
-		GD.Print("HURBOX ENTER");
 		this.hurtbox.startInvincibility(.5f);
 		PlayerHurtSound phsInstncat = this.phs.Instance<PlayerHurtSound>();
 		this.GetTree().CurrentScene.AddChild(phsInstncat);

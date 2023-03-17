@@ -37,7 +37,8 @@ public class StatsSingleton : Node
 	public override void _Ready()
 	{
 		this.health = this.maxHealth;
-		this.playerStats = Stats.Default;
+		this.playerStats = this.GetNode("/root/Stats") as Stats;
+
 	}
 
 	public bool hasMaxHealth(){

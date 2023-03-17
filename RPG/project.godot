@@ -16,6 +16,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
+Stats="*res://shared/Stats.tscn"
 PlayerStats="*res://Player/PlayerStats.tscn"
 
 [display]

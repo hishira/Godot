@@ -1,7 +1,7 @@
 using Godot;
 
 // Think of extend note and emit signal when lvl up
-public class Stats
+public class Stats : Node
 {
     private uint _level;
     private uint _health;
@@ -53,13 +53,11 @@ public class Stats
         set
         {
             _experiance += value;
-            GD.Print($"EXP {nextlevel}");
-            GD.Print($"NEXT LEVEL {nextlevel}");
             if (_experiance >= _nextLevelExperiance)
             {
                 this._level = this.nextlevel;
-                this.nextlevel+=1;
-                GD.Print(this.LEVEL);
+                this.nextlevel += 1;
+                this.EmitSignal("levelChange", this._level);
                 this._experiance = 0;
                 this._nextLevelExperiance += 10;
             }
@@ -75,16 +73,31 @@ public class Stats
             _nextLevelExperiance = value;
         }
     }
-    public Stats(uint level, uint health, uint attack, uint deffense, uint experiance, uint nextlevelepxeriance)
+
+    [Signal]
+    public delegate void levelChange(uint level);
+
+    public override void _Ready()
     {
-        this.LEVEL = level;
-        this.nextlevel = level + 1;
-        this.HEALTH = health;
-        this.ATTACK = attack;
-        this.DEFFENSE = deffense;
-        this.NEXTLEVELEXPERIANCE = nextlevelepxeriance;
-        this.EXPERIANCE = experiance;
+            this.LEVEL = 1;//level;
+            this.nextlevel = this.LEVEL + 1;
+            this.HEALTH = 4;//health;
+            this.ATTACK = 2;//attack;
+            this.DEFFENSE = 5;//deffense;
+            this.NEXTLEVELEXPERIANCE = 100;//nextlevelepxeriance;
+            this.EXPERIANCE = 0;//experiance;
     }
 
-    public static Stats Default => new Stats(1, 1, 1, 1, 0, 10);
+    //public Stats(uint level, uint health, uint attack, uint deffense, uint experiance, uint nextlevelepxeriance)
+    //{
+    //    this.LEVEL = level;
+    //    this.nextlevel = level + 1;
+    //    this.HEALTH = health;
+    //    this.ATTACK = attack;
+    //    this.DEFFENSE = deffense;
+    //    this.NEXTLEVELEXPERIANCE = nextlevelepxeriance;
+    //    this.EXPERIANCE = experiance;
+    //}
+
+    //public static Stats Default => new Stats(1, 1, 1, 1, 0, 10);
 }

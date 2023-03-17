@@ -23,7 +23,6 @@ public class HeartElement : InventorElement
 
     public void _on_ItemBox_area_entered(Area2D area)
     {
-        GD.Print(area);
     }
 
     public void _on_ItemBox_body_entered(Player playerNode)
