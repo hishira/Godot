@@ -1,7 +1,5 @@
 public class PlayerStats : AbstractStats
 {
-
-
     public PlayerStats(uint level, uint health, uint attack, uint deffense, uint experiance, uint nextlevelepxeriance): base(level, health, attack, deffense, experiance, nextlevelepxeriance)
     {
     }
