@@ -8,7 +8,6 @@
 
 [node name="LittleMenu" type="Popup"]
 pause_mode = 2
-visible = true
 margin_right = 100.0
 margin_bottom = 150.0
 rect_min_size = Vector2( 100, 150 )
