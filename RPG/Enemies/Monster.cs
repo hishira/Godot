@@ -22,11 +22,9 @@ public class Monster : KinematicBody2D
     AnimationPlayer wolfAnimationPlayer;
     AnimationTree wolfAnimationTree;
     Vector2 velocity = Vector2.Zero;
-    RandomNumberGenerator rnd;
     AnimationNodeStateMachinePlayback animationMachine;
 
-    Timer monterTimer;
-
+    
     PathFollow2D pathFollow;
 
     PlayerDetectionZone playerDetectionZone;
@@ -38,6 +36,8 @@ public class Monster : KinematicBody2D
 
     Hurtbox monsterHurtBox;
     StatsSingleton monsterStats;
+    
+    Stats playersStats;
     float healthMinus;
     public override void _Ready()
     {
@@ -50,6 +50,7 @@ public class Monster : KinematicBody2D
         this.monsterChasePhase = MonsterChasePlayerPhase.Normal;
         this.healthControl = this.GetNode<Control>("Control");
         this.monsterHurtBox = this.GetNode<Hurtbox>("Hurtbox");
+        this.playersStats = this.GetNode<Stats>("/root/Stats");
         this.monsterStats = this.GetNode<StatsSingleton>("Stats");
         this.healthMinus = this.healthControl.GetNode<TextureRect>("TextureRect").RectSize.x / this.monsterStats.MaxHealth;
     }
@@ -122,7 +123,7 @@ public class Monster : KinematicBody2D
 
     public void _on_Stats_noHealth()
     {
-        this.monsterStats.playerStats.setExperiance(this.monsterStats.experiancetoPlayer);
+        this.playersStats.setExperiance(this.monsterStats.experiancetoPlayer);
         this.QueueFree();
     }
 }

@@ -8,8 +8,6 @@ public enum InvisibleAction
 public class Player : KinematicBody2D
 {
 
-	[Export(PropertyHint.Range, "1,100,")]
-	public uint level = 1;
 	public PlayerInfo playerInfo;
 	public SwordHitbox swordHitbox;
 

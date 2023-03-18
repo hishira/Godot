@@ -311,7 +311,7 @@ modulate = Color( 0, 0, 0, 1 )
 shape = SubResource( 49 )
 
 [node name="Stats" parent="." instance=ExtResource( 8 )]
-maxHealth = 1
+maxHealth = 5
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
