@@ -14,6 +14,19 @@ public class Load : AbstractTextureButton
 
     public override void clickHandle()
     {
-        GD.Print("Load");
+        var saveGame = new File();
+        if(!saveGame.FileExists("user://savegame.save")){
+            return;
+        }
+        saveGame.Open("user://savegame.save", File.ModeFlags.Read);
+        while(saveGame.GetPosition() < saveGame.GetLen()){
+            var savedData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveGame.GetLine()).Result);
+            
+            GD.Print(savedData);
+        }
+        PackedScene world = ResourceLoader.Load<PackedScene>("res://World.tscn");
+        GD.Print(world.GetPropertyList());
+        //GetTree().ChangeSceneTo(world);
+        saveGame.Close();
     }
 }

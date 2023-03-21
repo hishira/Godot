@@ -147,6 +147,8 @@ public class Player : KinematicBody2D, ISave
     {
         Vector2 lastPosition = this.GlobalPosition;
         return new Godot.Collections.Dictionary<string, object>(){
+			{"filename", this.GetFilename()},
+			{"Parent", this.GetOwner().Filename},
             {"positionX", lastPosition.x},
             {"positionY", lastPosition.y}
         };
