@@ -578,7 +578,7 @@ _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, 32, 96, 0, 0, 0, 0, 152, 24, 0, 0, 0, 0, 320, 64, 0, 0, 0, 0, 384, 120, 0, 0, 0, 0, 336, 200, 0, 0, 0, 0, 88, 176, 0, 0, 0, 0, 32, 96 )
 }
 
-[node name="World" type="Node2D"]
+[node name="World" type="Node2D" groups=["Save"]]
 script = ExtResource( 15 )
 __meta__ = {
 "_edit_lock_": true
@@ -631,7 +631,7 @@ anims/Start = SubResource( 60 )
 [node name="CollisionShape2D" parent="YSort/Spikes2/ElementHurt" index="0"]
 position = Vector2( 16, 24 )
 
-[node name="Player" parent="YSort" instance=ExtResource( 2 )]
+[node name="Player" parent="YSort" groups=["Save"] instance=ExtResource( 2 )]
 position = Vector2( 600, 88 )
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="YSort/Player"]

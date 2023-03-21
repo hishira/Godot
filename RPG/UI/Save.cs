@@ -10,13 +10,24 @@ public class Save : AbstractTextureButton
         var node = new Godot.Collections.Dictionary<string, uint>(){
             { "Level", this.stats.playerStats.LEVEL}
         };
+        
         saveGame.StoreLine(JSON.Print(node));
         saveGame.Close();
     }
 
     public override void clickHandle()
     {
-        GD.Print(this.stats.playerStats.LEVEL);
+        var saveGame = new File();
+        saveGame.Open("user://savegame.save", File.ModeFlags.Write);
+        var savedNodes = GetTree().GetNodesInGroup("Save");
+        foreach (Node node in savedNodes){
+           if(node is ISave nodeToSave){
+            GD.Print("Yes");
+            var dict = nodeToSave.saveObject();
+            saveGame.StoreLine(JSON.Print(dict));
+           }
+        }
+        saveGame.Close();
     }
 
 }
