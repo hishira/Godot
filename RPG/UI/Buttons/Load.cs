@@ -19,13 +19,26 @@ public class Load : AbstractTextureButton
             return;
         }
         saveGame.Open("user://savegame.save", File.ModeFlags.Read);
+        Vector2 pos = Vector2.Zero;
         while(saveGame.GetPosition() < saveGame.GetLen()){
             var savedData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveGame.GetLine()).Result);
-            
-            GD.Print(savedData);
+            pos = new Vector2((float)savedData["positionX"], (float)savedData["positionY"]);
+            GD.Print(pos);
         }
         PackedScene world = ResourceLoader.Load<PackedScene>("res://World.tscn");
         saveGame.Close();
-        GetTree().ChangeSceneTo(world);
+        var instance = world.Instance();
+        var player = instance.FindNode("Player");
+        if( pos != Vector2.Zero && player is KinematicBody2D body){
+            body.GlobalPosition = pos;
+            instance.ReplaceBy(body);
+        }
+        var menu = GetTree().Root.GetNode("Menu");
+        GD.Print(menu);
+        GetTree().Root.AddChild(instance);
+        this.EmitSignal("removeMenu");
     }
+
+     [Signal]
+    public delegate void removeMenu();
 }

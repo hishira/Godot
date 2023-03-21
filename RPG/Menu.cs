@@ -25,4 +25,8 @@ public class Menu : Node2D
         this.buttonChange.processHandle();
     }
 
+    public void _on_Load_removeMenu(){
+        this.QueueFree();
+    }
+
 }

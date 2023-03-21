@@ -24,3 +24,5 @@ margin_bottom = 184.0
 [node name="Load" parent="CanvasLayer/Container" instance=ExtResource( 3 )]
 
 [node name="Exit" parent="CanvasLayer/Container" instance=ExtResource( 2 )]
+
+[connection signal="removeMenu" from="CanvasLayer/Container/Load" to="." method="_on_Load_removeMenu"]
