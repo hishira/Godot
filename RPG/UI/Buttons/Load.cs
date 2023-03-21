@@ -25,8 +25,7 @@ public class Load : AbstractTextureButton
             GD.Print(savedData);
         }
         PackedScene world = ResourceLoader.Load<PackedScene>("res://World.tscn");
-        GD.Print(world.GetPropertyList());
-        //GetTree().ChangeSceneTo(world);
         saveGame.Close();
+        GetTree().ChangeSceneTo(world);
     }
 }
