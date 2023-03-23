@@ -8,12 +8,14 @@ public class World : Node2D
     // private string b = "text";
 
     // Called when the node enters the scene tree for the first time.
-    static int dueTime = 10; 
+    static int dueTime = 10;
     [Signal]
     public delegate void openModal(Vector2 position);
     public override void _Ready()
     {
-
+        LoadGameData data = this.GetNode<LoadGameData>("/root/LoadGameData") as LoadGameData;
+        if (data.userPosition != Vector2.Zero)
+            this.GetNode<Player>("YSort/Player").GlobalPosition = data.userPosition;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
