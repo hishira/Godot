@@ -18,7 +18,6 @@ public class PlayerlLevelInfo : RichTextLabel
 
     public void levelChangedHandle(uint level)
     {
-        GD.Print("Level info ", level);
         this.Text = this.createLevelString(level);
     }
 
