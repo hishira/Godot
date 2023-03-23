@@ -116,6 +116,7 @@ public class Player : KinematicBody2D, ISave
 
 	public void _on_Hurtbox_area_entered(Area2D area)
 	{
+		GD.Print("HURT PLAYER");
 		this.stats.health -= 1;
 		this.hurtbox.startInvincibility(.5f);
 		PlayerHurtSound phsInstncat = this.phs.Instance<PlayerHurtSound>();
@@ -149,6 +150,7 @@ public class Player : KinematicBody2D, ISave
 		return new Godot.Collections.Dictionary<string, object>(){
 			{"filename", this.GetFilename()},
 			{"Parent", this.GetOwner().Filename},
+			{"Level", this.stats.playerStats.playerStats.LEVEL},
 			{"positionX", lastPosition.x},
 			{"positionY", lastPosition.y}
 		};

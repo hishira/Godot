@@ -24,8 +24,8 @@ public class Load : AbstractTextureButton
         while (saveGame.GetPosition() < saveGame.GetLen())
         {
             var savedData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveGame.GetLine()).Result);
+            var level = savedData["Level"];
             pos = new Vector2((float)savedData["positionX"], (float)savedData["positionY"]);
-            GD.Print(pos);
         }
         PackedScene world = ResourceLoader.Load<PackedScene>("res://World.tscn");
         saveGame.Close();
@@ -34,7 +34,6 @@ public class Load : AbstractTextureButton
         GetTree().ChangeSceneTo(world);
         LoadGameData data = this.GetNode<LoadGameData>("/root/LoadGameData") as LoadGameData;
         data.userPosition = pos;
-        GD.Print(GetTree().Root.FindNode("Player"));
     }
 
     [Signal]

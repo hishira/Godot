@@ -65,9 +65,7 @@ public class Hurtbox : Area2D
         AnimatedSprite effect = this.HitEffect.Instance<AnimatedSprite>();
         effect.GlobalPosition = this.GlobalPosition;
         var main = this.GetTree().CurrentScene;
-        GD.Print(main);
-        if(main is Node)
-            main.AddChild(effect);
+        main.AddChild(effect);
     }
 
     public void _on_Timer_timeout()
