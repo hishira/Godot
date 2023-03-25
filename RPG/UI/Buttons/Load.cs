@@ -26,6 +26,9 @@ public class Load : AbstractTextureButton
             var savedData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveGame.GetLine()).Result);
             var level = savedData["Level"];
             pos = new Vector2((float)savedData["positionX"], (float)savedData["positionY"]);
+            var stats = savedData["playerStats"];
+            GD.Print(stats);
+
         }
         PackedScene world = ResourceLoader.Load<PackedScene>("res://World.tscn");
         saveGame.Close();
