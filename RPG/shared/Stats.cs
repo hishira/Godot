@@ -14,29 +14,7 @@ public class Stats : Node
     {
         this.loadGameData = this.GetNode<LoadGameData>("/root/LoadGameData") as LoadGameData;
         this.loadGameData.Connect("loadDataChange", this, "changeLoadDataHandle");
-        GD.Print(this.loadGameData.userStats);
-        if (
-            this.loadGameData.userStats != null &&
-            this.loadGameData.userStats.ContainsKey("LEVEL") &&
-            this.loadGameData.userStats.ContainsKey("ATTACK") &&
-            this.loadGameData.userStats.ContainsKey("DEFFENSE") &&
-            this.loadGameData.userStats.ContainsKey("EXPERIANCE") &&
-            this.loadGameData.userStats.ContainsKey("NEXTLEVELEXPERIANCE") &&
-            this.loadGameData.userStats.ContainsKey("HEALTH"))
-        {
-            this.playerStats = new PlayerStats(
-                this.loadGameData.userStats["LEVEL"],
-                this.loadGameData.userStats["HEALTH"],
-                this.loadGameData.userStats["ATTACK"],
-                this.loadGameData.userStats["DEFFENSE"],
-                this.loadGameData.userStats["EXPERIANCE"],
-                this.loadGameData.userStats["NEXTLEVELEXPERIANCE"]
-                );
-            GD.Print("SIGNAL EMIT");
-            this.EmitSignal("levelChange", this.playerStats.LEVEL);
-        }
-        else
-            this.playerStats = PlayerStats.Default;
+        this.playerStats = PlayerStats.Default;
     }
 
     public void changeLoadDataHandle(Dictionary<string, uint> userStats)
