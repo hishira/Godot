@@ -21,27 +21,31 @@ public class Load : AbstractTextureButton
             return;
         }
         saveGame.Open("user://savegame.save", File.ModeFlags.Read);
+        //GD.Print("Position, ",saveGame.GetPosition());
         Vector2 pos = Vector2.Zero;
         Dictionary<string, uint> userStats = new Dictionary<string, uint>();
-        while (saveGame.GetPosition() < saveGame.GetLen())
-        {
-            var savedData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveGame.GetLine()).Result);
-            var level = savedData["Level"];
-            GD.Print(savedData["positionX"].GetType()); // Why we map if compiler known if it is System.single?
-            pos = new Vector2((float)savedData["positionX"], (float)savedData["positionY"]);
-            //userStats = (Dictionary<string, uint>)savedData["playerStats"];
-            var test = savedData["playerStats"];
-            //TODO: WOrk on it, go through collecition and fix save to stats
-            var dictTest = (Godot.Collections.Dictionary)test;
-            GD.Print(dictTest["LEVEL"].GetType());
-            this.updateUserStatsDictionary(userStats, dictTest);
-
-        }
-        PackedScene world = ResourceLoader.Load<PackedScene>("res://World.tscn");
+        //while (saveGame.GetPosition() < saveGame.GetLen())
+        //{
+        GD.Print("Before ", saveGame.GetLen());
+        var savedData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveGame.GetAsText()).Result);
+        GD.Print("After ", saveGame.GetLen());
         saveGame.Close();
+        
+        GD.Print("SAVED data ", savedData);
+        var level = savedData["Level"];
+        //GD.Print(savedData["positionX"].GetType()); // Why we map if compiler known if it is System.single?
+        pos = new Vector2((float)savedData["positionX"], (float)savedData["positionY"]);
+        //userStats = (Dictionary<string, uint>)savedData["playerStats"];
+        var test = savedData["playerStats"];
+        //TODO: WOrk on it, go through collecition and fix save to stats
+        var dictTest = (Godot.Collections.Dictionary)test;
+        //GD.Print(dictTest["LEVEL"].GetType());
+        this.updateUserStatsDictionary(userStats, dictTest);
+
+        //}
+        PackedScene world = ResourceLoader.Load<PackedScene>("res://World.tscn");
         LoadGameData data = this.GetNode<LoadGameData>("/root/LoadGameData") as LoadGameData;
         data.userPosition = pos;
-        data.userStats = userStats;
         var instance = world.Instance();
         GetTree().ChangeSceneTo(world);
         data.EmitSignal("loadDataChange", userStats);
@@ -51,7 +55,11 @@ public class Load : AbstractTextureButton
     {
         foreach (string key in dictTest.Keys)
         {
-            dictToUpdate.Add(key, Convert.ToUInt32(dictTest[key]));
+            GD.Print(key);
+            if (!dictToUpdate.ContainsKey(key))
+            {
+                dictToUpdate.Add(key, Convert.ToUInt32(dictTest[key]));
+            }
         }
 
     }
