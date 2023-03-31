@@ -21,31 +21,29 @@ public class Load : AbstractTextureButton
             return;
         }
         saveGame.Open("user://savegame.save", File.ModeFlags.Read);
-        //GD.Print("Position, ",saveGame.GetPosition());
-        Vector2 pos = Vector2.Zero;
+        Vector2 playerPosition = Vector2.Zero;
         Dictionary<string, uint> userStats = new Dictionary<string, uint>();
-        //while (saveGame.GetPosition() < saveGame.GetLen())
-        //{
         GD.Print("Before ", saveGame.GetLen());
         var savedData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveGame.GetAsText()).Result);
         GD.Print("After ", saveGame.GetLen());
         saveGame.Close();
-        
+
         GD.Print("SAVED data ", savedData);
         var level = savedData["Level"];
-        //GD.Print(savedData["positionX"].GetType()); // Why we map if compiler known if it is System.single?
-        pos = new Vector2((float)savedData["positionX"], (float)savedData["positionY"]);
-        //userStats = (Dictionary<string, uint>)savedData["playerStats"];
+        playerPosition = new Vector2((float)savedData["positionX"], (float)savedData["positionY"]);
         var test = savedData["playerStats"];
         //TODO: WOrk on it, go through collecition and fix save to stats
         var dictTest = (Godot.Collections.Dictionary)test;
-        //GD.Print(dictTest["LEVEL"].GetType());
         this.updateUserStatsDictionary(userStats, dictTest);
+        this.loadGameData(playerPosition, userStats);
 
-        //}
+    }
+
+    private void loadGameData(Vector2 playerPosition,  Dictionary<string, uint> userStats)
+    {
         PackedScene world = ResourceLoader.Load<PackedScene>("res://World.tscn");
         LoadGameData data = this.GetNode<LoadGameData>("/root/LoadGameData") as LoadGameData;
-        data.userPosition = pos;
+        data.userPosition = playerPosition;
         var instance = world.Instance();
         GetTree().ChangeSceneTo(world);
         data.EmitSignal("loadDataChange", userStats);
