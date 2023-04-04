@@ -42,6 +42,7 @@ public class HealthUI : Control
 
     public override void _Ready()
     {
+        // TODO: Refactor
         StatsSingleton value = this.GetNode<StatsSingleton>("/root/PlayerStats");
         this.Maxhealth = (uint)value.MaxHealth;
         LoadGameData game = this.GetNode<LoadGameData>("/root/LoadGameData") as LoadGameData;
