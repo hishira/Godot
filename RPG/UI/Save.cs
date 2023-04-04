@@ -13,7 +13,6 @@ public class Save : AbstractTextureButton
         var saveGame = new File();
         saveGame.Open("user://savegame.save", File.ModeFlags.Write);
         var savedNodes = GetTree().GetNodesInGroup("Save");
-        GD.Print("SAVE");
         foreach (Node node in savedNodes){
            if(node is ISave nodeToSave){
             var dict = nodeToSave.saveObject();

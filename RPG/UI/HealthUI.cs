@@ -1,21 +1,24 @@
 using Godot;
 using System;
+using Godot.Collections;
 
 public class HealthUI : Control
 {
 
-    private int _healt = 4;
-    private int _maxHealth = 4;
+    private uint _healt = 4;
+    private uint _maxHealth = 4;
 
     public TextureRect HartUIFull;
     public TextureRect HartUIEmpty;
-    public int Health
+
+    PlayerStats stats;
+    public uint Health
     {
         get { return this._healt; }
         set
         {
 
-            this._healt = Mathf.Clamp(value, 0, this.Maxhealth);
+            this._healt = (uint)Mathf.Clamp(value, 0, this.Maxhealth);
             if (this.HartUIFull != null)
             {
                 this.HartUIFull.RectSize = new Vector2(this._healt * 15, this.HartUIFull.RectSize.y);
@@ -23,7 +26,7 @@ public class HealthUI : Control
         }
     }
 
-    public int Maxhealth
+    public uint Maxhealth
     {
         get { return this._maxHealth; }
         set
@@ -40,16 +43,37 @@ public class HealthUI : Control
     public override void _Ready()
     {
         StatsSingleton value = this.GetNode<StatsSingleton>("/root/PlayerStats");
-        this.Maxhealth = value.MaxHealth;
-        this.Health = value.health;
+        this.Maxhealth = (uint)value.MaxHealth;
+        LoadGameData game = this.GetNode<LoadGameData>("/root/LoadGameData") as LoadGameData;
+        game.Connect("loadDataChange", this, "changeLoadDataHandle");
+        this.stats = value.playerStats.playerStats;
+        GD.Print(value.playerStats.playerStats.HEALTH);
+        this.Health = value.playerStats.playerStats.HEALTH;
         this.HartUIFull = this.GetNode<TextureRect>("HeartUIFull");
         this.HartUIEmpty = this.GetNode<TextureRect>("HeartUIEmpty");
         value.Connect("healthChange", this, "handleHeartChanged");
+        if (game.userStats.ContainsKey("HEALTH"))
+        {
+            this.Health = game.userStats["HEALTH"];
+
+        };
     }
 
-    public void handleHeartChanged(int value)
+    public void changeLoadDataHandle(Dictionary<string, uint> userStats)
     {
+        StatsSingleton value = this.GetNode<StatsSingleton>("/root/PlayerStats");
+        this.Health = value.playerStats.playerStats.HEALTH;
+        GD.Print("TAK");
+        if (userStats.ContainsKey("HEALTH"))
+        {
+            this.Health = userStats["HEALTH"];
+        }
+    }
+    public void handleHeartChanged(uint value)
+    {
+
         this.Health = value;
+        this.stats.HEALTH = value;
     }
 
 }

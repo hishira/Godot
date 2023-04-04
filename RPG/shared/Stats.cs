@@ -19,7 +19,6 @@ public class Stats : Node
 
     public void changeLoadDataHandle(Dictionary<string, uint> userStats)
     {
-        GD.Print(userStats);
         if (
             userStats != null &&
             userStats.ContainsKey("LEVEL") &&

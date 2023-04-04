@@ -12,7 +12,6 @@ public class MainHelper
 
 		foreach (PropertyInfo property in properties)
 		{
-			GD.Print(property.Name);
 			dict.Add(property.Name, (T)property.GetValue(obj));
 		}
 

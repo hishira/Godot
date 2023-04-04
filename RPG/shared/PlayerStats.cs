@@ -6,5 +6,5 @@ public class PlayerStats : AbstractStats
     {
     }
 
-    public static PlayerStats Default => new PlayerStats(1, 1, 1, 1, 0, 10);
+    public static PlayerStats Default => new PlayerStats(1, 4, 1, 1, 0, 10);
 }

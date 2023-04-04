@@ -236,7 +236,7 @@ shader_param/active = false
 radius = 58.0
 
 [sub_resource type="CircleShape2D" id=47]
-radius = 13.0
+radius = 19.0
 
 [sub_resource type="CircleShape2D" id=49]
 radius = 15.1327
@@ -276,7 +276,6 @@ vframes = 4
 [node name="Timer" type="Timer" parent="."]
 
 [node name="PlayerDetectionZone" parent="." instance=ExtResource( 3 )]
-visible = false
 
 [node name="CollisionShape2D" parent="PlayerDetectionZone" index="0"]
 shape = SubResource( 46 )
