@@ -116,6 +116,7 @@ public class Player : KinematicBody2D, ISave
 
     public void _on_Hurtbox_area_entered(Area2D area)
     {
+        GD.Print(area.HasMethod("copy"));
         this.stats.health -= 1;
         GD.Print(area);
         this.hurtbox.startInvincibility(.5f);

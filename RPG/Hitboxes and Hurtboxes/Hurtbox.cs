@@ -86,5 +86,7 @@ public class Hurtbox : Area2D
         this.SetDeferred("monitoring", true);
         
     }
+
+    public void copy(){}
 }
 
