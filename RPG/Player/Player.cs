@@ -117,6 +117,7 @@ public class Player : KinematicBody2D, ISave
     public void _on_Hurtbox_area_entered(Area2D area)
     {
         this.stats.health -= 1;
+        GD.Print(area);
         this.hurtbox.startInvincibility(.5f);
         PlayerHurtSound phsInstncat = this.phs.Instance<PlayerHurtSound>();
         this.GetTree().CurrentScene.AddChild(phsInstncat);
