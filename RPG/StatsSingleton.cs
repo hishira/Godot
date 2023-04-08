@@ -10,6 +10,8 @@ public class StatsSingleton : Node
 	[Export]
 	public uint experiancetoPlayer = 100;
 	public Stats playerStats;
+
+	public MonsterStats monsterstats;
 	public int MaxHealth
 	{
 		get { return this.maxHealth; }
@@ -38,6 +40,8 @@ public class StatsSingleton : Node
 	{
 		this.health = this.maxHealth;
 		this.playerStats = this.GetNode("/root/Stats") as Stats;
+		this.monsterstats = MonsterStats.Default;
+		this.monsterstats.HEALTH = (uint)this.maxHealth;
 
 	}
 

@@ -587,8 +587,8 @@ __meta__ = {
 [node name="LittleMenu" parent="." instance=ExtResource( 14 )]
 
 [node name="Background" type="Sprite" parent="."]
-position = Vector2( 488, 284 )
-scale = Vector2( 1.73684, 1.98 )
+position = Vector2( 848, -8 )
+scale = Vector2( 2.57017, 3.38 )
 texture = ExtResource( 3 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 912, 400 )

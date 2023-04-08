@@ -259,6 +259,7 @@ anims/Up = SubResource( 29 )
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 6 )
 anim_player = NodePath("../AnimationPlayer")
+active = true
 parameters/playback = SubResource( 7 )
 parameters/Idle/blend_position = Vector2( 0, 0 )
 parameters/Run/blend_position = Vector2( -0.00389105, 0.031792 )
@@ -272,6 +273,7 @@ material = SubResource( 48 )
 texture = ExtResource( 1 )
 hframes = 4
 vframes = 4
+frame = 12
 
 [node name="Timer" type="Timer" parent="."]
 

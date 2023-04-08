@@ -5,6 +5,8 @@ public class Hitbox : Area2D
 {
     [Export]
     public int damage = 1;
+
+    
     public override void _Ready()
     {
         
@@ -15,4 +17,5 @@ public class Hitbox : Area2D
 //  {
 //      
 //  }
+    public void copy(){}
 }
