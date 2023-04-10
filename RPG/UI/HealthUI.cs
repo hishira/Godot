@@ -53,7 +53,6 @@ public class HealthUI : Control
     {
         StatsSingleton value = this.GetNode<StatsSingleton>("/root/PlayerStats");
         this.Health = value.playerStats.playerStats.HEALTH;
-        GD.Print("TAK");
         if (userStats.ContainsKey("HEALTH"))
         {
             this.Health = userStats["HEALTH"];
@@ -70,7 +69,6 @@ public class HealthUI : Control
     {
         game.Connect("loadDataChange", this, "changeLoadDataHandle");
         this.stats = value.playerStats.playerStats;
-        GD.Print(value.playerStats.playerStats.HEALTH);
         this.Health = value.playerStats.playerStats.HEALTH;
         this.HartUIFull = this.GetNode<TextureRect>("HeartUIFull");
         this.HartUIEmpty = this.GetNode<TextureRect>("HeartUIEmpty");

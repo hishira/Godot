@@ -894,6 +894,8 @@ disabled = true
 [node name="Hurtbox" parent="." instance=ExtResource( 5 )]
 position = Vector2( 0, -2 )
 collision_layer = 4
+monitoring = false
+monitorable = false
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2( -1, -6 )

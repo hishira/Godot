@@ -53,7 +53,10 @@ public class Monster : KinematicBody2D
         this.monsterHurtBox = this.GetNode<Hurtbox>("Hurtbox");
         this.playersStats = this.GetNode<Stats>("/root/Stats");
         this.monsterStats = this.GetNode<StatsSingleton>("Stats");
-        this.healthMinus = this.healthControl.GetNode<TextureRect>("TextureRect").RectSize.x / this.monsterStats.monsterstats.HEALTH;
+        this.monsterStats.MonsterStat = new MonsterStatsFactory().FlyingMonsterStats();
+        Hitbox monsterHitBox = this.GetNode<Hitbox>("Hitbox");
+        monsterHitBox.setDamage(2);
+        this.healthMinus = this.healthControl.GetNode<TextureRect>("TextureRect").RectSize.x / this.monsterStats.MonsterStat.HEALTH;
     }
     public override void _PhysicsProcess(float delta)
     {
