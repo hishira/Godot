@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public class Hitbox : Area2D
 {
@@ -10,12 +9,6 @@ public class Hitbox : Area2D
     {
 
     }
-
-    //  // Called every frame. 'delta' is the elapsed time since the previous frame.
-    //  public override void _Process(float delta)
-    //  {
-    //      
-    //  }
 
     public void setDamage(int newDamage)
     {
