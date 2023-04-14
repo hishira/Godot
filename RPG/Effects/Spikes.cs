@@ -13,6 +13,7 @@ public class Spikes : Node2D
     {
         this.animation = this.GetNode<AnimationPlayer>("AnimationPlayer");
         this.animation.Play("Start");
+        
     }
 
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -119,6 +119,7 @@ public class Player : KinematicBody2D, ISave
         //if(area.HasMethod("getDamage") newAreaMapper as GetDamage){
         //    this.stats.health -= area.getDamage();
         //}
+        GD.Print(area.getDamage());
         this.stats.health -= area.getDamage();
         this.hurtbox.startInvincibility(.5f);
         PlayerHurtSound phsInstncat = this.phs.Instance<PlayerHurtSound>();

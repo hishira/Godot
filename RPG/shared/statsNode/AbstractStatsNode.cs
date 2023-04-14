@@ -1,7 +1,7 @@
 using Godot;
 
 // TODO: Add other player stats and other
-public abstract class AbstractStatsNode : Node2D
+public abstract class AbstractStatsNode : Node
 {
     [Signal]
     public delegate void noHealth();

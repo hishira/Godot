@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class MonsterStatsNode : Node
+public class MonsterStatsNode : AbstractStatsNode
 {
     int maxHealth = 4;
 

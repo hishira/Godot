@@ -34,7 +34,7 @@ public class Monster : KinematicBody2D
     Control healthControl;
 
     Hurtbox monsterHurtBox;
-    StatsSingleton monsterStats;
+    MonsterStatsNode monsterStats;
     
     Stats playersStats;
     float healthMinus;
@@ -51,7 +51,7 @@ public class Monster : KinematicBody2D
         this.healthControl = this.GetNode<Control>("Control");
         this.monsterHurtBox = this.GetNode<Hurtbox>("Hurtbox");
         this.playersStats = this.GetNode<Stats>("/root/Stats");
-        this.monsterStats = this.GetNode<StatsSingleton>("Stats");
+        this.monsterStats = this.GetNode<MonsterStatsNode>("MonsterStatsNode");
         this.monsterStats.MonsterStat = new MonsterStatsFactory().FlyingMonsterStats();
         Hitbox monsterHitBox = this.GetNode<Hitbox>("Hitbox");
         monsterHitBox.setDamage(2);
