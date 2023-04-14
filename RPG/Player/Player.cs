@@ -114,13 +114,17 @@ public class Player : KinematicBody2D, ISave
         this.hurtbox.InvisibleFalseHit = false;
     }
 
-    public void _on_Hurtbox_area_entered(Hitbox area)
+    public void _on_Hurtbox_area_entered(Area2D area)
     {
         //if(area.HasMethod("getDamage") newAreaMapper as GetDamage){
         //    this.stats.health -= area.getDamage();
         //}
-        GD.Print(area.getDamage());
-        this.stats.health -= area.getDamage();
+        GD.Print();
+        if (area is IDamagabble<uint> myobj)
+        {
+            this.stats.health -= (int)myobj.getDamage();
+        }
+        this.stats.health -= 1;
         this.hurtbox.startInvincibility(.5f);
         PlayerHurtSound phsInstncat = this.phs.Instance<PlayerHurtSound>();
         this.GetTree().CurrentScene.AddChild(phsInstncat);

@@ -1,6 +1,6 @@
 using Godot;
 
-public class Hitbox : Area2D
+public class Hitbox : Area2D, IDamagabble<uint>
 {
     [Export]
     public int damage = 1;
@@ -17,5 +17,10 @@ public class Hitbox : Area2D
     public int getDamage()
     {
         return this.damage;
+    }
+
+    uint IDamagabble<uint>.getDamage()
+    {
+        return (uint)this.damage;
     }
 }
