@@ -27,6 +27,8 @@ public class HeartElement : InventorElement
 
     public void _on_ItemBox_body_entered(Player playerNode)
     {
+        GD.Print(playerNode.stats.health);
+        GD.Print(playerNode.stats.MaxHealth);
         if (this.elementType is InventorElementType.Health)
         {
             playerNode.stats.health += 1;

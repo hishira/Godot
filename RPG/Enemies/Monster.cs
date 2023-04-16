@@ -17,13 +17,11 @@ public class Monster : KinematicBody2D
 {
     int ACCELERATION = 300;
     int MAXSPEED = 30;
-    int FRICTION = 200;
-    AnimationPlayer wolfAnimationPlayer;
     AnimationTree wolfAnimationTree;
     Vector2 velocity = Vector2.Zero;
     AnimationNodeStateMachinePlayback animationMachine;
 
-    
+
     PathFollow2D pathFollow;
 
     PlayerDetectionZone playerDetectionZone;
@@ -35,13 +33,12 @@ public class Monster : KinematicBody2D
 
     Hurtbox monsterHurtBox;
     MonsterStatsNode monsterStats;
-    
+
     Stats playersStats;
     float healthMinus;
 
     public override void _Ready()
     {
-        this.wolfAnimationPlayer = this.GetNode<AnimationPlayer>("AnimationPlayer");
         this.wolfAnimationTree = this.GetNode<AnimationTree>("AnimationTree");
         this.animationMachine = this.wolfAnimationTree.Get("parameters/playback") as AnimationNodeStateMachinePlayback;
         this.wolfAnimationTree.Active = true;
