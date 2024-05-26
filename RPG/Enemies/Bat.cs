@@ -1,12 +1,7 @@
 using Godot;
 using System;
 
-public enum BatState
-{
-    IDLE,
-    WANDER,
-    CHASE,
-}
+
 
 public class Bat : KinematicBody2D
 {
