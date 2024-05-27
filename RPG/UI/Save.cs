@@ -4,7 +4,7 @@ public class Save : AbstractTextureButton
     Stats stats;
     public override void _Ready()
     {
-        this.stats = this.GetNode<Stats>("/root/Stats");
+        stats = GetNode<Stats>("/root/Stats");
 
     }
 

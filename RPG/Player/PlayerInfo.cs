@@ -8,10 +8,10 @@ readonly public struct PlayerStruct
 
     public PlayerStruct(int acceleration, int freaction , int max_spped, int roll_speed)
     {
-        this.ACCELERATION = acceleration;
-        this.FREACTION = freaction;
-        this.MAX_SPEED = max_spped;
-        this.ROLL_SPEED = roll_speed;
+        ACCELERATION = acceleration;
+        FREACTION = freaction;
+        MAX_SPEED = max_spped;
+        ROLL_SPEED = roll_speed;
     }
 
     public static PlayerStruct Default => new PlayerStruct(1000, 1000, 100, 150);
@@ -43,32 +43,32 @@ public class PlayerInfo
         this.animation = animation;
         this.animationTree = animationTree;
         this.animationState = animationState;
-        this.playerStat = PlayerStruct.Default;
-        this.playerState = PlayerState.Move;
-        this.blinkAnimationPlayer = blinkAnimation;
+        playerStat = PlayerStruct.Default;
+        playerState = PlayerState.Move;
+        blinkAnimationPlayer = blinkAnimation;
     }
 
     public void setAnimation(bool value)
     {
-        this.animationTree.Active = value;
+        animationTree.Active = value;
     }
 
     public bool isNotZero()
     {
-        return this.velocity != Vector2.Zero ? true : false;
+        return velocity != Vector2.Zero ? true : false;
     }
 
     public void updateVelocity(float delta, Vector2 inputVector)
     {
         if (inputVector != Vector2.Zero)
         {
-            this.handleAnimationChange(inputVector, "Run");
-            this.velocity = this.moveVelocityVector(inputVector * this.playerStat.MAX_SPEED, this.playerStat.ACCELERATION * delta);
+            handleAnimationChange(inputVector, "Run");
+            velocity = moveVelocityVector(inputVector * playerStat.MAX_SPEED, playerStat.ACCELERATION * delta);
         }
         else
         {
-            this.handleAnimationChange(inputVector, "Idle");
-            this.velocity = this.moveVelocityVector(Vector2.Zero, this.playerStat.FREACTION * delta);
+            handleAnimationChange(inputVector, "Idle");
+            velocity = moveVelocityVector(Vector2.Zero, playerStat.FREACTION * delta);
         }
     }
 
@@ -80,50 +80,50 @@ public class PlayerInfo
         inputVector = inputVector.Normalized();
 
         if(inputVector!= Vector2.Zero){
-            this.rollVector = inputVector;
+            rollVector = inputVector;
         }
         if(Input.IsActionJustPressed("attack")){
-            this.playerState = PlayerState.Attack;
+            playerState = PlayerState.Attack;
         } 
         if(Input.IsActionJustPressed("roll")){
-            this.playerState = PlayerState.Roll;
+            playerState = PlayerState.Roll;
         }
         return inputVector;
     }
 
     public void attackHandle(float delta){
-        this.velocity = this.moveVelocityVector(this.velocity / 4, this.playerStat.FREACTION * delta);
-        this.animationState.Travel("Attack");
+        velocity = moveVelocityVector(velocity / 4, playerStat.FREACTION * delta);
+        animationState.Travel("Attack");
     }
 
     public void roleHandle(float delta) {
-        this.velocity = this.rollVector * this.playerStat.ROLL_SPEED;
-        this.animationState.Travel("Roll");
+        velocity = rollVector * playerStat.ROLL_SPEED;
+        animationState.Travel("Roll");
     }
 
     public void changeState(PlayerState state){
-        this.playerState = state;
+        playerState = state;
     }
 
     public void rollAnimationEnd(){
-        this.velocity = this.velocity / 2;
-        this.playerState = PlayerState.Move;
+        velocity = velocity / 2;
+        playerState = PlayerState.Move;
     }
     private Vector2 moveVelocityVector(Vector2 input, float delta)
     {
-        return this.velocity.MoveToward(input, delta);
+        return velocity.MoveToward(input, delta);
     }
 
     private void handleAnimationChange(Vector2 inputVector, string value)
     {
         if (inputVector != Vector2.Zero)
         {
-            this.animationTree.Set("parameters/Idle/blend_position", inputVector);
-            this.animationTree.Set("parameters/Run/blend_position", inputVector);
-            this.animationTree.Set("parameters/Attack/blend_position", inputVector);
-            this.animationTree.Set("parameters/Roll/blend_position", inputVector);
+            animationTree.Set("parameters/Idle/blend_position", inputVector);
+            animationTree.Set("parameters/Run/blend_position", inputVector);
+            animationTree.Set("parameters/Attack/blend_position", inputVector);
+            animationTree.Set("parameters/Roll/blend_position", inputVector);
         }
-        this.animationState.Travel(value);
+        animationState.Travel(value);
 
     }
 

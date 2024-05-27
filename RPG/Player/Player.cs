@@ -26,50 +26,50 @@ public class Player : KinematicBody2D, ISave
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        AnimationPlayer animation = this.GetNode<AnimationPlayer>("AnimationPlayer");
-        AnimationTree animationTree = this.GetNode("AnimationTree") as AnimationTree;
+        AnimationPlayer animation = GetNode<AnimationPlayer>("AnimationPlayer");
+        AnimationTree animationTree = GetNode("AnimationTree") as AnimationTree;
         // Get access to animation state
         AnimationNodeStateMachinePlayback animationState = animationTree.Get("parameters/playback") as AnimationNodeStateMachinePlayback;
-        this.swordHitbox = this.GetNode("HitBoxPivot/SwordHitbox") as SwordHitbox;
-        AnimationPlayer blinkAnimation = this.GetNode<AnimationPlayer>("BlinkAnimation");
-        this.playerInfo = new PlayerInfo(Vector2.Zero, animation, animationTree, animationState, blinkAnimation);
-        this.swordHitbox.knockBack = this.playerInfo.rollVector;
-        this.playerInfo.setAnimation(true);
+        swordHitbox = GetNode("HitBoxPivot/SwordHitbox") as SwordHitbox;
+        AnimationPlayer blinkAnimation = GetNode<AnimationPlayer>("BlinkAnimation");
+        playerInfo = new PlayerInfo(Vector2.Zero, animation, animationTree, animationState, blinkAnimation);
+        swordHitbox.knockBack = playerInfo.rollVector;
+        playerInfo.setAnimation(true);
 
-        this.stats = this.GetNode("/root/PlayerStats") as StatsSingleton;
-        this.stats.Connect("noHealth", this, "removePlayer");
-        this.stats.playerStats = this.GetNode("/root/Stats") as Stats;
-        this.hurtbox = this.GetNode<Hurtbox>("Hurtbox");
-        this.phs = ResourceLoader.Load<PackedScene>("res://Player/PlayerHurtSound.tscn");
+        stats = GetNode("/root/PlayerStats") as StatsSingleton;
+        stats.Connect("noHealth", this, "removePlayer");
+        stats.playerStats = GetNode("/root/Stats") as Stats;
+        hurtbox = GetNode<Hurtbox>("Hurtbox");
+        phs = ResourceLoader.Load<PackedScene>("res://Player/PlayerHurtSound.tscn");
     }
 
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _PhysicsProcess(float delta)
     {
-        switch (this.playerInfo.playerState)
+        switch (playerInfo.playerState)
         {
             case PlayerState.Move:
                 {
-                    this.moveHandle(delta);
+                    moveHandle(delta);
                     break;
                 }
             case PlayerState.Attack:
                 {
-                    this.attackHandle(delta);
+                    attackHandle(delta);
                     break;
                 }
             case PlayerState.Roll:
                 {
-                    this.rollHandle(delta);
+                    rollHandle(delta);
                     break;
                 }
         }
 
-        if (Input.IsActionJustPressed("Grab") && this.chestNear != null)
+        if (Input.IsActionJustPressed("Grab") && chestNear != null)
         {
-            this.chestNear.destroy();
-            this.chestNear = null;
+            chestNear.destroy();
+            chestNear = null;
         }
 
 
@@ -77,65 +77,65 @@ public class Player : KinematicBody2D, ISave
 
     private void moveHandle(float delta)
     {
-        this.inputHandle(delta);
+        inputHandle(delta);
     }
 
     private void rollHandle(float delta)
     {
-        this.hurtbox.InvisibleFalseHit = true;
-        this.playerInfo.roleHandle(delta);
-        this.MoveAndSlide(this.playerInfo.velocity);
+        hurtbox.InvisibleFalseHit = true;
+        playerInfo.roleHandle(delta);
+        MoveAndSlide(playerInfo.velocity);
     }
     public void inputHandle(float delta)
     {
-        Vector2 inputVector = this.playerInfo.prepareInputVector();
-        this.playerInfo.updateVelocity(delta, inputVector);
-        if (inputVector != Vector2.Zero) this.swordHitbox.knockBack = inputVector;
-        if (this.playerInfo.isNotZero())
+        Vector2 inputVector = playerInfo.prepareInputVector();
+        playerInfo.updateVelocity(delta, inputVector);
+        if (inputVector != Vector2.Zero) swordHitbox.knockBack = inputVector;
+        if (playerInfo.isNotZero())
         {
-            this.MoveAndSlide(this.playerInfo.velocity);
+            MoveAndSlide(playerInfo.velocity);
         }
     }
 
     public void attackHandle(float delta)
     {
-        this.playerInfo.attackHandle(delta);
-        this.MoveAndSlide(this.playerInfo.velocity);
+        playerInfo.attackHandle(delta);
+        MoveAndSlide(playerInfo.velocity);
     }
 
     public void attackAnimationEnd()
     {
-        this.playerInfo.changeState(PlayerState.Move);
+        playerInfo.changeState(PlayerState.Move);
     }
 
     public void rollAnimationFinished()
     {
-        this.playerInfo.rollAnimationEnd();
-        this.hurtbox.InvisibleFalseHit = false;
+        playerInfo.rollAnimationEnd();
+        hurtbox.InvisibleFalseHit = false;
     }
 
     public void _on_Hurtbox_area_entered(Area2D area)
     {
         if (area is IDamagabble<uint> myobj)
         {
-            this.stats.health -= (int)myobj.getDamage();
+            stats.health -= (int)myobj.getDamage();
         }
-        this.stats.health -= 1;
-        this.hurtbox.startInvincibility(.5f);
-        PlayerHurtSound phsInstncat = this.phs.Instance<PlayerHurtSound>();
-        this.GetTree().CurrentScene.AddChild(phsInstncat);
+        stats.health -= 1;
+        hurtbox.startInvincibility(.5f);
+        PlayerHurtSound phsInstncat = phs.Instance<PlayerHurtSound>();
+        GetTree().CurrentScene.AddChild(phsInstncat);
     }
 
     public void removePlayer()
     {
-        this.QueueFree();
+        QueueFree();
     }
 
     public void _on_Hurtbox_invincibilityStarted(InvisibleAction hit)
     {
         if (hit is InvisibleAction.Hit)
         {
-            this.playerInfo.blinkAnimationPlayer.Play("Start");
+            playerInfo.blinkAnimationPlayer.Play("Start");
         }
     }
 
@@ -143,21 +143,21 @@ public class Player : KinematicBody2D, ISave
     {
         if (hit is InvisibleAction.Hit)
         {
-            this.playerInfo.blinkAnimationPlayer.Play("Stop");
+            playerInfo.blinkAnimationPlayer.Play("Stop");
         }
     }
 
     public Dictionary<string, object> saveObject()
     {
-        Vector2 lastPosition = this.GlobalPosition;
+        Vector2 lastPosition = GlobalPosition;
 
         return new Godot.Collections.Dictionary<string, object>(){
-            {"filename", this.Filename},
-            {"Parent", this.Owner.Filename},
-            {"Level", this.stats.playerStats.playerStats.LEVEL},
+            {"filename", Filename},
+            {"Parent", Owner.Filename},
+            {"Level", stats.playerStats.playerStats.LEVEL},
             {"positionX", lastPosition.x},
             {"positionY", lastPosition.y},
-            {"playerStats", this.stats.playerStats.convertDictionary()}
+            {"playerStats", stats.playerStats.convertDictionary()}
         };
     }
 }

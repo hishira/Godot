@@ -8,11 +8,11 @@ public class Camera2D : Godot.Camera2D
     Position2D bottomRight;
     public override void _Ready()
     {
-        this.topLeft = this.GetNode<Position2D>("Limits/TopLeft");
-        this.bottomRight = this.GetNode<Position2D>("Limits/BottomRight");
-        this.LimitTop = (int)this.topLeft.Position.y;
-        this.LimitLeft = (int)this.topLeft.Position.x;
-        this.LimitBottom = (int)this.bottomRight.Position.y;
-        this.LimitRight = (int)this.bottomRight.Position.x;
+        topLeft = GetNode<Position2D>("Limits/TopLeft");
+        bottomRight = GetNode<Position2D>("Limits/BottomRight");
+        LimitTop = (int)topLeft.Position.y;
+        LimitLeft = (int)topLeft.Position.x;
+        LimitBottom = (int)bottomRight.Position.y;
+        LimitRight = (int)bottomRight.Position.x;
     }
 }

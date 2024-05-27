@@ -8,7 +8,7 @@ public class SceneLoaderSingleton
 
     public SceneLoaderSingleton()
     {
-        this.NewHearElement = ResourceLoader.Load<PackedScene>("res://World/HeartElement.tscn");
+        NewHearElement = ResourceLoader.Load<PackedScene>("res://World/HeartElement.tscn");
     }
 
     public static SceneLoaderSingleton GetInstance()
@@ -21,7 +21,7 @@ public class SceneLoaderSingleton
     }
 
     public HeartElement GetHeartElement(){
-        HeartElement newHeart = this.NewHearElement.Instance<HeartElement>();
+        HeartElement newHeart = NewHearElement.Instance<HeartElement>();
         return newHeart;
     }
 }

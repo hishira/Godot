@@ -13,17 +13,17 @@ public class StatsSingleton : Node
 
     public MonsterStats MonsterStat
     {
-        get { return this.monsterstats; }
+        get { return monsterstats; }
         set
         {
-            this.monsterstats = value;
-            this._health = (int)this.monsterstats.HEALTH;
-            this.maxHealth = (int)this.monsterstats.HEALTH;
+            monsterstats = value;
+            _health = (int)monsterstats.HEALTH;
+            maxHealth = (int)monsterstats.HEALTH;
         }
     }
     public int MaxHealth
     {
-        get { return this.maxHealth; }
+        get { return maxHealth; }
     }
     private int _health;
     public int health
@@ -31,11 +31,11 @@ public class StatsSingleton : Node
         get { return _health; }
         set
         {
-            _health = Godot.Mathf.Clamp(value, 0, this.maxHealth);
-			this.EmitSignal("healthChange", health);
+            _health = Godot.Mathf.Clamp(value, 0, maxHealth);
+			EmitSignal("healthChange", health);
             if (value <= 0)
             {
-                this.EmitSignal("noHealth");
+                EmitSignal("noHealth");
             }
         }
     }
@@ -47,18 +47,18 @@ public class StatsSingleton : Node
     public delegate void healthChange(int health);
     public override void _Ready()
     {
-        this.playerStats = this.GetNode("/root/Stats") as Stats;
-        if (this.MonsterStat == null)
+        playerStats = GetNode("/root/Stats") as Stats;
+        if (MonsterStat == null)
         {
-            this.monsterstats = MonsterStats.Default;
+            monsterstats = MonsterStats.Default;
         }
-        this.maxHealth = (int)this.monsterstats.HEALTH;
-        this.health = this.maxHealth;
+        maxHealth = (int)monsterstats.HEALTH;
+        health = maxHealth;
 
     }
 
     public bool hasMaxHealth()
     {
-        return this.health == this.MaxHealth;
+        return health == MaxHealth;
     }
 }

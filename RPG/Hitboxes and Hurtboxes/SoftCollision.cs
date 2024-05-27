@@ -15,18 +15,18 @@ public class SoftCollision : Area2D
 
     public bool isColliding()
     {
-        Godot.Collections.Array areas = this.GetOverlappingAreas();
+        Godot.Collections.Array areas = GetOverlappingAreas();
         return areas.Count > 0;
     }
 
     public Vector2 getPushVector()
     {
-        var areas = this.GetOverlappingAreas();
+        var areas = GetOverlappingAreas();
         Vector2 pushVector = Vector2.Zero;
-        if (this.isColliding())
+        if (isColliding())
         {
             Area2D area = areas[0] as Area2D;
-            pushVector = area.GlobalPosition.DirectionTo(this.GlobalPosition);
+            pushVector = area.GlobalPosition.DirectionTo(GlobalPosition);
             pushVector = pushVector.Normalized();
         }
         return pushVector;

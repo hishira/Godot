@@ -12,15 +12,15 @@ public class Hitbox : Area2D, IDamagabble<uint>
 
     public void setDamage(int newDamage)
     {
-        this.damage = newDamage;
+        damage = newDamage;
     }
     public int getDamage()
     {
-        return this.damage;
+        return damage;
     }
 
     uint IDamagabble<uint>.getDamage()
     {
-        return (uint)this.damage;
+        return (uint)damage;
     }
 }

@@ -1,6 +1,8 @@
-public interface MovementStrategy
+using Godot;
+using System.Collections.Generic;
+public interface IMovementStrategy
 {
-    public void execute(Bat bat);
+    void execute(Bat bat, float delta);
 }
 
 public enum BatState
@@ -10,80 +12,91 @@ public enum BatState
     CHASE,
 }
 
-public class IdleBatMovementStrategy : MovementStrategy
+class IdleBatMovementStrategy : IMovementStrategy
 {
-    public void execute(Bat bat)
+    public void execute(Bat bat, float delta)
     {
-        this.velocity = velocity.MoveToward(Vector2.Zero, this.FRICTION * delta);
-        this.seekPlayer();
-        if (this.wanderController.getTimeLeft() == 0)
+        bat.velocity = bat.velocity.MoveToward(Vector2.Zero, bat.FRICTION * delta);
+        bat.seekPlayer();
+        if (bat.wanderController.getTimeLeft() == 0)
         {
-            this.batState = this.pickRandomState(this.possibleBatStates);
-            this.wanderController.startWanderTimer((float)(GD.RandRange(1, 3)));
+            bat.batState = bat.pickRandomState(bat.possibleBatStates);
+            bat.wanderController.startWanderTimer((float)(GD.RandRange(1, 3)));
         }
     }
 }
 
 
-public class WanderBatMovementStrategy : MovementStrategy
+class WanderBatMovementStrategy : IMovementStrategy
 {
-    public void execute(Bat bat)
+    public void execute(Bat bat, float delta)
     {
-        this.seekPlayer();
-        if (this.wanderController.getTimeLeft() == 0)
+        bat.seekPlayer();
+        if (bat.wanderController.getTimeLeft() == 0)
         {
-            this.batState = this.pickRandomState(this.possibleBatStates);
-            this.wanderController.startWanderTimer((float)(GD.RandRange(1, 3)));
+            bat.batState = bat.pickRandomState(bat.possibleBatStates);
+            bat.wanderController.startWanderTimer((float)(GD.RandRange(1, 3)));
         }
-        Vector2 direction = this.GlobalPosition.DirectionTo(this.wanderController.targetPosition);
-        this.velocity = this.velocity.MoveToward(this.MAXSPEED * direction, delta * this.ACCELERATION);
-        float disctanceBetwenVectors = this.GlobalPosition.DistanceTo(this.wanderController.targetPosition);
-        this.batSprite.FlipH = this.velocity.x < 0;
+        Vector2 direction = bat.GlobalPosition.DirectionTo(bat.wanderController.targetPosition);
+        bat.velocity = bat.velocity.MoveToward(bat.MAXSPEED * direction, delta * bat.ACCELERATION);
+        float disctanceBetwenVectors = bat.GlobalPosition.DistanceTo(bat.wanderController.targetPosition);
+        bat.batSprite.FlipH = bat.velocity.x < 0;
         if (disctanceBetwenVectors < 4)
         {
-            this.batState = this.pickRandomState(this.possibleBatStates);
-            this.wanderController.startWanderTimer((float)(GD.RandRange(1, 3)));
+            bat.batState = bat.pickRandomState(bat.possibleBatStates);
+            bat.wanderController.startWanderTimer((float)(GD.RandRange(1, 3)));
         }
     }
 }
 
 
-public class ChaseBatMovementStrategy : MovementStrategy
+class ChaseBatMovementStrategy : IMovementStrategy
 {
-    public void execute(Bat bat)
+    public void execute(Bat bat, float delta)
     {
-        var player = this.playerDetectionZone.player;
+        var player = bat.playerDetectionZone.player;
         if (player != null)
         {
-            Vector2 direction = this.GlobalPosition.DirectionTo(player.GlobalPosition);
-            this.velocity = this.velocity.MoveToward(this.MAXSPEED * direction, delta * this.ACCELERATION);
+            Vector2 direction = bat.GlobalPosition.DirectionTo(player.GlobalPosition);
+            bat.velocity = bat.velocity.MoveToward(bat.MAXSPEED * direction, delta * bat.ACCELERATION);
         }
         else
         {
-            this.batState = BatState.IDLE;
+            bat.batState = BatState.IDLE;
         }
-        this.batSprite.FlipH = this.velocity.x < 0;
-        break;
+        bat.batSprite.FlipH = bat.velocity.x < 0;
     }
 }
 
-public class BatMovementStrategyContext {
-    private MovementStrategy strategy;
-    private strategyMapper: Map<BatState, MovementStrategy>;
+public class BatMovementStrategyContext
+{
+    private IMovementStrategy strategy;
+    private Dictionary<BatState, IMovementStrategy> movementMap;
 
     private Bat bat;
-    public BatMovementStrategyContext(Bat bat){
-        this.bat = bat
+
+    public BatMovementStrategyContext(Bat bat)
+    {
+        this.bat = bat;
+        prepareMap();
     }
 
-    public void SetMovementStrategy(MovementStrategy strategy) {
-        this.strategy = strategy; 
+    public void move(BatState actualBatState, float delta)
+    {
+        movementMap[actualBatState].execute(bat, delta);
     }
 
-    public 
-
-    public void move(){
-        this.strategy.execute()
+    private void prepareMap()
+    {
+        movementMap = new Dictionary<BatState, IMovementStrategy>
+        {
+            { BatState.IDLE, new IdleBatMovementStrategy() },
+            { BatState.WANDER, new WanderBatMovementStrategy() },
+            { BatState.CHASE, new ChaseBatMovementStrategy() }
+        };
     }
+
+
+
 
 }

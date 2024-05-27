@@ -12,9 +12,9 @@ public class Stats : Node
 
     public override void _Ready()
     {
-        this.loadGameData = this.GetNode<LoadGameData>("/root/LoadGameData") as LoadGameData;
-        this.loadGameData.Connect("loadDataChange", this, "changeLoadDataHandle");
-        this.playerStats = PlayerStats.Default;
+        loadGameData = GetNode<LoadGameData>("/root/LoadGameData") as LoadGameData;
+        loadGameData.Connect("loadDataChange", this, "changeLoadDataHandle");
+        playerStats = PlayerStats.Default;
     }
 
     public void changeLoadDataHandle(Dictionary<string, uint> userStats)
@@ -28,7 +28,7 @@ public class Stats : Node
             userStats.ContainsKey("NEXTLEVELEXPERIANCE") &&
             userStats.ContainsKey("HEALTH"))
         {
-            this.playerStats = new PlayerStats(
+            playerStats = new PlayerStats(
                 userStats["LEVEL"],
                 userStats["HEALTH"],
                 userStats["ATTACK"],
@@ -36,20 +36,20 @@ public class Stats : Node
                 userStats["EXPERIANCE"],
                 userStats["NEXTLEVELEXPERIANCE"]
                 );
-            this.EmitSignal("levelChange", this.playerStats.LEVEL);
+            EmitSignal("levelChange", playerStats.LEVEL);
         }
     }
 
     public void setExperiance(uint exp)
     {
-        this.playerStats.EXPERIANCE += exp;
-        if (this.playerStats.EXPERIANCE >= this.playerStats.NEXTLEVELEXPERIANCE)
+        playerStats.EXPERIANCE += exp;
+        if (playerStats.EXPERIANCE >= playerStats.NEXTLEVELEXPERIANCE)
         {
-            this.playerStats.LEVEL = this.playerStats.nextlevel;
-            this.playerStats.nextlevel += 1;
-            this.EmitSignal("levelChange", this.playerStats.LEVEL);
-            this.playerStats.EXPERIANCE = 0;
-            this.playerStats.NEXTLEVELEXPERIANCE += 10;
+            playerStats.LEVEL = playerStats.nextlevel;
+            playerStats.nextlevel += 1;
+            EmitSignal("levelChange", playerStats.LEVEL);
+            playerStats.EXPERIANCE = 0;
+            playerStats.NEXTLEVELEXPERIANCE += 10;
         }
     }
 
@@ -57,12 +57,12 @@ public class Stats : Node
     {
         var stats = new Dictionary<string, uint>
         {
-            {"LEVEL", this.playerStats.LEVEL},
-            {"ATTACK" , this.playerStats.ATTACK},
-            {"DEFFENSE" , this.playerStats.DEFFENSE},
-            {"EXPERIANCE" , this.playerStats.EXPERIANCE},
-            {"NEXTLEVELEXPERIANCE" , this.playerStats.NEXTLEVELEXPERIANCE},
-            { "HEALTH" , this.playerStats.HEALTH }
+            {"LEVEL", playerStats.LEVEL},
+            {"ATTACK" , playerStats.ATTACK},
+            {"DEFFENSE" , playerStats.DEFFENSE},
+            {"EXPERIANCE" , playerStats.EXPERIANCE},
+            {"NEXTLEVELEXPERIANCE" , playerStats.NEXTLEVELEXPERIANCE},
+            { "HEALTH" , playerStats.HEALTH }
         };
 
         return stats;

@@ -10,31 +10,31 @@ public class Hurtbox : Area2D
 
     public bool Invincible
     {
-        get { return this.invincible; }
+        get { return invincible; }
         set
         {
-            this.invincible = value;
+            invincible = value;
             if (value)
             {
-                this.EmitSignal("invincibilityStarted", InvisibleAction.Hit);
+                EmitSignal("invincibilityStarted", InvisibleAction.Hit);
             }
             else
             {
-                this.EmitSignal("invincibilityEnded", InvisibleAction.Hit);
+                EmitSignal("invincibilityEnded", InvisibleAction.Hit);
             }
         }
     }
 
     public bool InvisibleFalseHit{
         set {
-            this.invincible = value;
+            invincible = value;
             if (value)
             {
-                this.EmitSignal("invincibilityStarted", InvisibleAction.Roll);
+                EmitSignal("invincibilityStarted", InvisibleAction.Roll);
             }
             else
             {
-                this.EmitSignal("invincibilityEnded", InvisibleAction.Roll);
+                EmitSignal("invincibilityEnded", InvisibleAction.Roll);
             }
         }
     }
@@ -48,42 +48,42 @@ public class Hurtbox : Area2D
 
     public void startInvincibility(float duration = 0f)
     {
-        this.Invincible = true;
-        this.timer.Start(duration);
-        this.createHitEffect();
+        Invincible = true;
+        timer.Start(duration);
+        createHitEffect();
 
     }
 
     public override void _Ready()
     {
-        this.HitEffect = ResourceLoader.Load<PackedScene>("res://Effects/HitEffect.tscn");
-        this.timer = this.GetNode<Timer>("Timer");
+        HitEffect = ResourceLoader.Load<PackedScene>("res://Effects/HitEffect.tscn");
+        timer = GetNode<Timer>("Timer");
     }
 
     public void createHitEffect()
     {
-        AnimatedSprite effect = this.HitEffect.Instance<AnimatedSprite>();
-        effect.GlobalPosition = this.GlobalPosition;
-        var main = this.GetTree().CurrentScene;
+        AnimatedSprite effect = HitEffect.Instance<AnimatedSprite>();
+        effect.GlobalPosition = GlobalPosition;
+        var main = GetTree().CurrentScene;
         main.AddChild(effect);
     }
 
     public void _on_Timer_timeout()
     {
-        this.Invincible = false;
+        Invincible = false;
     }
 
     public void _on_Hurtbox_invincibilityStarted(InvisibleAction hit)
     {
        
-        this.SetDeferred("monitoring", false);
+        SetDeferred("monitoring", false);
         
     }
 
     public void _on_Hurtbox_invincibilityEnded(InvisibleAction hit)
     {
         
-        this.SetDeferred("monitoring", true);
+        SetDeferred("monitoring", true);
         
     }
 

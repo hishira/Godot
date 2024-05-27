@@ -65,12 +65,12 @@ public abstract class AbstractStats
 
     public AbstractStats(uint level, uint health, uint attack, uint deffense, uint experiance, uint nextlevelepxeriance)
     {
-        this.LEVEL = level;
-        this.nextlevel = level + 1;
-        this.HEALTH = health;
-        this.ATTACK = attack;
-        this.DEFFENSE = deffense;
-        this.NEXTLEVELEXPERIANCE = nextlevelepxeriance;
-        this.EXPERIANCE = experiance;
+        LEVEL = level;
+        nextlevel = level + 1;
+        HEALTH = health;
+        ATTACK = attack;
+        DEFFENSE = deffense;
+        NEXTLEVELEXPERIANCE = nextlevelepxeriance;
+        EXPERIANCE = experiance;
     }
 }

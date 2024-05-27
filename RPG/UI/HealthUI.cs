@@ -14,27 +14,27 @@ public class HealthUI : Control
     PlayerStats stats;
     public uint Health
     {
-        get { return this._healt; }
+        get { return _healt; }
         set
         {
 
-            this._healt = (uint)Mathf.Clamp(value, 0, this.Maxhealth);
-            if (this.HartUIFull != null)
+            _healt = (uint)Mathf.Clamp(value, 0, Maxhealth);
+            if (HartUIFull != null)
             {
-                this.HartUIFull.RectSize = new Vector2(this._healt * 15, this.HartUIFull.RectSize.y);
+                HartUIFull.RectSize = new Vector2(_healt * 15, HartUIFull.RectSize.y);
             }
         }
     }
 
     public uint Maxhealth
     {
-        get { return this._maxHealth; }
+        get { return _maxHealth; }
         set
         {
-            this._maxHealth = Math.Max(value, 1);
-            if (this.HartUIEmpty != null)
+            _maxHealth = Math.Max(value, 1);
+            if (HartUIEmpty != null)
             {
-                this.HartUIEmpty.RectSize = new Vector2(this._maxHealth * 15, this.HartUIEmpty.RectSize.y);
+                HartUIEmpty.RectSize = new Vector2(_maxHealth * 15, HartUIEmpty.RectSize.y);
             }
 
         }
@@ -43,39 +43,39 @@ public class HealthUI : Control
     public override void _Ready()
     {
         // TODO: Refactor
-        StatsSingleton value = this.GetNode<StatsSingleton>("/root/PlayerStats");
-        this.Maxhealth = (uint)value.MaxHealth;
-        LoadGameData game = this.GetNode<LoadGameData>("/root/LoadGameData") as LoadGameData;
-        this.loadDateIfPossible(game, value);
+        StatsSingleton value = GetNode<StatsSingleton>("/root/PlayerStats");
+        Maxhealth = (uint)value.MaxHealth;
+        LoadGameData game = GetNode<LoadGameData>("/root/LoadGameData") as LoadGameData;
+        loadDateIfPossible(game, value);
     }
 
     public void changeLoadDataHandle(Dictionary<string, uint> userStats)
     {
-        StatsSingleton value = this.GetNode<StatsSingleton>("/root/PlayerStats");
-        this.Health = value.playerStats.playerStats.HEALTH;
+        StatsSingleton value = GetNode<StatsSingleton>("/root/PlayerStats");
+        Health = value.playerStats.playerStats.HEALTH;
         if (userStats.ContainsKey("HEALTH"))
         {
-            this.Health = userStats["HEALTH"];
+            Health = userStats["HEALTH"];
         }
     }
     public void handleHeartChanged(uint value)
     {
 
-        this.Health = value;
-        this.stats.HEALTH = value;
+        Health = value;
+        stats.HEALTH = value;
     }
 
     private void loadDateIfPossible(LoadGameData game, StatsSingleton value)
     {
         game.Connect("loadDataChange", this, "changeLoadDataHandle");
-        this.stats = value.playerStats.playerStats;
-        this.Health = value.playerStats.playerStats.HEALTH;
-        this.HartUIFull = this.GetNode<TextureRect>("HeartUIFull");
-        this.HartUIEmpty = this.GetNode<TextureRect>("HeartUIEmpty");
+        stats = value.playerStats.playerStats;
+        Health = value.playerStats.playerStats.HEALTH;
+        HartUIFull = GetNode<TextureRect>("HeartUIFull");
+        HartUIEmpty = GetNode<TextureRect>("HeartUIEmpty");
         value.Connect("healthChange", this, "handleHeartChanged");
         if (game.userStats != null && game.userStats.ContainsKey("HEALTH"))
         {
-            this.Health = game.userStats["HEALTH"];
+            Health = game.userStats["HEALTH"];
 
         };
     }

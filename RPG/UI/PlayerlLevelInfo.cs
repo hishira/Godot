@@ -6,9 +6,9 @@ public class PlayerlLevelInfo : RichTextLabel
     public Stats stats;
     public override void _Ready()
     {
-        this.stats = this.GetNode("/root/Stats") as Stats;
-        this.Text = this.createLevelString(this.stats.playerStats.LEVEL);
-        this.stats.Connect("levelChange", this, "levelChangedHandle");
+        stats = GetNode("/root/Stats") as Stats;
+        Text = createLevelString(stats.playerStats.LEVEL);
+        stats.Connect("levelChange", this, "levelChangedHandle");
     }
 
     public String createLevelString(uint level)
@@ -18,7 +18,7 @@ public class PlayerlLevelInfo : RichTextLabel
 
     public void levelChangedHandle(uint level)
     {
-        this.Text = this.createLevelString(level);
+        Text = createLevelString(level);
     }
 
 }

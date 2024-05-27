@@ -12,23 +12,23 @@ public class TextBox : Control
         get { return _popUp; }
         set
         {
-            this._popUp = value;
+            _popUp = value;
         }
     }
     public override void _Ready()
     {
-        this.GetNode<RichTextLabel>("Popup/RichTextLabel").Text = this.Text;
-        this.Popup = this.GetNode<Popup>("Popup");
-        this.Popup.SetPosition(this.RectGlobalPosition);
+        GetNode<RichTextLabel>("Popup/RichTextLabel").Text = Text;
+        Popup = GetNode<Popup>("Popup");
+        Popup.SetPosition(RectGlobalPosition);
     }
 
     public void ShowPopup()
     {
-        this.Popup.Show();
+        Popup.Show();
     }
 
     public void HidePopup()
     {
-        this.Popup.Hide();
+        Popup.Hide();
     }
 }

@@ -1,16 +1,27 @@
 using Godot;
-using System;
 
 
 
 public class Bat : KinematicBody2D
 {
     [Export]
-    int ACCELERATION = 300;
+    public int ACCELERATION = 300;
     [Export]
-    int MAXSPEED = 50;
+    public int MAXSPEED = 50;
     [Export]
-    int FRICTION = 200;
+    public int FRICTION = 200;
+
+    public BatState batState = BatState.IDLE;
+
+    public Vector2 velocity = Vector2.Zero;
+
+
+    public AnimatedSprite batSprite;
+
+    public WanderController wanderController;
+
+    public PlayerDetectionZone playerDetectionZone;
+
     Vector2 knokBack = Vector2.Zero;
     StatsSingleton batStats;
 
@@ -18,100 +29,95 @@ public class Bat : KinematicBody2D
 
     PackedScene NewHeartElement;
 
-    BatState batState = BatState.IDLE;
-
-    Vector2 velocity = Vector2.Zero;
-
-    PlayerDetectionZone playerDetectionZone;
-
-    AnimatedSprite batSprite;
 
     Hurtbox batHurtBox;
 
     SoftCollision softColision;
 
-    WanderController wanderController;
 
     AnimationPlayer batAnimationPlayer;
 
-    Godot.Collections.Array<BatState> possibleBatStates = new Godot.Collections.Array<BatState> { BatState.IDLE, BatState.WANDER };
+    BatMovementStrategyContext movementContext;
+
+    public Godot.Collections.Array<BatState> possibleBatStates = new Godot.Collections.Array<BatState> { BatState.IDLE, BatState.WANDER };
     public override void _Ready()
     {
         GD.Randomize();
-        this.EnemyDeathEffect = ResourceLoader.Load<PackedScene>("res://Effects/EnemyDeathEffect.tscn");
-        this.NewHeartElement = ResourceLoader.Load<PackedScene>("res://World/HeartElement.tscn");
-        this.batStats = this.GetNode("Stats") as StatsSingleton;
-        this.playerDetectionZone = this.GetNode<PlayerDetectionZone>("PlayerDetectionZone");
-        this.batSprite = this.GetNode<AnimatedSprite>("AnimatedSprite");
-        this.batHurtBox = this.GetNode<Hurtbox>("Hurtbox");
-        this.softColision = this.GetNode<SoftCollision>("SoftCollision");
-        this.wanderController = this.GetNode<WanderController>("WanderController");
-        this.batAnimationPlayer = this.GetNode<AnimationPlayer>("AnimationPlayer");
+        EnemyDeathEffect = ResourceLoader.Load<PackedScene>("res://Effects/EnemyDeathEffect.tscn");
+        NewHeartElement = ResourceLoader.Load<PackedScene>("res://World/HeartElement.tscn");
+        batStats = GetNode("Stats") as StatsSingleton;
+        playerDetectionZone = GetNode<PlayerDetectionZone>("PlayerDetectionZone");
+        batSprite = GetNode<AnimatedSprite>("AnimatedSprite");
+        batHurtBox = GetNode<Hurtbox>("Hurtbox");
+        softColision = GetNode<SoftCollision>("SoftCollision");
+        wanderController = GetNode<WanderController>("WanderController");
+        batAnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+        movementContext = new BatMovementStrategyContext(this);
     }
 
     public override void _PhysicsProcess(float delta)
     {
-        this.knokBack = this.knokBack.MoveToward(Vector2.Zero, this.FRICTION * delta);
-        this.knokBack = this.MoveAndSlide(this.knokBack);
-
-        switch (this.batState)
-        {
-            case BatState.IDLE:
-                {
-                    this.velocity = velocity.MoveToward(Vector2.Zero, this.FRICTION * delta);
-                    this.seekPlayer();
-                    if (this.wanderController.getTimeLeft() == 0)
-                    {
-                        this.batState = this.pickRandomState(this.possibleBatStates);
-                        this.wanderController.startWanderTimer((float)(GD.RandRange(1, 3)));
-                    }
-                    break;
-                }
-            case BatState.WANDER:
-                {
-                    this.seekPlayer();
-                    if (this.wanderController.getTimeLeft() == 0)
-                    {
-                        this.batState = this.pickRandomState(this.possibleBatStates);
-                        this.wanderController.startWanderTimer((float)(GD.RandRange(1, 3)));
-                    }
-                    Vector2 direction = this.GlobalPosition.DirectionTo(this.wanderController.targetPosition);
-                    this.velocity = this.velocity.MoveToward(this.MAXSPEED * direction, delta * this.ACCELERATION);
-                    float disctanceBetwenVectors = this.GlobalPosition.DistanceTo(this.wanderController.targetPosition);
-                    this.batSprite.FlipH = this.velocity.x < 0;
-                    if (disctanceBetwenVectors < 4)
-                    {
-                        this.batState = this.pickRandomState(this.possibleBatStates);
-                        this.wanderController.startWanderTimer((float)(GD.RandRange(1, 3)));
-                    }
-                    break;
-                }
-            case BatState.CHASE:
-                {
-                    var player = this.playerDetectionZone.player;
-                    if (player != null)
-                    {
-                        Vector2 direction = this.GlobalPosition.DirectionTo(player.GlobalPosition);
-                        this.velocity = this.velocity.MoveToward(this.MAXSPEED * direction, delta * this.ACCELERATION);
-                    }
-                    else
-                    {
-                        this.batState = BatState.IDLE;
-                    }
-                    this.batSprite.FlipH = this.velocity.x < 0;
-                    break;
-                }
-        }
-        if (this.softColision.isColliding())
-            this.velocity += this.softColision.getPushVector() * delta * 400;
-        this.velocity = this.MoveAndSlide(this.velocity);
+        knokBack = knokBack.MoveToward(Vector2.Zero, FRICTION * delta);
+        knokBack = MoveAndSlide(knokBack);
+        movementContext.move(batState, delta);
+        // switch (batState)
+        // {
+        //     case BatState.IDLE:
+        //         {
+        //             velocity = velocity.MoveToward(Vector2.Zero, FRICTION * delta);
+        //             seekPlayer();
+        //             if (wanderController.getTimeLeft() == 0)
+        //             {
+        //                 batState = pickRandomState(possibleBatStates);
+        //                 wanderController.startWanderTimer((float)(GD.RandRange(1, 3)));
+        //             }
+        //             break;
+        //         }
+        //     case BatState.WANDER:
+        //         {
+        //             seekPlayer();
+        //             if (wanderController.getTimeLeft() == 0)
+        //             {
+        //                 batState = pickRandomState(possibleBatStates);
+        //                 wanderController.startWanderTimer((float)(GD.RandRange(1, 3)));
+        //             }
+        //             Vector2 direction = GlobalPosition.DirectionTo(wanderController.targetPosition);
+        //             velocity = velocity.MoveToward(MAXSPEED * direction, delta * ACCELERATION);
+        //             float disctanceBetwenVectors = GlobalPosition.DistanceTo(wanderController.targetPosition);
+        //             batSprite.FlipH = velocity.x < 0;
+        //             if (disctanceBetwenVectors < 4)
+        //             {
+        //                 batState = pickRandomState(possibleBatStates);
+        //                 wanderController.startWanderTimer((float)(GD.RandRange(1, 3)));
+        //             }
+        //             break;
+        //         }
+        //     case BatState.CHASE:
+        //         {
+        //             var player = playerDetectionZone.player;
+        //             if (player != null)
+        //             {
+        //                 Vector2 direction = GlobalPosition.DirectionTo(player.GlobalPosition);
+        //                 velocity = velocity.MoveToward(MAXSPEED * direction, delta * ACCELERATION);
+        //             }
+        //             else
+        //             {
+        //                 batState = BatState.IDLE;
+        //             }
+        //             batSprite.FlipH = velocity.x < 0;
+        //             break;
+        //         }
+        // }
+        if (softColision.isColliding())
+            velocity += softColision.getPushVector() * delta * 400;
+        velocity = MoveAndSlide(velocity);
     }
 
     public void seekPlayer()
     {
-        if (this.playerDetectionZone.IsPlayerVisible())
+        if (playerDetectionZone.IsPlayerVisible())
         {
-            this.batState = BatState.CHASE;
+            batState = BatState.CHASE;
         }
     }
 
@@ -123,30 +129,30 @@ public class Bat : KinematicBody2D
 
     public void _on_Hurtbox_area_entered(SwordHitbox area)
     {
-        this.knokBack = area.knockBack * 120;
-        this.batStats.health -= area.damage;
-        this.batHurtBox.createHitEffect();
-        this.batHurtBox.startInvincibility(.4f);
+        knokBack = area.knockBack * 120;
+        batStats.health -= area.damage;
+        batHurtBox.createHitEffect();
+        batHurtBox.startInvincibility(.4f);
     }
 
     public void _on_Stats_noHealth()
     {
-        AnimatedSprite enemyDeatchEffect = this.EnemyDeathEffect.Instance<AnimatedSprite>();
-        HeartElement newHeart = this.NewHeartElement.Instance<HeartElement>();
-        enemyDeatchEffect.GlobalPosition = this.GlobalPosition;
-        newHeart.GlobalPosition = this.GlobalPosition;
-        this.QueueFree();
-        this.GetParent().AddChild(enemyDeatchEffect);
-        this.GetParent().AddChild(newHeart);
+        AnimatedSprite enemyDeatchEffect = EnemyDeathEffect.Instance<AnimatedSprite>();
+        HeartElement newHeart = NewHeartElement.Instance<HeartElement>();
+        enemyDeatchEffect.GlobalPosition = GlobalPosition;
+        newHeart.GlobalPosition = GlobalPosition;
+        QueueFree();
+        GetParent().AddChild(enemyDeatchEffect);
+        GetParent().AddChild(newHeart);
     }
 
     public void _on_Hurtbox_invincibilityStarted(bool hit)
     {
-        this.batAnimationPlayer.Play("Start");
+        batAnimationPlayer.Play("Start");
     }
 
     public void _on_Hurtbox_invincibilityEnded(bool hit)
     {
-        this.batAnimationPlayer.Play("Stop");
+        batAnimationPlayer.Play("Stop");
     }
 }

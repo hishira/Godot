@@ -12,30 +12,30 @@ public class LittleMenu : Popup
     MenuButtonChange buttonChange;
     public override void _Ready()
     {
-        this.exitButton = this.GetNode<AbstractTextureButton>("Container/Panel/Exit");
-        this.saveButton = this.GetNode<AbstractTextureButton>("Container/Panel/Save");
-        this.saveButton.Pressed = true;
-        List<AbstractTextureButton> buttonList = new List<AbstractTextureButton> { this.saveButton, this.exitButton };
-        this.buttonChange = new MenuButtonChange(2, buttonList);
+        exitButton = GetNode<AbstractTextureButton>("Container/Panel/Exit");
+        saveButton = GetNode<AbstractTextureButton>("Container/Panel/Save");
+        saveButton.Pressed = true;
+        List<AbstractTextureButton> buttonList = new List<AbstractTextureButton> { saveButton, exitButton };
+        buttonChange = new MenuButtonChange(2, buttonList);
     }
 
     public override void _Process(float delta)
     {
         // TODO: Refactor 
-        if (!this.Visible) return;
-        this.buttonChange.processHandle();
+        if (!Visible) return;
+        buttonChange.processHandle();
         if (Input.IsActionJustPressed("ui_cancel"))
         {
             GetTree().Paused = false;
-            this.Hide();
+            Hide();
         }
 
     }
 
     public void _on_World_openModal(Vector2 position)
     {
-        this.SetGlobalPosition(new Vector2(position.x - 50, position.y - 75));
-        this.Show();
+        SetGlobalPosition(new Vector2(position.x - 50, position.y - 75));
+        Show();
     }
 
 }

@@ -18,7 +18,7 @@ public class HeartElement : InventorElement
     AnimationPlayer animation;
     public override void _Ready()
     {
-        this.elementType = InventorElementType.Health;
+        elementType = InventorElementType.Health;
     }
 
     public void _on_ItemBox_area_entered(Area2D area)
@@ -29,12 +29,12 @@ public class HeartElement : InventorElement
     {
         GD.Print(playerNode.stats.health);
         GD.Print(playerNode.stats.MaxHealth);
-        if (this.elementType is InventorElementType.Health)
+        if (elementType is InventorElementType.Health)
         {
             playerNode.stats.health += 1;
         }
         if (!playerNode.stats.hasMaxHealth())
-            this.QueueFree();
+            QueueFree();
 
     }
 }

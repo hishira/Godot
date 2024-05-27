@@ -12,27 +12,27 @@ public class WanderController : Node2D
     Timer timer;
     public override void _Ready()
     {
-        this.startPostion = GlobalPosition;
-        this.targetPosition = GlobalPosition;
-        this.rnd = new RandomNumberGenerator();
-        this.timer = this.GetNode<Timer>("Timer");
-        this.updateTargetPostion();
+        startPostion = GlobalPosition;
+        targetPosition = GlobalPosition;
+        rnd = new RandomNumberGenerator();
+        timer = GetNode<Timer>("Timer");
+        updateTargetPostion();
     }
     public void _on_Timer_timeout()
     {
-        this.updateTargetPostion();
+        updateTargetPostion();
     }
     public float getTimeLeft()
     {
-        return this.timer.TimeLeft;
+        return timer.TimeLeft;
     }
 
     public void startWanderTimer(float duration){
-        this.timer.Start(duration);
+        timer.Start(duration);
     }
     private void updateTargetPostion()
     {
-        Vector2 targetPosition = new Vector2(this.rnd.RandiRange(-this.wanderRange, this.wanderRange), this.rnd.RandiRange(-this.wanderRange, this.wanderRange));
-        this.targetPosition = this.startPostion + targetPosition;
+        Vector2 targetPosition = new Vector2(rnd.RandiRange(-wanderRange, wanderRange), rnd.RandiRange(-wanderRange, wanderRange));
+        this.targetPosition = startPostion + targetPosition;
     }
 }

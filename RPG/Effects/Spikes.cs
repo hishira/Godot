@@ -11,8 +11,8 @@ public class Spikes : Node2D
     AnimationPlayer animation;
     public override void _Ready()
     {
-        this.animation = this.GetNode<AnimationPlayer>("AnimationPlayer");
-        this.animation.Play("Start");
+        animation = GetNode<AnimationPlayer>("AnimationPlayer");
+        animation.Play("Start");
         
     }
 

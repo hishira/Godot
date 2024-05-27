@@ -11,9 +11,9 @@ public class Grass : Node2D
     Sprite sprite;
     public override void _Ready()
     {
-        this.asprite = this.GetNode("AnimatedSprite") as AnimatedSprite;
-        this.sprite = this.GetNode("Sprite") as Sprite;
-        this.asprite.Visible = false;
+        asprite = GetNode("AnimatedSprite") as AnimatedSprite;
+        sprite = GetNode("Sprite") as Sprite;
+        asprite.Visible = false;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -32,20 +32,20 @@ public class Grass : Node2D
         // Create sceene instance and add to main scene 'World'
         Node2D grassEffectInstance = GrassEffect.Instance<Node2D>();
         Node world = GetTree().CurrentScene;
-        grassEffectInstance.GlobalPosition = this.GlobalPosition;
+        grassEffectInstance.GlobalPosition = GlobalPosition;
         world.AddChild(grassEffectInstance);
-        this.QueueFree();
+        QueueFree();
     }
 
     public void _on_AnimatedSprite_animation_finished()
     {
-        this.QueueFree();
+        QueueFree();
     }
 
     public void _on_Hurtbox_area_entered(Area2D area2D)
     {
-        this.sprite.Visible = false;
-        this.asprite.Visible = true;
-        this.asprite.Play("Animate");
+        sprite.Visible = false;
+        asprite.Visible = true;
+        asprite.Play("Animate");
     }
 }

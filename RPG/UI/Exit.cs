@@ -9,7 +9,7 @@ public class Exit : AbstractTextureButton
 
     public override void clickHandle()
     {
-        this.GetTree().Quit();
+        GetTree().Quit();
     }
 
     
