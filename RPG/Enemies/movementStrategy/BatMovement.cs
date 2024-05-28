@@ -1,9 +1,6 @@
 using Godot;
 using System.Collections.Generic;
-public interface IMovementStrategy
-{
-    void execute(Bat bat, float delta);
-}
+
 
 public enum BatState
 {
@@ -12,7 +9,7 @@ public enum BatState
     CHASE,
 }
 
-class IdleBatMovementStrategy : IMovementStrategy
+class IdleBatMovementStrategy : IMovementStrategy<Bat>
 {
     public void execute(Bat bat, float delta)
     {
@@ -27,7 +24,7 @@ class IdleBatMovementStrategy : IMovementStrategy
 }
 
 
-class WanderBatMovementStrategy : IMovementStrategy
+class WanderBatMovementStrategy : IMovementStrategy<Bat>
 {
     public void execute(Bat bat, float delta)
     {
@@ -50,7 +47,7 @@ class WanderBatMovementStrategy : IMovementStrategy
 }
 
 
-class ChaseBatMovementStrategy : IMovementStrategy
+class ChaseBatMovementStrategy : IMovementStrategy<Bat>
 {
     public void execute(Bat bat, float delta)
     {
@@ -70,8 +67,7 @@ class ChaseBatMovementStrategy : IMovementStrategy
 
 public class BatMovementStrategyContext
 {
-    private IMovementStrategy strategy;
-    private Dictionary<BatState, IMovementStrategy> movementMap;
+    private Dictionary<BatState, IMovementStrategy<Bat>> movementMap;
 
     private Bat bat;
 
@@ -88,7 +84,7 @@ public class BatMovementStrategyContext
 
     private void prepareMap()
     {
-        movementMap = new Dictionary<BatState, IMovementStrategy>
+        movementMap = new Dictionary<BatState, IMovementStrategy<Bat>>
         {
             { BatState.IDLE, new IdleBatMovementStrategy() },
             { BatState.WANDER, new WanderBatMovementStrategy() },

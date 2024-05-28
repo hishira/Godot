@@ -1,33 +1,22 @@
 using Godot;
 
-public enum MonsterState
-{
-    Idle,
-    Run,
-}
 
-public enum MonsterChasePlayerPhase
-{
-    Normal,
-    Chase,
-    ReturnToPath,
-}
 
 public class Monster : KinematicBody2D
 {
-    int ACCELERATION = 300;
-    int MAXSPEED = 30;
+    public readonly int ACCELERATION = 300;
+    public readonly int MAXSPEED = 30;
+    public Vector2 velocity = Vector2.Zero;
+    public MonsterChasePlayerPhase monsterChasePhase;
+    public Vector2 lastPathPosition;
+    public PathFollow2D pathFollow;
     AnimationTree wolfAnimationTree;
-    Vector2 velocity = Vector2.Zero;
     AnimationNodeStateMachinePlayback animationMachine;
 
 
-    PathFollow2D pathFollow;
 
     PlayerDetectionZone playerDetectionZone;
-    MonsterChasePlayerPhase monsterChasePhase;
 
-    Vector2 lastPathPosition;
 
     Control healthControl;
 
@@ -36,6 +25,8 @@ public class Monster : KinematicBody2D
 
     Stats playersStats;
     float healthMinus;
+
+    MonsterMovementStrategyContext contextStrategyMovement;
 
     public override void _Ready()
     {
@@ -53,6 +44,7 @@ public class Monster : KinematicBody2D
         Hitbox monsterHitBox = GetNode<Hitbox>("Hitbox");
         monsterHitBox.setDamage(2);
         healthMinus = healthControl.GetNode<TextureRect>("TextureRect").RectSize.x / monsterStats.MonsterStat.HEALTH;
+        contextStrategyMovement = new MonsterMovementStrategyContext(this);
     }
     public override void _PhysicsProcess(float delta)
     {
@@ -75,35 +67,8 @@ public class Monster : KinematicBody2D
         {
             monsterChasePhase = MonsterChasePlayerPhase.ReturnToPath;
         }
-        if (monsterChasePhase == MonsterChasePlayerPhase.ReturnToPath)
-        {
-            //TODO:  Fix problem with not set to MonsterChasePlayerPhase.Normal state
-            Vector2 globapPathPosition = GlobalPosition.DirectionTo(lastPathPosition);
-            if (GlobalPosition.DistanceTo(lastPathPosition) < 9.0)
-            {
-                monsterChasePhase = MonsterChasePlayerPhase.Normal;
-                return;
-            }
-            animationSet(globapPathPosition, "Run");
+        contextStrategyMovement.move(monsterChasePhase, delta);
 
-            Vector2 moveTowardVector = velocity.MoveToward(MAXSPEED * globapPathPosition, delta * ACCELERATION);
-            velocity = moveTowardVector;
-            MoveAndSlide(velocity);
-            return;
-        }
-        if (monsterChasePhase == MonsterChasePlayerPhase.Normal)
-        {
-            Vector2 prepos = pathFollow.Position;
-            pathFollow.Offset = pathFollow.Offset + MAXSPEED * delta;
-            Vector2 post = pathFollow.Position;
-            // NOTE: Important, pre post.DirectionTo(prepos) => invert animation coz
-            // calculate direction from next point to prepoint, which will
-            // invert animation
-            Vector2 moveDirection = prepos.DirectionTo(post);
-
-            animationSet(moveDirection, "Run");
-            velocity = velocity.MoveToward(MAXSPEED * moveDirection, delta * ACCELERATION);
-        }
     }
 
     public void animationSet(Vector2 blendPosition, string pathToTravel)
